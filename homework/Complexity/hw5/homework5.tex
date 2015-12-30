@@ -1,0 +1,143 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{listings}
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{Theory of Computation, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{5}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1}{Calculate $(2015|999)$ and $(2016|999)$. \textbf{Answers without procedure will get 0 points.}}
+
+Properties of the Jacobi Symbol
+
+\begin{enumerate}
+	\item 
+		$(ab|m) = (a|m)(b|m)$
+	\item 
+		$(a|m_1 m_2) = (a|m_1)(a|m_2)$
+	\item
+		If $a = b \mod m$, then $(a|m) = (b|m)$
+	\item
+		$(-1|m) = (-1)^{(m-1)/2}$
+	\item 
+		$(2|m) = (-1)^{(m^2-1)/8}$
+	\item
+		If $a$ and $m$ are both odd, then $(a|m)(m|a) = (-1)^{(a-1)(m-1)/4}$
+\end{enumerate}
+
+\part{Answer:} 
+
+\begin{enumerate}
+	\item \begin{equation} \label{eq1}
+		\begin{split}
+		(2015|999) \; & = (17|999) \\
+				   & = (-1)^{(16)(998)/4}(999|17)\\
+				   & = (999|17) = (13|17)\\
+				   & = (-1)^{(12)(16)/4}(17|13)\\
+				   & = (17|13) = (4|13)\\
+				   & = (2|13) (2|13) = 1\\
+		\end{split}
+		\end{equation}
+	\item \begin{equation} \label{eq2}
+		\begin{split}
+		(2016|999) \; &= (18|999) \\
+				   &= (2|999)(9|999)\\
+				   &= (-1)^{(999^2-1)/8}(9|999) \\
+				   &= (-1)^{124750}(9|999) = (9|999) \\
+				   &= (-1)^{(8)(998)/4}(999|9) = (999|9)\\
+				   &= (0|9) = 0
+		\end{split}
+		\end{equation}
+\end{enumerate}
+
+% \part{b}
+
+\question{Problem 2}{Let the two primes $p=41$ and $q =17$ be given for RSA. Which of the parameters $e_1=32$, $e_2=49$ is a valid RSA exponent? What is the value of the private key $d$?}
+
+\part{Answer:}
+
+\begin{enumerate}
+	\item 
+		Compute $n = p \times q = 41 \times 17 = 697$
+	\item 
+		Compute the totient of the product as $\varphi(n) = (p-1)(q-1) = 40 \times 16 = 640$
+	\item 
+		Choose any number $ 1 < e < \varphi(n)$ that is coprime to $\varphi(n)$. The $e_1=32$ is not a valid RSA exponent because greatest common divisor $\mathit{gcd}(32, 640) \neq 1$, but $e_2=49$ is valid because $\mathit{gcd}(49, 640) = 1$.
+	\item
+		Compute $d$, the modular multiplicative inverse of $e \mod \varphi(n)$. \\
+		We get $d=209$. \\
+		$e \times d \mod \varphi(n) = 49 \times 209 \mod 640 = 10241 \mod 640 = 1$, using Euclidean algorithm following steps:
+		\begin{equation} \label{eq3}
+		\begin{split}
+			640 \; & = 49 \times 13 + 3, \; (640, 49) = (49, 3) \\
+			49  \; & = 3 \times 16 + 1, \; (49, 3) = (3, 1) \\
+			3   \; & = 1 \times 3, \; (3, 1) = 1 
+		\end{split}
+		\end{equation}
+		Assume $a = 640, \; b = 49$
+		\begin{equation} \label{eq3}
+		\begin{split}
+			a \; & = b \times 13 + (a - 13 b)\\
+			b \; & = (a - 13 b) \times 16 + (-16 a - 209 b)\\
+			(a - 13 b) \; & = (-16 a - 209 b) \times 3
+		\end{split}
+		\end{equation}
+		then, $-16a - 209b = 1 \Rightarrow 16 \times 640 + 209 \times 49 = 1 \Rightarrow 209 \times 49 = 1\mod 640$
+	\item
+		$e_2 = 49$ is a valid RSA exponent, and private key $d = 209$ according by $e_2$.
+\end{enumerate}
+
+\end{document}
