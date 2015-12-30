@@ -1,0 +1,136 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{listings}
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{Theory of Computation, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{4}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1}{Find all the primitive roots of 5 and all the primitive roots of 7.}
+
+\part{Answer:} 
+
+\textbf{Theorem 52:} \textit{A number $p > 1$ is a prime if and only if there is a number $1 < r < p$ such that}
+
+\begin{itemize}
+	\item	$r^{p-1} = 1 \mod p$, and
+	\item	$r^{(p-1)/q} \neq 1 \mod p$ \textit{ for all prime divisors $q$ of $p-1$}
+\end{itemize}
+
+\begin{enumerate}
+	\item the primitive roots of 5: 
+		$p = 5$, $p-1 = 2^2$, $q \in \left \{ 2 \right \}$
+		\begin{itemize}
+			\item test 2 : $2^{(5-1)/2} = 2^2 = 4 \not\equiv 1 \mod 5$, so 2 is a primitive root of 5.
+			\item test 3 : $3^{(5-1)/2} = 3^2 = 9 \not\equiv 1 \mod 5$, so 3 is a primitive root of 5.
+			\item test 4 : $4^{(5-1)/2} = 4^2 = 16 \equiv 1 \mod 5$, so 4 is \textbf{not} a primitive root of 5.
+		\end{itemize}
+		
+		Finally, we get 2 and 3 are the primitive root of 5.
+	\item the primitive roots of 7:
+		$p = 7$, $p-1 = 2 \times 3$, $q \in \left \{ 2, \; 3 \right \}$
+		\begin{itemize}
+			\item test 2 : \\
+			$2^{(7-1)/2} = 2^3 = 8 \equiv 1 \mod 7$, so 2 is \textbf{not} a primitive root of 7.
+			\item test 3 : \\
+			$3^{(7-1)/2} = 3^3 = 27 \not\equiv 1 \mod 7$ and $3^{(7-1)/3} = 3^2 = 9 \not\equiv 1 \mod 7$, so 3 is a primitive root of 7.
+			\item test 4 : \\
+			$4^{(7-1)/2} = 4^3 = 64 \equiv 1 \mod 7$, so 4 is \textbf{not} a primitive root of 7.
+			\item test 5 : \\
+			$5^{(7-1)/2} = 5^3 = 125 \not\equiv 1 \mod 7$ and $5^{(7-1)/3} = 5^2 = 25 \not\equiv 1 \mod 7$, so 5 is a primitive root of 7.
+			\item test 6 : \\
+			$6^{(7-1)/2} = 6^3 = 216 \not\equiv 1 \mod 7$ and $6^{(7-1)/3} = 6^2 = 35 \equiv 1 \mod 7$, so 6 is \textbf{not} a primitive root of 7.
+		\end{itemize}
+		Finally, we get 3 and 5 are the primitive root of 7.
+\end{enumerate}
+
+
+% \correctness This is an argument  that this algorithm returns the correct answer.
+
+% \runtime Describe here, in big-Oh, the running time and your reasoning for it.
+
+% \part{b}
+
+\question{Problem 2}{We know that $3\textsc{-SAT}$ is NP-complete. Show that for $n > 3$, $n\textsc{-SAT}$ is also NP-complete. (You don't need to show that is in NP.)}
+
+\part{Answer:}
+
+\begin{enumerate}
+	\item 首先，我們先證明 $4\textsc{-SAT}$ 是 NP-complete。接著推論當 $n\textsc{-SAT}$ 是 NP-complete，則 $(n+1)\textsc{-SAT}$ 是 NP-complete。
+	\item 由於 $4\textsc{-SAT}$ 存在 nondeterministic polynomial-time algorithm，則 $4\textsc{-SAT} \in \textsc{NP}$ 
+	\item 為了證明 $4\textsc{-SAT}$ 屬於 NP-hard，將 $3\textsc{-SAT}$ reduce to $4\textsc{-SAT}$。如果 $4\textsc{-SAT}$ 能夠找到一種 truth assignment 滿足，則 $3\textsc{-SAT}$ 也存在一種 truth assignment 滿足。
+	\item 用 $\phi$ 表示 $3\textsc{-SAT}$ 的格式，轉換成 ${\phi}'$ 表示 $4\textsc{-SAT}$ 的格式。對每一個 clause $(x \vee y \vee z) \in \phi$ 轉換成 clause $(x \vee y \vee z \vee h) \wedge (x \vee y \vee z \vee \lnot h) \in {\phi}'$，其中 $h$ 是額外新增的變數，明顯地轉換只需要多項式時間即可完成。
+	\item 最後，推論 \textit{if $\phi$ is satisfiable if and only if $R(\phi) = {\phi}'$ is satisfiable.}
+		\begin{itemize}
+			\item
+			 如果 $(x \vee y \vee z) \in \phi$ 滿足, 則 $(x \vee y \vee z \vee h) \wedge (x \vee y \vee z \vee \lnot h) \in {\phi}'$ 按照 $\phi$ 的 truth assignment 不管 $h$ 的值為何都會滿足。
+			 \item
+			 如果 $(x \vee y \vee z \vee h) \wedge (x \vee y \vee z \vee \lnot h) \in {\phi}'$ 滿足, 則 $(x \vee y \vee z) \in \phi$ 按照 ${\phi}'$ 的 truth assignment 也會滿足。因為 $h$ 和 $\lnot h$ 為相反的布林值，則 $(x \vee y \vee z) \in \phi$ 為真。
+		\end{itemize}
+	\item
+		證明 $n\textsc{-SAT}$ is NP-complete for $n \ge 3$。
+		\begin{itemize}
+			\item $n = 3$, $n = 4$ 成立。
+			\item 假設 $n = m$ 時滿足 $m\textsc{-SAT}$ 為 NP-complete，則 $n = m+1$ 時也滿足。證明如下： \\
+				將 $m\textsc{-SAT}$ reduce $(m+1)\textsc{-SAT}$。若 $\phi \in m\textsc{-SAT}$，則 $R(\phi) = {\phi}'$ 如下： \\
+				$$R: \text{clause } \bigvee x_i \in \phi \Rightarrow \text{clause } \left ( \left ( \bigvee x_i \right ) \vee h \right ) \wedge \left ( \left ( \bigvee x_i \right ) \vee \lnot h \right ) \in {\phi}'$$ \\
+				
+				其中 $h$ 是額外新增的變數，同 5. 的說明，得到 $m\textsc{-SAT}$ reduce to $(m+1)\textsc{-SAT}$，$(m+1)\textsc{-SAT}$ 是 NP-hard 也是 NP，故 $(m+1)\textsc{-SAT}$ 是 NP-complete。
+			\item 由數學歸納法得證 $n\textsc{-SAT}$ is NP-complete for $n \ge 3$。
+		\end{itemize}
+\end{enumerate}
+
+\end{document}

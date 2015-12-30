@@ -1,0 +1,127 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{listings}
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{Theory of Computation, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{3}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1}{Denote $L(M)$ as the language $L$ accepted by the Turing machine (TM) $M$. Determine if the following languages are decidable and explain.}
+
+\begin{enumerate}
+	\item $L_1 = \{ M | M \text{ is a TM and there exists and input on which $M$ halts with in } |M| \text{ steps.} \}$
+	\item $L_2 = \{ M | M \text{ is a TM and } L(M) \text{ is uncountable.} \}$
+\end{enumerate}
+
+
+\part{Answer:} % \algorithm Describe algorithm here
+
+\begin{enumerate}
+	\item
+		\begin{enumerate}
+			\item 假設 TM $T$ decides $L_1$，且長度 $n = |M|$
+			\item 照字典順序窮舉所有字串長度介於 $[ 1, n ]$ 之間，最多有 $O(|\Sigma|^n)$ 個字串，因此字串的集合大小是有限的。
+			\item TM $T$ 一定會停止在 accept 或 reject 的狀態，如果是 accept 必然會在 $n$ 次以內停止。否則會在模擬 $n$ 步之後回答 reject。
+			\item 由於存在一個 TM $T$ decides $L_1$，因此 $L_1$ is decidable。
+		\end{enumerate}
+	\item
+		\begin{enumerate}
+			\item $L_2$ 是一個空集合，所有 Turing Machine $M$ 對應的 $L(M)$ is countable，因為 $\Sigma^{\ast}$ is countable，不存在任何一台 TM 對應的 $L(M)$ is uncountable。
+			\item 假設 TM $T$ decides $L_2$，則對於任何輸入 $M$ 都會 reject。
+			\item \begin{lstlisting}
+D(M) {
+	return 'reject';
+}
+\end{lstlisting}
+			\item 由於存在一個 TM $T$ decides $L_2$，因此 $L_2$ is decidable。
+		\end{enumerate}
+\end{enumerate}
+
+
+% \correctness This is an argument  that this algorithm returns the correct answer.
+
+% \runtime Describe here, in big-Oh, the running time and your reasoning for it.
+
+% \part{b}
+
+\question{Problem 2}{Given $L_3 = \{ M ; x ; y \; | \; M(x) = y \}$ where $M$ is Turing machine (TM), $x$ and $y$ are strings. Use reduction to show that $L_3$ is undecidable. (You are not allowed to cite Rice's theorem.)}
+
+\part{Answer:}
+
+\begin{lstlisting}
+                     Halting Problem
+        +-------------------------------------------+
+        |   M; x; yes  +-------+                    |
+        |  +---------->+ DL3   +--+  +--------+     |
+ M; x   |  |           +-------+  +->+        +-----> Yes
++-----> +--+                         | OR GATE|     |
+        |  |           +-------+  +->+        +-----> No
+        |  +---------->+ DL3   +--+  +--------+     |
+        |   M; y; no   +-------+                    |
+        +-------------------------------------------+
+
+\end{lstlisting}
+
+\begin{itemize}
+	\item Halting Problem $H(M; x)$ reduces to $L_3$ via a transform $R$.
+	\item Let $D_{L_3}$ decides $L_3$.
+	\item Transform $R$ is defined by
+	$$H(M; x) = \{ M; x | D_{L_3}(M; x; \text{ yes}) = \text{ yes} \text{ or } D_{L_3}(M; x; \text{ no}) = \text{ yes}\}$$
+	\item If $L_3$ is decidable, then $H(M; x)$ is also decidable. 
+	\item Due to $H$ is undecidable, $L_3$ is undecidable.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,139 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{Theory of Computation, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{1}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1}{Write a TM program for the p.30 when $\sum = \{ 0, 1, 2, \bigsqcup, \triangleright \}$}
+
+\part{Answer:} % \algorithm Describe algorithm here
+
+\begin{itemize}
+
+\item 
+TM accepts the input if there are two consecutive 1's.
+
+\item % description
+Assume $M = (K, \sum, \delta, s)$, where $K = \{ s, s_1, h \}$, $\sum = \{ 0, 1, 2, \sqcup, \triangleright \}$, and
+
+\end{itemize}
+
+\begin{center}
+	\begin{tabular}{|c|c|c|}
+	\hline
+	$p \in K$ & $ \sigma \in \sum $ & $\delta(p, \sigma)$  \\		
+	\hline
+	$s$ & $\triangleright$ & $(s, \triangleright, \rightarrow)$  \\
+	\hline
+	$s$ & $0$ & $(s, 0, \triangleright)$ \\
+	\hline
+	$s$ & $1$ & $(s_1, 1, \triangleright)$ \\
+	\hline
+	$s$ & $2$ & $(s, 2, \triangleright)$ \\
+	\hline
+	$s_1$ & $0$ & $(s, 0, \triangleright)$ \\
+	\hline
+	$s_1$ & $1$ & $(\text{"yes"}, 1, -)$ \\
+	\hline
+	$s_1$ & $2$ & $(s, 2, \triangleright)$ \\
+	\hline
+	$s$ & $\sqcup$ & $(\text{"no"}, \sqcup, -)$ \\
+	\hline
+	$s_1$ & $\sqcup$ & $(\text{"no"}, \sqcup, -)$ \\
+	\hline
+	\end{tabular}
+\end{center}
+
+
+% \correctness This is an argument  that this algorithm returns the correct answer.
+
+% \runtime Describe here, in big-Oh, the running time and your reasoning for it.
+
+% \part{b}
+
+\question{Problem 2}{Explain why the following TM doesn't not decide the language $L$}
+
+\begin{itemize}
+\item
+$L$ : polynomials with integer coefficients which have integer roots.
+\item
+The input represents a polynomial $P(X)$ over variables $x_1, \cdots, x_n$ witch integer coefficients.
+\end{itemize}
+
+\algorithm TM
+\begin{enumerate}
+  \item Examine all possible integer values of $x_1, \cdots, x_n$.
+  \item Evaluate the polynomial on all of them.
+  \item If any of them evaluates to 0, accept; else reject.
+\end{enumerate}
+
+\part{Answer:}
+
+By the definition says $M$ decides $L$, let $M$ be a TM such that for any string x:
+\begin{itemize}
+  \item[-] If $x \in L$, then $M(x) = \text{"yes"}$.
+  \item[-] If $x \notin L$, then $M(x) = \text{"no"}$.
+\end{itemize}
+
+
+We observe that TM will enumerate all the integer $x \in \mathbb{Z}$ in step 1. Because $\mathbb{Z}$ is infinite in size, TM won't halt when the $P(x) \notin L$, i.e.,
+\begin{itemize}
+  \item[-] If $x \in L$, then $M(x) = \text{"yes"}$.
+  \item[-] If $x \notin L$, then $M(x) = \nearrow$.
+\end{itemize}
+
+TM doesn't satisfy the definition of $M$ decides $L$, so the TM doesn't not decide the language $L$.
+
+\end{document}
