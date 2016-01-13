@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{chessboard} % chessboard drawing
+ 
+\begin{document}
+ 
+\chessboard[tinyboard,vlabelformat=\arabic{filelabel},
+  setwhite={Bd5},showmover=false,
+  color=red,
+  padding=-0.2em,
+  pgfstyle=circle,
+  markfields={e4,f3,g2,h1,e6,f7,g8,c4,b3,a2,c6,b7,a8,d1,d2,d3,d4,d6,d7,d8,a5,b5,c5,e5,f5,g5,h5}]
+
+  \chessboard[maxfield=c3,vlabelformat=\arabic{filelabel},
+  setwhite={Ba2, Ba3, Bb1, Bb3, Bc1, Bc2},
+  color=red!75!white,showmover=false,
+  pgfstyle=straightmove,
+  markmove={a3-a1, b3-b1, c3-c1}
+ ]
+
+  \chessboard[maxfield=c3,vlabelformat=\arabic{filelabel},
+  setwhite={Ba2, Ba3, Bb1, Bb3, Bc1, Bc2},
+  color=red!75!white,showmover=false,
+  pgfstyle=straightmove,
+  markmove={a1-c1, a2-c2, a3-c3}
+ ]
+  \chessboard[maxfield=c3,vlabelformat=\arabic{filelabel},
+  setwhite={Ba2, Ba3, Bb1, Bb3, Bc1, Bc2},
+  color=red!75!white,showmover=false,
+  pgfstyle=straightmove,
+  markmove={a1-c3, a2-b3, b1-c2}
+ ]
+ 
+   \chessboard[maxfield=c3,vlabelformat=\arabic{filelabel},
+  setwhite={Ba2, Ba3, Bb1, Bb3, Bc1, Bc2},
+  color=red!75!white,showmover=false,
+  pgfstyle=straightmove,
+  markmove={a3-c1, a2-b1, b3-c2}
+ ]
+  
+\end{document}
