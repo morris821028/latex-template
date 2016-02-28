@@ -1,0 +1,519 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{listings}
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學解析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{1}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1}{1.9 Sometimes it's possible to use induction backwards, proving thing from $n$ to $n-1$ instead of vice versa! For example, consider the statement
+$$P(n): x_1 \hdots x_n \le \left ( \frac{x_1 + \hdots + x_n}{n}\right )^n, \; \text{ if } x_1, \; \hdots x_n \ge 0$$
+}
+
+This is true when $n = 2$, since $(x_1 + x_2)^2 - 4 x_1 x_2 = (x_1 - x_2)^2 \ge 0$
+
+\begin{description}
+	\item[a] By setting $x_n = (x_1 + \hdots + x_{n-1})/(n-1)$, prove that $P(n)$ implies $P(n-1)$ whenever $n > 1$.
+	\item[b] Show that $P(n)$ and $P(2)$ imply $P(2n)$.
+	\item[c] Explain why this implies the truth of $P(n)$ for all $n$.
+\end{description}
+
+
+\part{Answer:} 
+
+\begin{description}
+	\item[a]
+		若 $P(n)$ 成立，令 $x_n = (x_1 + \hdots + x_{n-1})/(n-1)$，則 $P(n-1)$ 成立。
+		\begin{equation}
+		\begin{split}
+			& \Rightarrow x_1 \; x_2 \; \hdots \; x_n \le \left ( \frac{x_1 + \hdots + x_n}{n}\right )^n \\
+			& \Rightarrow x_1 \; x_2 \; \hdots \; x_{n-1} \; \frac{x_1 + x_2 + \hdots + x_{n-1}}{n-1} \le \left ( \frac{x_1 + \hdots + x_{n-1}}{n} + \frac{x_n}{n} \right )^n \\
+			& \Rightarrow x_1 \; x_2 \; \hdots \; x_{n-1} \; \frac{x_1 + x_2 + \hdots + x_{n-1}}{n-1} \le \left ( \frac{x_1 + \hdots + x_{n-1}}{n} + \frac{x_1 + x_2 + \hdots + x_{n-1}}{n(n-1)} \right )^n \\
+			& \Rightarrow x_1 \; x_2 \; \hdots \; x_{n-1} \; \frac{x_1 + x_2 + \hdots + x_{n-1}}{n-1} \le \left ( \frac{x_1 + x_2 + \hdots + x_{n-1}}{n-1} \right )^n \\
+			& \Rightarrow x_1 \; x_2 \; \hdots \; x_{n-1} \le \left ( \frac{x_1 + x_2 + \hdots + x_{n-1}}{n-1} \right )^{n-1}
+		\end{split}
+		\end{equation}
+	\item[b]
+		若 $P(n)$ 和 $P(2)$ 成立，則 $P(2n)$ 成立。
+		\begin{equation}
+		\begin{split}
+			x_1 \; x_2 \; \hdots \; x_n \le \left ( \frac{x_1 + \hdots + x_n}{n}\right )^n
+		\end{split}
+		\end{equation}
+		\begin{equation}
+		\begin{split}
+			x_{n+1} \; x_{n+2} \; \hdots \; x_{2n} \le \left ( \frac{x_{n+1} + \hdots + x_{2n}}{n}\right )^n
+		\end{split}
+		\end{equation}
+		由 $P(n)$ 得到上述兩式，兩者合併得到
+		\begin{equation}
+		\begin{split}
+			x_1 \; x_2 \; \hdots \; x_{2n} \le \left [ \left ( \frac{x_1 + \hdots + x_n}{n} \right ) \left ( \frac{x_{n+1} + \hdots + x_{2n}}{n} \right ) \right ]^n
+		\end{split}
+		\end{equation}
+		藉由 $P(2)$ 轉換不等式右側
+		\begin{equation}
+		\begin{split}
+			x_1 \; x_2 \; \hdots \; x_{2n} & \le \left [ \left ( 
+				\frac{
+					\frac{x_1 + \hdots + x_n}{n} + \frac{x_{n+1} + \hdots + x_{2n}}{n}
+					}{2} 
+				\right )^2 \right ]^n
+		\end{split}
+		\end{equation}
+		化簡得到
+		\begin{equation}
+		\begin{split}
+			x_1 \; x_2 \; \hdots \; x_{2n} & \le \left ( 
+				\frac{
+					x_1 + \hdots + x_n + x_{n+1} + \hdots + x_{2n}
+					}{2n} 
+				\right )^{2n}
+		\end{split}
+		\end{equation}
+	\item[c] 藉由 \textbf{b} 的事實，可以倍增到無限大 $P(2^{m}), \; m \rightarrow \infty$ 皆成立，再從 \textbf{a} 得到 $P(n), \; n \le m$ 皆成立，故 $P(n), \; n > 1$ 恆成立。
+\end{description}
+
+% part 2%
+
+\question{Problem 2}{1.16 Use the repertoire method to solve the general four-parameter recurrence
+		\begin{equation}
+		\begin{split}
+			g(1) &= \alpha \\
+			g(2n+j) &= 3 g(n) + \gamma n + \beta_j \text{, for } j = 0, 1 \text{ and } n \ge 1
+		\end{split}
+		\end{equation}
+}
+
+\part{Answer:} 
+
+從遞迴式展開中得知，$g(n) = A(n) \alpha + B(n) \beta_0 + C(n) \beta_1 + D(n) \gamma$，利用 repertoire method，反求 $A(n)$, $B(n)$, $C(n)$, $D(n)$。
+
+\begin{enumerate}
+	\item Case 1: $(\alpha, \beta_0, \beta_1, \gamma) = (1, 0, 1, -1)$
+		\begin{equation}
+		\begin{split}
+			g(1) &= 1 \\ 
+			g(2n+j) &= 3g(n)-n + \beta_j \text{, for } j = 0, 1 \text{ and } n \ge 1
+		\end{split}
+		\end{equation}
+		得到 $g(n) = A(n) + C(n) - D(n) = n$
+	\item Case 2: $(\alpha, \beta_0, \beta_1, \gamma) = (1, 0, 0, 0)$
+		\begin{equation}
+		\begin{split}
+			g(1) &= 1 \\ 
+			g(2n+j) &= 3g(n) \text{, for } n \ge 1
+		\end{split}
+		\end{equation}
+		得到 $g(n) = A(n) = 3^{\log \left \lfloor \frac{n}{2} \right \rfloor + 1}$
+	\item Case 3: $(\alpha, \beta_0, \beta_1, \gamma) = (1, -2, -2, 0)$
+		\begin{equation}
+		\begin{split}
+			g(1) &= 1 \\ 
+			g(2n+j) &= 3g(n) - 2\text{, for } n \ge 1
+		\end{split}
+		\end{equation}
+		得到 $g(n) = A(n) - 2 B(n) - 2 C(n) = 1$
+	\item Case 4: $(\alpha, \beta_0, \beta_1, \gamma) = (1, 0, 1, 0)$
+		\begin{equation}
+		\begin{split}
+			g(1) &= 1 \\ 
+			g(2n+j) &= 3g(n) + \beta_j \text{, for } j = 0, 1 \text{ and }n \ge 1
+		\end{split}
+		\end{equation}
+		得到 $g(n) = A(n) + C(n) = \textit{atoi}(\textit{itoa}(n, base_2), base_3)$
+\end{enumerate}
+
+解聯立方程得到 
+
+\begin{itemize}
+	\item $A(n) = 3^{\log \left \lfloor \frac{n}{2} \right \rfloor + 1}$
+	\item $C(n) = \textit{atoi}(\textit{itoa}(n, base_2), base_3) - 3^{\log \left \lfloor \frac{n}{2} \right \rfloor + 1}$
+	\item $D(n) = \textit{atoi}(\textit{itoa}(n, base_2), base_3) - n$
+	\item $B(n) = (A(n) - 2 C(n) - 1) / 2$
+\end{itemize}
+
+% part 3%
+
+\question{Problem 3}{2.11 The general rule (2.56) for summation by pars is equivalent to
+		$$
+		\sum_{0 \le k < n} (a_{k+1} - a_k) b_k = a_n b_n - a_0 b_0 
+												- \sum_{0 \le k < n} a_{k+1} (b_{k+1} - b_k)\text{, for } n \ge 0
+		$$
+		Prove this formula directly by using the distributive, associative, and commutative laws.
+}
+
+\part{Answer:} 
+
+\begin{align*}
+	\sum_{0 \le k < n} (a_{k+1} - a_k) b_k &= \sum_{0 \le k < n} (a_{k+1} b_k - a_k b_k) 
+					&& \text{分配律} \\
+			&= \sum_{0 \le k < n} a_{k+1} b_k - \sum_{0 \le k < n} a_k b_k 
+					&& \text{分配律} \\
+			&= \sum_{0 \le k < n} a_{k+1} b_k - (a_0 b_0 + \sum_{1 \le k < n} a_k b_k) 
+					&& \text{拆首項} \\
+			&= \sum_{0 \le k < n} a_{k+1} b_k - (a_0 b_0 + \sum_{0 \le k < n-1} a_{k+1} b_{k+1}) 
+					&& \text{變量修改} \\
+			&= - a_0 b_0 + \sum_{0 \le k < n} a_{k+1} b_k - \sum_{0 \le k < n-1} a_{k+1} b_{k+1} 
+					&& \text{} \\
+			&= - a_0 b_0 + \sum_{0 \le k < n} a_{k+1} b_k - (\sum_{0 \le k < n} a_{k+1} b_{k+1} - a_n b_n) 
+					&& \text{補項調整} \\
+			&= a_n b_n - a_0 b_0 + \left ( \sum_{0 \le k < n} a_{k+1} b_k - \sum_{0 \le k < n} a_{k+1} b_{k+1} \right ) 
+					&& \text{結合律} \\
+			&= a_n b_n - a_0 b_0 - \sum_{0 \le k < n} a_{k+1} (b_{k+1} - b_k)
+					&& \text{等價得證} \\
+\end{align*}
+
+\question{Problem 4}{2.22 Prove \textit{Lagrange's identity} (without using induction):
+	$$
+		\sum_{1 \le j < k \le n} (a_j b_k - a_k b_j)^2 = 
+			\left ( \sum_{k=1}^{n} a_k^2 \right )
+			\left ( \sum_{k=1}^{n} b_k^2 \right )
+		- \left ( \sum_{k=1}^{n} a_k b_k \right )^2
+	$$
+	This, incidentally, implies \textit{Cauchy's inequality},
+	$$
+		\left ( \sum_{k = 1}^{n} a_k b_k \right )^2 \le
+			\left ( \sum_{k=1}^{n} a_k^2 \right )
+			\left ( \sum_{k=1}^{n} b_k^2 \right )
+	$$
+}
+
+\part{Answer:} 
+
+定義 $S(n)$ 如下：
+
+\begin{equation}
+\begin{split}
+	S(n) &= \sum_{1 \le j < k \le n} (a_j b_k - a_k b_j)^2 \\
+\end{split}
+\end{equation}
+
+交換 $j$, $k$。
+
+\begin{equation}
+\begin{split}
+	S(n) &= \sum_{1 \le k < j \le n} (a_k b_j - a_j b_k)^2 
+\end{split}
+\end{equation}
+
+得到 $(1 \le j < k \le n) + (1 \le k < j \le n) = (1 \le j, k \le n) - (1 \le j = k \le n)$，將兩式相加得到 $2S(n) = \sum_{1 \le j, k \le n} (a_j b_k - a_k b_j)^2 - \sum_{1 \le j = k \le n} (a_j b_k - a_k b_j)^2$，
+
+\begin{align*}
+	2S(n) &= \sum_{1 \le j, k \le n} (a_j b_k - a_k b_j)^2 - \sum_{1 \le j = k \le n} (a_j b_k - a_k b_j)^2 
+			\\
+		  &= \sum_{1 \le j, k \le n} (a_j b_k - a_k b_j)^2 
+		  	&& \because \sum_{1 \le j = k \le n} (a_j b_k - a_k b_j)^2 = 0 \\
+		  &= \sum_{1 \le j, k \le n} (a_j b_k)^2 - 2 a_j a_k b_j b_k + (a_k b_j)^2
+		  	&& \because \text{分配律}\\
+		  &= \sum_{1 \le j, k \le n} (a_j b_k)^2 - \sum_{1 \le j, k \le n} 2 a_j a_k b_j b_k 
+		  	+ \sum_{1 \le j, k \le n} (a_k b_j)^2 \\
+		  &= 2\sum_{1 \le j, k \le n} (a_j b_k)^2 - \sum_{1 \le j, k \le n} 2 a_j a_k b_j b_k 
+\end{align*}
+
+分開計算兩式
+
+\begin{align*}
+	\sum_{1 \le j, k \le n} (a_j b_k)^2 &= \sum_{1 \le j \le n} \sum_{1 \le k \le n} a_j^2 b_k^2 
+			&& \text{兩變數獨立} \\
+			&= \left ( \sum_{k=1}^{n} a_k^2 \right ) \left ( \sum_{k=1}^{n} b_k^2 \right )
+\end{align*}
+
+\begin{align*}
+	\sum_{1 \le j, k \le n} 2 a_j a_k b_j b_k &= 2 \sum_{1 \le j, k \le n} a_j a_k b_j b_k \\
+		&= 2 \sum_{1 \le j \le n} a_j b_j \sum_{1 \le k \le n} a_k b_k \\
+		&= 2 \left ( \sum_{1 \le j \le n} a_j b_j \right ) \left ( \sum_{1 \le k \le n} a_k b_k \right ) \\
+		&= 2 \left ( \sum_{1 \le j \le n} a_j b_j \right )^2
+\end{align*}
+
+兩式代入得到
+
+\begin{align*}
+	2S(n) &= 2 \left ( \sum_{k=1}^{n} a_k^2 \right ) \left ( \sum_{k=1}^{n} b_k^2 \right )
+				- 2 \left ( \sum_{1 \le j \le n} a_j b_j \right )^2 \\
+	 S(n) &= \left ( \sum_{k=1}^{n} a_k^2 \right ) \left ( \sum_{k=1}^{n} b_k^2 \right )
+				- \left ( \sum_{1 \le j \le n} a_j b_j \right )^2 \\
+	\sum_{1 \le j < k \le n} (a_j b_k - a_k b_j)^2 &= 
+			\left ( \sum_{k=1}^{n} a_k^2 \right )
+			\left ( \sum_{k=1}^{n} b_k^2 \right )
+		- \left ( \sum_{k=1}^{n} a_k b_k \right )^2	
+	&& \text{得證} \textit{Lagrange's identity} \\
+\end{align*}
+
+又因為 $\sum_{1 \le j < k \le n} (a_j b_k - a_k b_j)^2$ 每一項非負，故
+
+\begin{align*}
+\left ( \sum_{k=1}^{n} a_k^2 \right )
+\left ( \sum_{k=1}^{n} b_k^2 \right ) - \left ( \sum_{k=1}^{n} a_k b_k \right )^2 & \ge 0 \\
+\left ( \sum_{k = 1}^{n} a_k b_k \right )^2 & \le
+			\left ( \sum_{k=1}^{n} a_k^2 \right )
+			\left ( \sum_{k=1}^{n} b_k^2 \right ) 
+		&& \text{得證} \textit{Cauchy's inequality} \\
+\end{align*}
+
+\question{Problem 5}{ Prove or disprove that the \textit{Knuth Sequence} defined by 
+	\begin{align*}
+		K(0) &= 1 \\ 
+		K(n+1) &= 1 + \text{min}(2K(\left \lfloor \frac{n}{2} \right \rfloor), 3K(\left \lfloor \frac{n}{3} \right \rfloor))	&& \text{for } n \ge 0
+	\end{align*}
+	, has the property that $K(n) \ge n$ , for $n \ge 0$. \\
+	(The sequence begins 1, 3, 3, 4, 7, 7, 7, 9, 9, 10, 13, $\hdots$)
+}
+
+\part{Answer:}
+
+若 $K(n) > n$ , for $n \ge 0$ 成立，則 $K(n) \ge n$ , for $n \ge 0$ 成立。證明 $K(n) > n$ , for $n \ge 0$：
+
+\begin{itemize}
+	\item $K(0) = 1 > 0$ 成立。
+	\item 若 $K(i) > i \text{, for } i < n$ 成立，則 $K(n)$ 成立。
+		由於要取整數，分成 6 種 Case 討論。
+		\begin{itemize}
+			\item Case 1: $n = 6m$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-2}{2}), 3K(\frac{n-3}{3}))
+				\end{align*}
+			\item Case 2: $n = 6m+1$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-1}{2}), 3K(\frac{n-1}{3}))
+				\end{align*}
+			\item Case 3: $n = 6m+2$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-2}{2}), 3K(\frac{n-2}{3}))
+				\end{align*}
+			\item Case 4: $n = 6m+3$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-1}{2}), 3K(\frac{n-3}{3}))
+				\end{align*}
+			\item Case 5: $n = 6m+4$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-2}{2}), 3K(\frac{n-1}{3}))
+				\end{align*}
+			\item Case 6: $n = 6m+5$ 時，
+				\begin{align*}
+					K(n) = 1 + \text{min}(2K(\frac{n-1}{2}), 3K(\frac{n-2}{3}))
+				\end{align*}
+		\end{itemize}
+	每一項都要大於 $n$，才能證明在任一種情況皆大於 $n$，共計 5 項計算。
+	\begin{itemize}
+		\item
+			\begin{align*}
+				1 + 2K(\frac{n-1}{2}) & \ge 1 + 2 \left ( \frac{n-1}{2} + \epsilon \right )
+					&& K(\frac{n-1}{2}) > \frac{n-1}{2}, \epsilon \ge 1\\
+					& \ge 1 + n - 1 + 2 \epsilon \\
+					& \ge n + 2 \epsilon > n
+			\end{align*}
+		\item 
+			\begin{align*}
+				1 + 2K(\frac{n-2}{2}) & \ge 1 + 2 \left ( \frac{n-2}{2} + \epsilon \right )
+					&& K(\frac{n-2}{2}) > \frac{n-2}{2}, \epsilon \ge 1\\
+					& \ge 1 + n - 2 + 2 \epsilon \\
+					& \ge n - 1 + 2 \epsilon \\
+					& \ge n + \epsilon > n
+			\end{align*}
+		\item
+			\begin{align*}
+				1 + 3K(\frac{n-1}{3}) & \ge 1 + 3 \left ( \frac{n-1}{3} + \epsilon \right )
+					&& K(\frac{n-1}{3}) > \frac{n-1}{3}, \epsilon \ge 1\\
+					& \ge 1 + n - 1 + 3 \epsilon \\
+					& \ge n + 3 \epsilon > n\\
+			\end{align*}
+		\item
+			\begin{align*}
+				1 + 3K(\frac{n-2}{3}) & \ge 1 + 3 \left ( \frac{n-2}{3} + \epsilon \right )
+					&& K(\frac{n-2}{3}) > \frac{n-2}{3}, \epsilon \ge 1\\
+					& \ge 1 + n - 2 + 3 \epsilon \\
+					& \ge n - 1 + 3 \epsilon \\
+					& \ge n + 2 \epsilon > n
+			\end{align*}
+		\item
+			\begin{align*}
+				1 + 3K(\frac{n-3}{3}) & \ge 1 + 3 \left ( \frac{n-3}{3} + \epsilon \right )
+					&& K(\frac{n-3}{2}) > \frac{n-3}{2}, \epsilon \ge 1\\
+					& \ge 1 + n - 3 + 3 \epsilon \\
+					& \ge n - 2 + 3 \epsilon \\
+					& \ge n + \epsilon > n
+			\end{align*}
+	\end{itemize}
+	由於上述接大於 $n$，不管是哪一種都成立，得證 $K(n) > n$ 成立。
+	\item 由數學歸納法得知，$K(n) > n$ , for $n \ge 0$ 恆成立。故 $K(n) \ge n$ , for $n \ge 0$ 成立。
+\end{itemize}
+
+\question{Problem 5}{Consider the series of fractions
+	$$
+		\frac{1}{2}, \; 
+		\frac{1/2}{3/4}, \; 
+		\frac{\frac{1}{2}/\frac{3}{4}}{\frac{5}{6}/\frac{7}{8}}, \; 
+		\frac{\frac{1/2}{3/4}/\frac{5/6}{7/8}}{\frac{9/10}{11/12}/\frac{13/14}{15/16}}, \;
+		\hdots
+	$$
+	Suppose that each fraction is simplified to be a fraction of two products of integers 
+	(for example, the third is $\frac{1 \cdot 4 \cdot 6 \cdot 7}{2 \cdot 3 \cdot 5 \cdot 8}$.)
+	Prove that, for the $n^{\text{th}}$ fraction, the sum of the $k^{\text{th}}$ powers of the 
+	numbers in the numerator equals the sum of the $k^{\text{th}}$ powers of the numbers
+	in the denominator for $0 \le k < n$. \\
+	(For example, $1^2 + 4^2 + 6^2 + 7^2 = 2^2 + 3^2 + 5^2 + 8^2$.)
+}
+
+\part{Answer:}
+
+化簡每一項，從數字由小到大描繪分佈看來，如下所示
+
+\begin{align*}
+	S(1) &= | \\
+	S(2) &= \sqcup \\
+	S(3) &= \sqcup \sqcap \\
+	S(4) &= \sqcup \sqcap \sqcap \sqcup \\
+	S(5) &= \sqcup \sqcap \sqcap \sqcup \sqcap \sqcup \sqcup \sqcap \\
+		 & \vdots \\
+	S(n) &= S(n-1) \text{flip}(S(n-1)) 
+\end{align*}
+
+當 $n > 1$，令 $m = 2^{n-1}$，最後展開的結果如下：
+
+\begin{align*}
+	S(n) &= \frac{a_1 \cdot a_2 \hdots a_m}{b_1 \cdot b_2 \hdots b_m} \\ 
+	S(n+1) &= \frac{a_1 \cdot a_2 \hdots a_m}{b_1 \cdot b_2 \hdots b_m} \cdot 
+			\frac{c_1 \cdot c_2 \hdots c_m}{d_1 \cdot d_2 \hdots d_m}
+\end{align*}
+
+滿足下述關係
+
+\begin{itemize}
+	\item $(a_1, a_2, \hdots, a_m) = (d_1, d_2, \hdots, d_m) - (m, m, \hdots, m)$.
+	\item $(b_1, b_2, \hdots, b_m) = (c_1, c_2, \hdots, c_m) - (m, m, \hdots, m)$.
+\end{itemize}
+
+若對於前 $n$ 滿足 $\sum_{i=1}^{m} a_i^k = \sum_{i=1}^{m} b_i^k \text{, for all } 0 \le k < n$，則對於第 $n+1$ 項也會滿足。
+
+\begin{itemize}
+	\item 已知 $S(1)$ 代入 $k = 0$ 滿足等式和 $S(2)$ 代入 $k = 0, 1$ 也滿足等式。
+	\item 若 $S(i), i \le n$ 成立，則 $S(n+1)$ 也成立。
+		\begin{itemize}
+			\item 對於任意 $0 \le k < n+1$，滿足 
+				\begin{equation}
+				\begin{split}
+					\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} c_i^k &= 
+						\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} d_i^k \\ 
+				\end{split}
+				\end{equation}
+			\item 已知關係如下
+				\begin{equation}
+				\begin{split}				
+					\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} c_i^k &=
+						\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} (b_i + m)^k \\ 
+					\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} d_i^k &=
+						\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} (a_i + m)^k \\ 
+				\end{split}
+				\end{equation}
+			\item 將右式根據二項式展開
+				\begin{equation}
+				\begin{split}
+					\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} c_i^k &=
+						\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} \left (
+							b_i^k + \binom{k}{1} b_i^{k-1} m + 
+									\binom{k}{2} b_i^{k-2} m^2 + \cdots
+									\binom{k}{k} b_i^{0} m^k
+							\right ) \\
+						&= \sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} \left (
+									\binom{k}{2} b_i^{k-2} m^2 + \cdots
+									\binom{k}{k} b_i^{0} m^k
+							\right )
+				\end{split}
+				\end{equation}
+				
+				\begin{equation}
+				\begin{split}
+					\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} a_i^k &=
+						\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} \left (
+							a_i^k + \binom{k}{1} a_i^{k-1} m + 
+									\binom{k}{2} a_i^{k-2} m^2 + \cdots
+									\binom{k}{k} a_i^{0} m^k
+							\right ) \\
+						&= \sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} \left (
+									\binom{k}{2} a_i^{k-2} m^2 + \cdots
+									\binom{k}{k} a_i^{0} m^k
+							\right )
+				\end{split}
+				\end{equation}
+			\item 已知 $S(n)$ 成立，故 $\sum_{i=1}^{m} a_i^k = \sum_{i=1}^{m} b_i^k \text{, for } 0 \le k < n$，代回上述展開等式得到
+				\begin{equation}
+				\begin{split}
+					\because &\sum_{i=1}^{m} a_i^k = 
+								\sum_{i=1}^{m} b_i^k \text{, for } 0 \le k < n \\
+					\therefore &\sum_{i=1}^{m} \left (
+									\binom{k}{2} a_i^{k-2} m^2 + \cdots
+									\binom{k}{k} a_i^{0} m^k
+							\right ) = \sum_{i=1}^{m} \left (
+									\binom{k}{2} b_i^{k-2} m^2 + \cdots
+									\binom{k}{k} b_i^{0} m^k
+							\right )
+				\end{split}
+				\end{equation}
+				得證 $S(n+1)$ 滿足 $0 \le k < n+1$ 時，
+				\begin{equation}
+				\begin{split}
+					\sum_{i=1}^{m} a_i^k + \sum_{i=1}^{m} c_i^k &= 
+						\sum_{i=1}^{m} b_i^k + \sum_{i=1}^{m} d_i^k \\ 
+				\end{split}
+				\end{equation}
+			\item 
+		\end{itemize}
+	\item 由數學歸納法得證，$S(n)$ 滿足 $\sum_{i=1}^{m} a_i^k = \sum_{i=1}^{m} b_i^k \text{, for all } 0 \le k < n$。
+\end{itemize}
+
+
+\end{document}
