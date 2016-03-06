@@ -177,7 +177,54 @@ $$
 \end{cases}
 $$
 
-\question{Problem 6}{3-40 Let $\left \lfloor 2 \sqrt{n} \right \rfloor = 4 k + r$ where $-2 \le r < 2$, and let $m = \left \lfloor \sqrt{n} \right \rfloor$. Then the following relationships can be proved by induction: Thus, when $k \ge 1$, $W_k$ is a segment of length $2k$ where the path travels west and $y(b) = k$; $S_k$ is a segment of length $2k - 2$ where the path travels south and $x(n) = -k$; etc. (a) The desired formula is therefore $$y(n) = (-1)^m \left ( (n - m(m+1)) \cdot \left[ 2 \sqrt{n} \text{ is odd}\right] - \left \lceil \frac{1}{2} m \right \rceil\right )$$
+\question{Problem 6}{3-40 The spiral function $\sigma(n)$, indicated in the diagram below, maps a non-negative integer $n$ onto an ordered pair of integers $(x(n), y(n))$. For example, it maps $n = 9$ onto the ordered pair $(1, 2)$. (a) Prove that if $m = \left \lfloor \sqrt{n} \right \rfloor$, $$x(n) = (-1)^m \left ( (n - m(m+1)) \cdot \left [ \left \lfloor 2 \sqrt{n} \text{ is even}\right \rfloor \right ] + \left \lceil \frac{1}{2} m \right \rceil \right )$$, and find a similar formula for $y(n)$. \textit{Hint:} Classify the spiral into segments $W_k, \; S_k, \; E_k, \; N_k$ according as $\left \lfloor 2 \sqrt{n} \right \rfloor = 4k - 2, 4k - 1, 4k, 4k+1$.
 }
+
+分成四個移動方向討論，如圖 $\overrightarrow{p_1 p_2} \in W_k$, $\overrightarrow{p_3 p_4} \in S_k$。
+
+假設 $m = \left \lfloor \sqrt{n} \right \rfloor$，$\left \lfloor 2 \sqrt{n} \right \rfloor = 4k + r, \; -2 \le r \le 1$
+
+\begin{itemize}
+	\item 往西方向 $W_k$，得 $\left \lfloor 2 \sqrt{n} \right \rfloor = 4k - 2$ 和 $m = \left \lfloor \sqrt{n} \right \rfloor = 2k - 1$，且 $(2k - 1)^2\le n \le (2k-1)^2 + 2k-1$
+		\begin{align*}
+			\left \lfloor 2 \sqrt{n} \right \rfloor = 4k - 2 &
+				\Rightarrow 4k-2 \le 2 \sqrt{n} < 4k - 1 \\
+			& \Rightarrow 2k-1 \le \sqrt{n} < 2k - 1/2 \\
+			& \Rightarrow \left \lfloor \sqrt{n} \right \rfloor = 2k-1 \\
+		\end{align*}
+	推得 
+		\begin{align*}
+			x(n) &= - (n - (m \times m) - k - 1) \\
+				 &= m^2 - n + k - 1 \\
+				 &= m^2 - n + k - 1 + m - (2 k - 1) \\
+				 &= m(m+1) - n - k \\
+			y(n) &= k
+		\end{align*}
+	\item 同理往南 $S_k$，$\left \lfloor 2 \sqrt{n} \right \rfloor = 4k - 1$ 和 $m = \left \lfloor\sqrt{n} \right \rfloor = 2k - 1$，且 $(2k-1)^2 + 2k \le n < (2k-1)^2 + 2k + 2k-1$
+		\begin{align*}
+			\left \lfloor 2 \sqrt{n} \right \rfloor = 4k - 1 &
+				\Rightarrow 4k-1 \le 2 \sqrt{n} < 4k \\
+			& \Rightarrow 2k-1/2 \le \sqrt{n} < 2k \\
+			& \Rightarrow \left \lfloor \sqrt{n} \right \rfloor = 2k-1 \\
+		\end{align*}
+		推得 
+		\begin{align*}
+			x(n) &= k \\
+			y(n) &= - (n - m \times m - m) + k && \text{去除中心正方形，得到位移後，從 } y = k \text{ 往下移動} \\
+				 &= m(m+1) - n + k
+		\end{align*}
+	\item 同理往東 $E_k$，$\left \lfloor 2 \sqrt{n} \right \rfloor = 4k$ 和 $m = \left \lfloor\sqrt{n} \right \rfloor = 2k$，且 $(2k-1)^2 + 4k - 1 \le n \le (2k-1)^2 + 6k - 1$
+		\begin{align*}
+			x(n) &= -k + (n - (m-1)^2 - m - (m-1)) = n - m(m+1) + k \\
+			y(n) &= -k
+		\end{align*}
+	\item 同理往北 $N_k$，$\left \lfloor 2 \sqrt{n} \right \rfloor = 4k+1$ 和 $m = \left \lfloor\sqrt{n} \right \rfloor = 2k$，且 $(2k-1)^2 + 6k - 1 < n < (2k-1)^2 + 8k$
+		\begin{align*}
+			x(n) &= k \\
+			y(n) &= -k + (n - (m-1)^2 - m - (m-1) - m) = n - m(m+1) - k
+		\end{align*}
+	\item 代入四個方向，得證 $$x(n) = (-1)^m \left ( (n - m(m+1)) \cdot \left [ \left \lfloor 2 \sqrt{n} \text{ is even}\right \rfloor \right ] + \left \lceil \frac{1}{2} m \right \rceil \right )$$
+	\item 從推算每一個方向 $y(n)$ 中，方程式相似於 $x(n)$，得到 $$y(n) = (-1)^m \left ( (n - m(m+1)) \cdot \left [ \left \lfloor 2 \sqrt{n} \text{ is odd}\right \rfloor \right ] - \left \lceil \frac{1}{2} m \right \rceil \right )$$
+\end{itemize}
 
 \end{document}
