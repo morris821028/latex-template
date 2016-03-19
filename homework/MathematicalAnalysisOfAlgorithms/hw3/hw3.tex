@@ -1,0 +1,292 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\algorithm{\vspace{.10in}\textbf{Algorithm: }}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學解析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{3}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Problem 1}{For what positive values of $x$ are the following equations true ?
+}
+
+\begin{enumerate}
+	\item $\left \lfloor \ln x \right \rfloor = \left \lfloor \ln \left \lfloor x \right \rfloor \right \rfloor$
+	\item $\left \lfloor 2^x \right \rfloor = \left \lfloor 2^{\left \lfloor x \right \rfloor} \right \rfloor$
+	\item $\left \lfloor \log_2 x \right \rfloor = \left \lfloor \log_2 \left \lfloor x \right \rfloor \right \rfloor$
+\end{enumerate}
+
+\part{Answer.}
+
+\begin{enumerate}
+	\item 若 $\left \lfloor \ln x \right \rfloor = \left \lfloor \ln \left \lfloor x \right \rfloor \right \rfloor = m$，
+		\begin{align*}
+			\left\{\begin{matrix}
+				\left \lfloor \ln x \right \rfloor = m\\ 
+				\left \lfloor \ln \left \lfloor x \right \rfloor \right \rfloor = m
+			\end{matrix}\right. 
+			\Rightarrow
+			\left\{\begin{matrix}
+				m \le \ln x < m+1 \\ 
+				m \le \ln \left \lfloor x \right \rfloor < m+1
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				e^m \le x < e^{m+1} \\ 
+				e^m \le \left \lfloor x \right \rfloor < e^{m+1}
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				e^m \le x < e^{m+1} \\ 
+				e^m \le x < \left \lceil e^{m+1} \right \rceil
+			\end{matrix}\right.
+		\end{align*}
+		
+		兩式交集為等式成立，故符合以下等式時成立
+		\begin{align*}
+			\left\{\begin{matrix}
+				x \ge 1\\
+				x \notin \left [ e^m, e^{m+1}\right ) \text{, for all } m \in \mathbb{N}
+			\end{matrix}\right.
+		\end{align*}
+		
+	\item 若 $\left \lfloor 2^x \right \rfloor = \left \lfloor 2^{\left \lfloor x \right \rfloor} \right \rfloor = m$，
+		\begin{align*}
+			\left\{\begin{matrix}
+				\left \lfloor 2^x \right \rfloor = m\\ 
+				\left \lfloor 2^{\left \lfloor x \right \rfloor} \right \rfloor = m
+			\end{matrix}\right. 
+			\Rightarrow
+			\left\{\begin{matrix}
+				m \le 2^x < m+1 \\ 
+				m \le 2^{\left \lfloor x \right \rfloor} < m+1
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				\lg m \le x < \lg (m+1) \\ 
+				\lg m \le \left \lfloor x \right \rfloor < \lg (m+1)
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				\lg m \le x < \lg (m+1) \\ 
+				\lg m \le x < \left \lceil \lg (m+1) \right \rceil
+			\end{matrix}\right.
+		\end{align*}
+		
+		兩式交集為等式成立，故符合以下等式時成立
+		\begin{align*}
+			\left\{\begin{matrix}
+				x > 0\\
+				x \notin \left [ \lg(m), \left \lceil \lg (m+1) \right \rceil \right ) \text{, for all } m \in \mathbb{N}
+			\end{matrix}\right.
+		\end{align*}
+		
+	\item 若 $\left \lfloor \log_2 x \right \rfloor = \left \lfloor \log_2 \left \lfloor x \right \rfloor \right \rfloor = m$，
+		\begin{align*}
+			\left\{\begin{matrix}
+				\left \lfloor \log_2 x \right \rfloor = m\\ 
+				\left \lfloor \log_2 \left \lfloor x \right \rfloor \right \rfloor = m
+			\end{matrix}\right. 
+			\Rightarrow
+			\left\{\begin{matrix}
+				m \le \log_2 x < m+1 \\ 
+				m \le \log_2 \left \lfloor x \right \rfloor < m+1
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				2^m \le x < 2^{m+1} \\ 
+				2^m \le \left \lfloor x \right \rfloor <  2^{m+1}
+			\end{matrix}\right.
+			\Rightarrow \\
+			\left\{\begin{matrix}
+				2^m \le x < 2^{m+1} \\ 
+				2^m \le x < \left \lceil \lg 2^{m+1} \right \rceil
+			\end{matrix}\right.
+			\Rightarrow
+			\left\{\begin{matrix}
+				2^m \le x < 2^{m+1} \\ 
+				2^m \le x < 2^{m+1}
+			\end{matrix}\right.
+		\end{align*}
+		兩式交集為等式成立，兩式相同，對於任意 $x \ge 1$ 皆成立。
+\end{enumerate}
+
+\question{Problem 2}{3-17  Evaluate the sum 
+	$\sum\nolimits_{0 \le k < m} \left \lfloor 1 \le j \le x + k/m \right \rfloor$ in
+	the case $x \ge 0$ by substituting 
+	$\sum\nolimits_j [1 \le j \le x + k/m]$ for 
+	$\left \lfloor 1 \le j \le x + k/m \right \rfloor$
+	and summing first on $k$. Does your answer agree with 3.26 ?
+}
+
+\part{Answer.}
+
+假設 $m$ 為任意非負整數，$x$ 為任意非負實數。
+
+\begin{align*}
+\sum_{0 \le k < m} \left \lfloor x + \frac{k}{m} \right \rfloor
+	&= \sum_{0 \le k < m} \sum_j [1 \le j \le x + \frac{k}{m}] \\
+	&= \sum_{j,k} [0 \le k < m] [1 \le j \le \lceil x \rceil] [k \ge m(j-x)] \\
+	&= \sum_{1 \le j \le \lceil x \rceil} \sum_k [0 \le k < m] 
+		- \sum_{j=\lceil x \rceil} \sum_k [0 \le k < m(j-x)] \\
+	&= m \lceil x \rceil - \left \lceil m(\lceil x \rceil - x) \right \rceil \\
+	&= m \lceil x \rceil - \left \lceil m \lceil x \rceil - mx \right \rceil \\
+	&= m \lceil x \rceil - \left \lceil m \lceil x \rceil \right \rceil
+			- \lceil - mx \rceil \\
+	&= m \lceil x \rceil - m \lceil x \rceil - \lceil - mx \rceil \\
+	&= - \lceil - mx \rceil = \lfloor mx \rfloor
+\end{align*}
+
+\question{Problem 3}{3-28 Solve the recurrence
+\begin{align*}a_0 &= 1 \\ a_n &= a_{n-1} + \lceil \sqrt{a_{n-1}} \rceil \text{ for } n > 0\end{align*}
+}
+
+\part{Answer.}
+
+從觀察中得知，$a_{2m} = (m+1)^2$，$a_{2m+1} = (m+1)^2 + m + 1$。
+
+\begin{align*}
+\left\{\begin{matrix}
+a_{2m} &= (m+1)^2 && \text{for } m \ge 0\\
+a_{2m+1} &= (m+1)^2 + (m+1) && \text{for } m \ge 0 \\
+\end{matrix}\right.
+\end{align*}
+
+\begin{enumerate}
+	\item 
+		當 $m = 0$ 時，$a_0 = (0+1)^2 = 1$, $a_1 = (0+1)^2 + 0 + 1 = 1 + \lceil 1 \rceil = 2$ 得證。
+	\item 若 $k = m-1$ 時成立，則 $k = m$ 時
+		\begin{align*}
+			a_{2m} = (m^2 + m) + \lceil \sqrt{m^2 + m} \rceil = m^2 + m + m +1 = (m+1)^2\\
+			a_{2m+1} = (m+1)^2 + \lceil \sqrt{(m+1)^2} \rceil = (m+1)^2 + m + 1
+		\end{align*}
+	\item 由數學歸納法得證。
+\end{enumerate}
+
+\question{Problem 4}{The values of $A(n)$, for $n = 0, 1, 2, 3, \cdots$ are $0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, \cdots$. Find a simple expression for $A(n)$ in terms of $n$. (This is like Ex. 3-23.) Note: The sequence $A(n)$ includes two 1's, four 2's, six 3's, eight 4's, ten 5's, etc. There is no need to prove this. Just derive an expression for $A(n)$.
+}
+
+\part{Answer.}
+
+假設 $A(n) = k$，根據規律推導值小於等於 $k$ 的項數 $\sum_{i=1}^{k} 2 i = k(k+1)$，則 $A[k(k-1)+1 \cdots k(k+1)] = k$，計算第一個 $k$ 出現的項  
+
+\begin{align*}
+k(k-1) +1 \le n \le k(k+1) &\Rightarrow k(k-1)+1 \le n \\
+	&\Rightarrow k(k-1)+1 = n \\
+	&\Rightarrow k = \frac{1}{2} (1 + \sqrt{4n - 3}) \\
+	&\Rightarrow A(n) = k = \left \lfloor \frac{1}{2} (1 + \sqrt{4n - 3}) \right \rfloor \\
+\end{align*}
+
+最後得到
+
+\begin{align*}
+A(n) = \left\{\begin{matrix}
+0 & n = 0\\
+\left \lfloor \frac{1}{2} (1 + \sqrt{4n - 3}) \right \rfloor & n > 0
+\end{matrix}\right.
+\end{align*}
+
+\question{Problem 5}{(Prob. 4 continued)Find a simple expression for any one of the values $k$ that minimize \begin{equation}
+\max(\lfloor \frac{k-1}{2} \rfloor, A(n-k))
+\end{equation} (This would be important to a chip manufacturer who wants to know where to connect the top level wires.)
+}
+
+\begin{equation}
+A(n) = 1 + \min_{1 \le k \le n} \left \{ \max(\lfloor \frac{k-1}{2} \rfloor, A(n-k)) \right \}
+\end{equation}
+
+當 $k$ 遞增時，$\lfloor \frac{k-1}{2} \rfloor$ 遞增，而 $A(n-k) = \left \lfloor \frac{1}{2} (1 + \sqrt{4n - 4k - 3}) \right \rfloor$ 遞減。因此當兩值非常接近時，其最大值最小化是最佳解。故推論得到
+
+\begin{align*}
+\lfloor \frac{k-1}{2} \rfloor &\le \left \lfloor \frac{1}{2} (1 + \sqrt{4n - 4k - 3}) \right \rfloor \\
+k-1 &\le 1 + \sqrt{4n - 4k - 3} \\
+(k-2)^2 &\le 4n - 4k - 3 \\
+k^2 - 4k+7 &\le 4n - 4k \\
+k^2 &\le 4n - 7 
+\end{align*}
+
+當 $k = \left \lfloor \sqrt{4n - 7} \right \rfloor$ 時會有最佳解。
+
+\begin{align*}
+k = \left\{\begin{matrix}
+\left \lfloor \sqrt{4n - 7} \right \rfloor & n > 2 \\
+\textit{undefined} & \text{otherwise}
+\end{matrix}\right.
+\end{align*}
+
+\question{Problem 6}{(Prob. 5 continued) Show that $A(n) = 0, 1, 1, 2, 2, 2, 2, \cdots, $ 
+namely, there are two 1's, four 2's
+}
+
+\part{Answer.}
+
+從第五題推論出的 $k$ 決策中，大致上 $A(n) = 1 + \lfloor \frac{k-1}{2} \rfloor = 1 + \lfloor \frac{\left \lfloor \sqrt{4n - 7} \right \rfloor-1}{2} \rfloor$，
+
+假定 $A(n) = m$，則
+
+\begin{align*}
+1 + \lfloor \frac{\left \lfloor \sqrt{4n - 7} \right \rfloor-1}{2} \rfloor &= m \\
+&\Rightarrow m \le 1 + \frac{\left \lfloor \sqrt{4n - 7} \right \rfloor-1}{2} < m+1 \\
+&\Rightarrow 2(m-1) \le \left \lfloor \sqrt{4n - 7} \right \rfloor-1 < 2m \\
+&\Rightarrow 2m-1 \le \left \lfloor \sqrt{4n - 7} \right \rfloor < 2m+1 \\
+&\Rightarrow 2m-1 \le \sqrt{4n - 7} < 2m+1 \\
+&\Rightarrow (2m-1)^2 \le 4n-7 < (2m+1)^2 \\
+&\Rightarrow (4m^2 - 4m + 8)/4 \le n < (4m^2 + 4m + 8)/4 \\
+\end{align*}
+
+在 $A(n) = m$ 具有相同的值下，$n$ 有 $(8m)/4 = 2m$ 種，得證。
+
+\end{document}
