@@ -1,0 +1,24 @@
+\tikzset{%
+  highlight/.style={rectangle,rounded corners,fill=red!15,draw,fill opacity=0.2,thick,inner sep=0pt}
+}
+\newcommand{\tikzmark}[2]{\tikz[overlay,remember picture,baseline=(#1.base)] \node (#1) {#2};}
+%
+\newcommand{\Highlight}[1][submatrix]{%
+    \tikz[overlay,remember picture]{
+      \node[highlight,fit=(left1.north west) (right1.south east)] (#1) {};
+      \node[highlight,fit=(left2.north west) (right2.south east)] (#1) {};
+    }
+}
+
+
+\begin{align*}
+  A = \begin{bmatrix}
+      0 & 0 & \tikzmark{left1}{a} & 0 & 0 & 0 & \tikzmark{left2}{b} & c \\
+      0 & 0 & d & \tikzmark{right1}{e} & 0 & 0 & f & \tikzmark{right2}{0} \\
+      0 & 0 & 0 & 0 & g & h & i & j \\
+      k & l & 0 & 0 & m & n & o & p \\
+    \end{bmatrix}
+    \Highlight[first]
+\end{align*}
+
+

@@ -1,0 +1,130 @@
+\section{Matrix Data Format}
+
+\subsection{COO Format}
+\begin{frame}
+    \frametitle{Common Coordinate Format}
+	\begin{align*}
+		A = \begin{bmatrix}
+			0 & 0 & a & 0 & 0 & 0 & b & c \\
+			0 & 0 & d & e & 0 & 0 & f & 0 \\
+			0 & 0 & 0 & 0 & g & h & i & j \\
+			k & l & 0 & 0 & m & n & o & p \\
+		\end{bmatrix}
+	\end{align*}
+	\begin{align*}
+		\text{Row index} &= [0, 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3] \\
+		\text{Col index} &= [2, 6, 7, 2, 3, 6, 4, 5, 6, 7, 0, 1, 4, 5, 6, 7] \\
+		\text{Value}     &= [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p]
+	\end{align*}
+    \begin{itemize}
+    	\item
+    		Common Corrdinate Format (COO Format) has explicit storage for the
+    		column and row indices.
+    	\item 
+    		It has worst memory footprint.
+    \end{itemize}	
+\end{frame}
+
+\subsection{BCOO Format}
+\begin{frame}
+	\frametitle{Block Common Coorindate Format (BCOO Format)}
+	\begin{itemize}
+		\item Block Common Coorindate Format extends the COO Format.
+		\item First, using block size of $2 \times 2$ blocked COO format has 
+			shown in figure.
+	\end{itemize}
+	\input{partial/BCCOO-example.tex}
+\end{frame}
+
+\subsection{BCCOO Format}
+\begin{frame}
+	\frametitle{From BCOO Format to BCCOO Format}
+		Block Compressed Common Coordinate Format
+		\begin{itemize}
+			\item It uses difference function to compress row index array, and
+				we get row index compression ratio equal $1/32$.
+			\item If a difference value larger than 1, replace it with multiple 1s.
+		\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{BCCOO Format Example}
+	\input{partial/BCCOO-example.tex}
+\begin{align*}
+	\text{Value} &= \left \{ \begin{bmatrix}
+	a & 0\\ 
+	d & e
+	\end{bmatrix}, 
+	\begin{bmatrix}
+	b & c\\ 
+	f & 0
+	\end{bmatrix}, 
+	\begin{bmatrix}
+	0 & 0\\ 
+	k & l
+	\end{bmatrix}, 
+	\begin{bmatrix}
+	g & h\\ 
+	m & n
+	\end{bmatrix}, 
+	\begin{bmatrix}
+	i & j\\ 
+	o & p
+	\end{bmatrix}
+	\right \} \\
+	\text{Blocked Row index} &= [0, 0, 1, 1, 1] \\
+	\text{Blocked Col index} &= [1, 3, 0, 2, 3] \\
+	\text{Difference value}  &= [0, 1, 0, 0, 1] \\
+	\text{Bit Flag}			 &= [1, 0, 1, 1, 0]	\\
+\end{align*}
+
+\end{frame}
+
+\subsection{BCCOO+ Format}
+\begin{frame}
+	\frametitle{BCCOO+ Format}
+	\begin{itemize}
+		\item Reduce data transmission required for column index arrays
+			using difference functions.
+		\item Apply a segmented difference function on a column index array
+			with each segment.
+		\item The difference array is stored using the short data type 
+			instead of the regular integer type.
+		\item It is necessary to use a temporary buffer to store 
+			intermediate results.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{BCCOO+ Format Example}
+	\input{partial/BCCOO-plus-example.tex}
+\end{frame}
+
+\begin{frame}
+	\frametitle{BCCOO+ Format Storage Example}
+	\begin{align*}
+		\text{Value} &= \left \{ \begin{bmatrix}
+		a & 0\\ 
+		d & e
+		\end{bmatrix}, 
+		\begin{bmatrix}
+		b & c\\ 
+		f & 0
+		\end{bmatrix}, 
+		\begin{bmatrix}
+		0 & 0\\ 
+		k & l
+		\end{bmatrix}, 
+		\begin{bmatrix}
+		g & h\\ 
+		m & n
+		\end{bmatrix}, 
+		\begin{bmatrix}
+		i & j\\ 
+		o & p
+		\end{bmatrix}
+		\right \} \\
+		\text{Bit Flag}			 &= [0, 0, 0, 1, 0]	\\
+		\text{Blocked Col index} &= [1, 0, 3, 2, 3] \qquad \text{(uncompressed)}\\
+	\end{align*}
+\end{frame}

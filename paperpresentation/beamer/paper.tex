@@ -1,0 +1,80 @@
+\documentclass{beamer}
+\usefonttheme[onlymath]{serif}
+
+% Code Block Setting
+\usepackage{listings}
+\lstset{language=C,
+numberstyle=\footnotesize,
+basicstyle=\ttfamily\footnotesize,
+numbers=left,
+stepnumber=1,
+frame=shadowbox,
+breaklines=true}
+
+\usetheme{Warsaw}
+% \usecolortheme{dove}
+
+% Add frame number and total frame number in footline
+\defbeamertemplate*{footline}{shadow theme}{%
+    \leavevmode%
+    \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fil,rightskip=.3cm]{author in head/foot}%
+            \usebeamerfont{author in head/foot}\hfill\insertshortauthor
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+            \usebeamerfont{title in head/foot}\insertshorttitle\hfill%
+        \end{beamercolorbox}%
+        \begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{title in head/foot}%
+            \hfill\insertframenumber\,/\,\inserttotalframenumber
+    \end{beamercolorbox}}%
+    \vskip0pt%
+}
+
+% Tikz related
+\usepackage{tikz}
+\usetikzlibrary{fit}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+
+% Number the figures
+\setbeamertemplate{caption}[numbered]
+
+% Add outline page at begining of each section
+\AtBeginSection[]
+{
+    \begin{frame}<beamer>
+        \frametitle{Outline}
+        \tableofcontents[currentsection, hideallsubsections]
+    \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{yaSpMV: Yet Another SpMV Framework on GPUs}
+\author{
+    Shengen Yan\inst{1}\\
+    Chao Li \inst{1}\\
+    Yunquan Zhang\inst{2}\\
+    Huiyang Zhou \inst{1}
+}
+\institute{
+    \inst{1} North Carolina State Universit\\
+    \inst{2} Chinese Academy of Sciences Institute of Software
+}
+\date{
+    \tiny{Principles and Practice of Parallel Programming 2014}\\
+    \tiny{Presented by ShiangYun Yang}
+}
+
+\begin{document}
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\input{partial/introduction.tex}
+\input{partial/BCCOO.tex}
+\input{partial/matrix-based-segmented.tex}
+\input{partial/auto-tuning.tex}
+\input{partial/experiment.tex}
+\input{partial/conclusion.tex}
+
+\end{document}

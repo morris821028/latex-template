@@ -1,0 +1,94 @@
+\section{Introduction}
+
+\subsection{Sparse Matrix Vector Multiplication}
+\begin{frame}
+    \frametitle{Definition and Propety}
+	\begin{itemize}
+		\item A sparse matrix is a matrix in which most of the elements 
+			are zero.
+		\item Sparse data is by nature more easily compressed and thus 
+			require significantly less storage.
+			\begin{itemize}
+				\item Many formats have been proposed, such as CSR, 
+					CRS, DIL, and so on.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\subsection{CSR Format}
+\begin{frame}[fragile]
+	\frametitle{Compressed Row Storage}
+	\begin{align*}
+		A = \begin{bmatrix}
+			0 & 0 & a & 0 & 0 & 0 & b & c \\
+			0 & 0 & d & e & 0 & 0 & f & 0 \\
+			0 & 0 & 0 & 0 & g & h & i & j \\
+			k & l & 0 & 0 & m & n & o & p \\
+		\end{bmatrix}
+	\end{align*}
+	\begin{table}[]
+		\centering
+		\caption{CSR format}
+		\label{my-label}
+		\begin{tabular}{l | c | c | c | c | c | c | c}
+			\hline
+		index & 0 & 1 & 2 & $\cdots$ & 12 & 13 & 14 \\ \hline
+		val      & a & b & c & $\cdots$ & m & n & p  \\ \hline
+		col\_ind & 2 & 6 & 7 & $\cdots$ & 4 & 5 & 7 \\ \hline
+		\end{tabular}
+		\\
+		\begin{tabular}{l | c | c | c | c | c}
+			\hline
+		rowptr      & 0 & 3 & 6 & 10 & 15 \\ \hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+\subsection{Serial Implementation Example}
+\begin{frame}[fragile]
+	\frametitle{Serial Implementation Example}
+	\begin{itemize}
+		\item $A_{n,m} \times x_{m,1} = y_{n,1}$
+\begin{lstlisting}
+for (i = 0; i < n; ++i) {
+    double y0 = y[i];
+    for (k = rowptr[i]; k < rowptr[i+1]; ++k)
+        y0 += val[k] * x[column_index[k]];
+    y[i] = y0;
+}
+\end{lstlisting}
+	\end{itemize}
+\end{frame}
+
+\subsection{Changes of Parallel Implementation}
+\begin{frame}
+	\frametitle{Changes of Parallel Implementation}
+	\begin{itemize}
+		\item Bandwith
+			\begin{itemize}
+				\item the upper bound of $\text{FLOPS}:\text{BYTES} = 0.25$
+				\item FLOPS: Floating-Point Operations Per Second 
+			\end{itemize}
+		\item Load imbalance
+			\begin{itemize}
+				\item The non-zeros in a matrix may not be evenly distributed 
+					across different rows.
+				\item The matrix data have low reuse. Each non-zero element 
+					is only once for computing the corresponeding dot product.
+			\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\subsection{Executive Summary}
+\begin{frame}
+	\frametitle{Executive Summary}
+	\begin{itemize}
+		\item Improve the bandwidth by block-based compressed common
+			coordinate format.
+		\item Addressing the load imbalance problem by customized
+			efficient segmented scan/sum.
+		\item Using auto-tuning framework to explore optimization parameter 
+			for different sparse matrices and different platforms.
+	\end{itemize}
+\end{frame}
+
