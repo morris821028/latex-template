@@ -1,0 +1,235 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{4}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1} {Prove that 
+	$$\sum_{k|m} \frac{1}{k} \sum_{d|k} \mu(k/d)c^d 
+		= \frac{1}{m} \sum_{d|m} \phi(d) c^{\frac{m}{d}}$$
+}
+
+\part{Answer:}
+
+\question{Problem 2} {4-29 The text describes a correspondence between
+	binary real numbers $x = (.b_1 b_2 b_3 \cdots)_2$ in $[0, 1)$ and 
+	Stern-Brocot real numbers $\alpha = B_1 B_2 B_3 \cdots$ in 
+	$[0, \infty)$. If $x$ corresponds to $\alpha$ and $x \neq 0$, 
+	what number corresponds to $1-x$ ?
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 已知 $b_i \in \{0, 1\}$，$B_i \in \{\text{L}, \text{R}\}$。
+	\item 當 $x = (.b_1 b_2 b_3 \cdots)_2$，則 $1-x = (.b'_1 b'_2 b'_3 \cdots)_2$，
+		其中 $b'_i = 1 - b_i$。
+	\item 而 $(.b'_1 b'_2 b'_3 \cdots)_2$ 對應的數值 Stern-Brocot real numbers 
+		$\beta = B'_1 B'_2 B'_3 \cdots$，滿足
+		\begin{align*}
+			B'_i = \left\{\begin{matrix}
+				\text{L} & \text{if } B_i = \text{R} \\
+				\text{R} & \text{if } B_i = \text{L}
+			\end{matrix}\right.
+		\end{align*}
+\end{itemize}
+
+\question{Problem 3} {4-38 Prove that if $a \perp b$ and $a > b$ then
+	\begin{align*}	
+		\text{gcd}(a^m - b^m, a^n - b^n) = a^{\text{gcd}(m, n)}
+			- b^{\text{gcd}(m, n)} && 0 \le m < n.
+	\end{align*}
+	(All variables are integers.) \textit{Hint} Use Euclid's algorithm.
+}
+
+\part{Answer:}
+
+\begin{align*}
+	\text{gcd}(a^m - b^m, a^n - b^n) 
+		&= \text{gcd}(a^m - b^m, a^n - b^n - (a^m - b^m) a^{-m+n}) && \text{左式乘上 } a^{-m+n}\\
+		&= \text{gcd}(a^m - b^m, a^n - b^n - a^n + b^m a^{-m+n}) \\
+		&= \text{gcd}(a^m - b^m, b^n + b^m a^{-m+n}) \\
+		&= \text{gcd}(a^m - b^m, b^m (a^{n-m} - b^{n-m})) && \text{共同提出} b^m\\
+		&= \text{gcd}(a^m - b^m, a^{n-m} - b^{n-m}) && \text{gcd}(a^m - b^m, b^m) = 1\\
+		&= \vdots \\
+		&= \text{gcd}(a^{\text{gcd}(m, n)} - b^{\text{gcd}(m, n)}, a^{\text{gcd}(m, n)} - b^{\text{gcd}(m, n)}) \\
+		&= a^{\text{gcd}(m, n)} - b^{\text{gcd}(m, n)}
+\end{align*}
+
+\question{Problem 4} {4-41
+	\begin{description}
+		\item[a] Show that if $p \mod 4 = 3$, there is no integer $n$ such
+			that $p$ divides $n^2 + 1$. \textit{Hint}: Use Fermat's theorem.
+		\item[b] But show that if $p \mod 4 = 1$, there is such an integer.
+			\textit{Hint}: Write $(p-1)!$ as $(\prod_{k=1}^{(p-1)/2} k(p-k))$
+			and think about Wilson's theorem.
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a] 假設存在一個整數 $n$ 符合 $n^2 + 1 \equiv 0 (\text{mod } p)$，且質數 
+		$p$ 滿足 $p \mod 4 = 3$。
+		\begin{align*}
+			n^2 + 1 \equiv 0 (\text{mod } p) 
+			&\Rightarrow n^2 \equiv -1 (\text{mod } p) \\
+			&\Rightarrow (n^2)^{(p-1)/2} \equiv (-1)^{(p-1/2)} (\text{mod } p) \\
+			&\Rightarrow n^{p-1} \equiv -1 (\text{mod } p) && (p-1)/2 \text{ 為奇數}
+		\end{align*}
+		根據費馬小定理 $a^{p-1} \equiv 1 \mod p, \; \text{if } \gcd(a, p) = 1$，上述等式不成立。
+		矛盾得證，當質數 $p \mod 4 = 3$時，不存在任何整數 $n$ 滿足 $n^2+1 \equiv 0 \mod p$。
+	\item[b] 從 Wilson's theorem 得知，當 $p$ 是質數 $(p-1)! \equiv -1 \mod p$。
+		\begin{align*}
+			(p-1)! 	&\equiv \prod_{k=1}^{(p-1)/2} k(p-k) \mod p && \text{重新排列} \\
+					&\equiv \prod_{k=1}^{(p-1)/2} kp - k^2 & \\
+					&\equiv \prod_{k=1}^{(p-1)/2} - k^2 && kp \equiv 0 \mod p\\
+					&\equiv [ ((p-1)/2)! ]^2 \mod p && (p-1)/2 \text{ 為偶數} \\
+					&\equiv -1 \mod p && \text{Wilson's theorem}
+		\end{align*}
+		得到對於任何質數 $p$ 滿足 $p \mod 4 = 1$，都存在 $n = ((p-1)/2)!$ 符合
+		滿足 $n^2+1 \equiv 0 \mod p$。
+\end{description}
+
+\question{Problem 5} {To find the average running time, it suffices to find the average 
+	value of $A_n$, the number of times the inner loop is executed. The average (or 
+	expected) value of $A_n$ is $E(A_n) = B_N / n!$.
+\begin{algorithm}
+  \caption{Insertion Sort Algorithm}\label{insert}
+  \begin{algorithmic}[1]
+  	\For{ $i := 2$ \texttt{to} $n$}			\Comment{$n$}
+		\State \textit{value} $:= X[i]$		\Comment{$n-1$}
+		\State \textit{place} $:= i-1$		\Comment{$n-1$}
+		\While{$\textit{place} \ge 1$ \texttt{and} $X[\textit{place}] \ge \textit{value}$}		\Comment{$A_n + n - 1$}
+			\State $X[\textit{place}+1] := X[\textit{place}]$	\Comment{$A_n$}
+			\State \textit{place} $:= \textit{place} - 1$	\Comment{$A_n$}
+		\EndWhile
+		\State $X[\textit{place}+1] := \textit{value}$	\Comment{$n-1$}
+	\EndFor
+  \end{algorithmic}
+\end{algorithm}
+	\begin{description}
+		\item[(a)] Find a simple expression for $E(A_n)$ in terms of $n$. Do that
+			by deriving a recurrence relation for $B_n$ in terms of $B_{n-1}$, then
+			solving it by using the appropriate "summation factor." Compute the
+			average running time $4(E(A_n)) + 6n - 5$.
+		\item[(b)] One way to speed up the algorithm is to get rid of the 
+			"place $\ge$ 1" expression, since it is seldom needed. To do that, 
+			we must initialize $X[0]$ to $-\infty$. Now the "\texttt{while}" statement 
+			takes only one time unit to execute. Does this alteration affect the value
+			of $A_n$ ? Why or why not ? What is the resulting average running time
+			of the algorithm ?
+		\item[(c)] Is this algorithm \textit{stable} ? If not, can you modify the
+			algorithm to make it stable ? A sorting method \textit{stable} if equal
+			keys remain in the same relative order in the sorted sequence as they were
+			in originally.
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[(a)] 
+		根據觀察，專注於放入最大的數字 $n$，假設對於先前的排序，總共會有 $n$ 個位置可以插入，
+		在插入最大的數字之前，先將所有插入的花費預先支付得到 $n B_{n-1}$。 \\
+		接著再考慮其他數字與最大數的之間的移動，在只有 $n-1$ 個數字下，總共有 $(n-1)!$ 種排法，
+		每一種排法有 $n$ 種插入方法，插入位置 $i$ 會增加 $i$ 次花費。故得到 $(n-1)! \times \sum_{i=0}^{n-1} = (n-1)! \times \frac{n(n-1)}{2}$
+		\begin{align*}
+			\left\{\begin{matrix}
+				B_0 &=& 0 && \text{if } n = 0\\
+				B_n &=& n B_{n-1} + (n-1)! \times \frac{n(n-1)}{2} && \text{if } n > 0
+			\end{matrix}\right.
+		\end{align*}
+		Summation factor $S_n = \frac{a_{n-1} a_n \cdots a_1}{b_n b_{n-1} \cdots b_2} = \frac{1}{n!}$。
+		原式改寫
+		\begin{align*}
+			B_n = n B_{n-1} + (n-1)! 
+			&\Rightarrow \frac{1}{n!}B_n = \frac{1}{(n-1)!} B_{n-1} + \frac{1}{n!}(n-1)! \\
+			&\Rightarrow S_n = S_{n-1} + \frac{n-1}{2} \\
+			&\Rightarrow S_n = \frac{1}{4} n(n-1) \\
+			&\Rightarrow \frac{1}{n!}B_n = S_n = \frac{1}{4} n(n-1) \\
+			&\Rightarrow B_n = \frac{1}{4} n(n-1) \times n!
+		\end{align*}
+		
+		平均運行時間 $$4(E(A_n)) + 6n - 5 = 4(\frac{1}{4} n(n-1) \times n!)/n! + 6n - 5 = n^2 + 5n - 5$$
+	\item[(b)]
+		不會，因為沒有任何數小於 $-\infty$，故不會移動 $X[\textit{place}]$，因此 $A_n$ 也不會增加。
+	\item[(c)]
+		這並不是一個 \textit{stable} 排序法，必須修改成 $X[\textit{place}] > \textit{value}$，
+		才會成為 \textit{stable} 的插入排序。
+\begin{algorithm}
+  \caption{Stable Insertion Sort Algorithm}\label{insert}
+  \begin{algorithmic}[2]
+  	\For{ $i := 2$ \texttt{to} $n$}			\Comment{$n$}
+		\State \textit{value} $:= X[i]$		\Comment{$n-1$}
+		\State \textit{place} $:= i-1$		\Comment{$n-1$}
+		\While{$\textit{place} \ge 1$ \texttt{and} $X[\textit{place}] > \textit{value}$}		\Comment{$A_n + n - 1$}
+			\State $X[\textit{place}+1] := X[\textit{place}]$	\Comment{$A_n$}
+			\State \textit{place} $:= \textit{place} - 1$	\Comment{$A_n$}
+		\EndWhile
+		\State $X[\textit{place}+1] := \textit{value}$	\Comment{$n-1$}
+	\EndFor
+  \end{algorithmic}
+\end{algorithm}
+\end{description}
+
+\end{document}
