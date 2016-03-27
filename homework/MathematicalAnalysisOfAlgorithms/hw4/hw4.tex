@@ -70,6 +70,28 @@
 
 \part{Answer:}
 
+從右式開始推導
+
+\begin{align*}
+	\frac{1}{m} \sum_{d|m} \phi(d) c^{\frac{m}{d}} &= 
+		\frac{1}{m} \sum_{d|m} \sum_{k|d} \mu(k) \frac{d}{k} c^{\frac{m}{d}}
+			&& \text{性質} \phi(d) = \sum_{k|d} \mu(d) \frac{d}{k} \\
+		&= \sum_{d|m} \sum_{k|d} \mu(k) \frac{d}{mk} c^{\frac{m}{d}} \\
+		&= \sum_{d|m} \sum_{k|(m/d)} \mu(k) \frac{m/d}{mk} c^{\frac{m}{m/d}} 
+			&& \text{根據對稱性質，重新排列 } d \\
+		&= \sum_{d|m} \sum_{k|(m/d)} \mu(k) \frac{1}{kd} c^d \\
+		&= \sum_{kd|m} \mu(k) \frac{1}{kd} c^d 
+			&& d|m \text{ and } k|(m/d) \Rightarrow kd|m \\
+		&= \sum_{a|m} \sum_{b|a} \mu(a/b) \frac{1}{a} c^b 
+			&& \text{令 } kd=a, \quad d = b \text{ 改寫等式} \\
+		&= \sum_{a|m} \frac{1}{a} \sum_{b|a} \mu(a/b) c^b 
+			&& \text{移項} \\
+		&= \sum_{k|m} \frac{1}{k} \sum_{d|k} \mu(k/d) c^d 
+			&& \text{變數重新命名，得到左式} \\
+\end{align*}
+
+根據上述推導，從右式推導到左式，每一步均為雙向，故等式成立。
+
 \question{Problem 2} {4-29 The text describes a correspondence between
 	binary real numbers $x = (.b_1 b_2 b_3 \cdots)_2$ in $[0, 1)$ and 
 	Stern-Brocot real numbers $\alpha = B_1 B_2 B_3 \cdots$ in 
@@ -87,8 +109,8 @@
 		$\beta = B'_1 B'_2 B'_3 \cdots$，滿足
 		\begin{align*}
 			B'_i = \left\{\begin{matrix}
-				\text{L} & \text{if } B_i = \text{R} \\
-				\text{R} & \text{if } B_i = \text{L}
+				\texttt{L} & \text{if } B_i = \texttt{R} \\
+				\texttt{R} & \text{if } B_i = \texttt{L}
 			\end{matrix}\right.
 		\end{align*}
 \end{itemize}
@@ -141,8 +163,8 @@
 	\item[b] 從 Wilson's theorem 得知，當 $p$ 是質數 $(p-1)! \equiv -1 \mod p$。
 		\begin{align*}
 			(p-1)! 	&\equiv \prod_{k=1}^{(p-1)/2} k(p-k) \mod p && \text{重新排列} \\
-					&\equiv \prod_{k=1}^{(p-1)/2} kp - k^2 & \\
-					&\equiv \prod_{k=1}^{(p-1)/2} - k^2 && kp \equiv 0 \mod p\\
+					&\equiv \prod_{k=1}^{(p-1)/2} kp - k^2 \mod p & \\
+					&\equiv \prod_{k=1}^{(p-1)/2} - k^2 \mod p && kp \equiv 0 \mod p\\
 					&\equiv [ ((p-1)/2)! ]^2 \mod p && (p-1)/2 \text{ 為偶數} \\
 					&\equiv -1 \mod p && \text{Wilson's theorem}
 		\end{align*}
@@ -192,19 +214,22 @@
 		根據觀察，專注於放入最大的數字 $n$，假設對於先前的排序，總共會有 $n$ 個位置可以插入，
 		在插入最大的數字之前，先將所有插入的花費預先支付得到 $n B_{n-1}$。 \\
 		接著再考慮其他數字與最大數的之間的移動，在只有 $n-1$ 個數字下，總共有 $(n-1)!$ 種排法，
-		每一種排法有 $n$ 種插入方法，插入位置 $i$ 會增加 $i$ 次花費。故得到 $(n-1)! \times \sum_{i=0}^{n-1} = (n-1)! \times \frac{n(n-1)}{2}$
+		每一種排法有 $n$ 種插入方法，插入位置 $i$ 會增加 $i$ 次花費。故得到 $(n-1)! \times \sum_{i=0}^{n-1} 1 = (n-1)! \times \frac{n(n-1)}{2}$
 		\begin{align*}
 			\left\{\begin{matrix}
 				B_0 &=& 0 && \text{if } n = 0\\
 				B_n &=& n B_{n-1} + (n-1)! \times \frac{n(n-1)}{2} && \text{if } n > 0
 			\end{matrix}\right.
 		\end{align*}
-		Summation factor $S_n = \frac{a_{n-1} a_n \cdots a_1}{b_n b_{n-1} \cdots b_2} = \frac{1}{n!}$。
+		Summation factor $s_n = \frac{a_{n-1} a_n \cdots a_1}{b_n b_{n-1} \cdots b_2} = \frac{1}{n!}$。
 		原式改寫
 		\begin{align*}
 			B_n = n B_{n-1} + (n-1)! 
-			&\Rightarrow \frac{1}{n!}B_n = \frac{1}{(n-1)!} B_{n-1} + \frac{1}{n!}(n-1)! \\
-			&\Rightarrow S_n = S_{n-1} + \frac{n-1}{2} \\
+			&\Rightarrow \frac{1}{n!}B_n = \frac{1}{(n-1)!} B_{n-1} + \frac{1}{n!}(n-1)! 
+				&& \text{兩邊同除 } s_n\\
+			&\Rightarrow S_n = S_{n-1} + \frac{n-1}{2} 
+				&& \text{令 } S_n = \frac{1}{n!} B_n\\
+			&\Rightarrow S_n = \sum_{i=1}^{n} \frac{i-1}{2} \\
 			&\Rightarrow S_n = \frac{1}{4} n(n-1) \\
 			&\Rightarrow \frac{1}{n!}B_n = S_n = \frac{1}{4} n(n-1) \\
 			&\Rightarrow B_n = \frac{1}{4} n(n-1) \times n!
