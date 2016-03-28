@@ -102,15 +102,16 @@
 \part{Answer:}
 
 \begin{itemize}
-	\item 已知 $b_i \in \{0, 1\}$，$B_i \in \{\text{L}, \text{R}\}$。
+	\item 已知 $b_i \in \{0, 1\}$，$B_i \in \{\texttt{L}, \texttt{R}\}$。
 	\item 當 $x = (.b_1 b_2 b_3 \cdots)_2$，則 $1-x = (.b'_1 b'_2 b'_3 \cdots)_2$，
 		其中 $b'_i = 1 - b_i$。
 	\item 而 $(.b'_1 b'_2 b'_3 \cdots)_2$ 對應的數值 Stern-Brocot real numbers 
 		$\beta = B'_1 B'_2 B'_3 \cdots$，滿足
 		\begin{align*}
 			B'_i = \left\{\begin{matrix}
-				\texttt{L} & \text{if } B_i = \texttt{R} \\
-				\texttt{R} & \text{if } B_i = \texttt{L}
+				\texttt{L} & \text{if } B_i = \texttt{R}, \; i > 1 \\
+				\texttt{R} & \text{if } B_i = \texttt{L}, \; i > 1 \\
+				\texttt{L} & i = 1
 			\end{matrix}\right.
 		\end{align*}
 \end{itemize}
@@ -224,8 +225,9 @@
 		Summation factor $s_n = \frac{a_{n-1} a_n \cdots a_1}{b_n b_{n-1} \cdots b_2} = \frac{1}{n!}$。
 		原式改寫
 		\begin{align*}
-			B_n = n B_{n-1} + (n-1)! 
+			B_n = n B_{n-1} + (n-1)!  \times \frac{n(n-1)}{2}
 			&\Rightarrow \frac{1}{n!}B_n = \frac{1}{(n-1)!} B_{n-1} + \frac{1}{n!}(n-1)! 
+				\times \frac{n(n-1)}{2} 
 				&& \text{兩邊同除 } s_n\\
 			&\Rightarrow S_n = S_{n-1} + \frac{n-1}{2} 
 				&& \text{令 } S_n = \frac{1}{n!} B_n\\
