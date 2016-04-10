@@ -1,0 +1,106 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{5}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+
+\question{Problem 1} {5-14}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item Part 1
+	\begin{align*}
+		& \sum_{k \le l} \binom{l-k}{m} \binom{s}{k-n} (-1)^k \\
+		& = \sum_{k \le l} \binom{l-k}{l-k-m} \binom{s}{k-n} (-1)^k
+		&& \because \binom{l-k}{m} = \binom{l-k}{l-k-m} \\
+		& = \sum_{k \le l} (-1)^{l-k-m} \binom{-m-1}{l-k-m} \binom{s}{k-m} (-1)^k
+		&& \because \binom{r}{k} = (-1)^k \binom{k-r-1}{k} \\
+		& = \sum_{k \le l} (-1)^{l-k} \binom{-m-1}{(l-m)-k} \binom{s}{-m+k}
+		&& \because \text{5.22, } \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n} \\
+		& = (-1)^{l-m} \binom{s-m-1}{l-m+n}
+	\end{align*}
+	\item Part 2 TODO
+\end{itemize}
+
+\question{Problem 2} {5-43}
+
+\part{Answer:}
+
+\question{Problem 3} {5-58}
+
+\part{Answer:}
+
+\question{Problem 4} {5-24}
+
+\part{Answer:}
+
+\question{Problem 5} {Evaluate $$\frac{1}{N} \sum_{1 \le k \le N} \sum_{t} \frac{t \binom{N-k}{t} \binom{k-1}{t}}{\binom{N-1}{k-1}}$$}
+
+\part{Answer:}
+
+\question{Problem 6} {
+}
+
+\part{Answer:}
+
+\end{document}
