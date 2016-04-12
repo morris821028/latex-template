@@ -63,7 +63,18 @@
 % which problem this is when you read over your homeworks to study.
 
 
-\question{Problem 1} {5-14}
+\question{Problem 1} {5-14 Prove identity (5.25) by negating the upper index in
+	Vandermonde's convolution (5.22). Then show that another negation yields (5.26).
+}
+
+\begin{flalign*}
+& \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n}	
+		&& \text{, integers } m, n && \text{(5.22)} \\
+& \sum_{k \le l} \binom{l-k}{m} \binom{s}{k-n} (-1)^k = (-1)^{l+m} \binom{s-m-1}{l-m-n}
+		&& \text{, integers } l, m, n \ge 0 && \text{(5.25)} \\
+& \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{n} = \binom{l+q+1}{m+n+1}
+		&& \text{, integers } l, m > 0 \text{, integers } n \ge q \ge 0 && \text{(5.26)}
+\end{flalign*}
 
 \part{Answer:}
 
@@ -75,11 +86,21 @@
 		&& \because \binom{l-k}{m} = \binom{l-k}{l-k-m} \\
 		& = \sum_{k \le l} (-1)^{l-k-m} \binom{-m-1}{l-k-m} \binom{s}{k-m} (-1)^k
 		&& \because \binom{r}{k} = (-1)^k \binom{k-r-1}{k} \\
-		& = \sum_{k \le l} (-1)^{l-k} \binom{-m-1}{(l-m)-k} \binom{s}{-m+k}
-		&& \because \text{5.22, } \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n} \\
+		& = \sum_{k \le l} (-1)^{l-m} \binom{-m-1}{(l-m)-k} \binom{s}{-m+k}
+		&& \because \text{(5.22), } \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n} \\
 		& = (-1)^{l-m} \binom{s-m-1}{l-m+n}
 	\end{align*}
-	\item Part 2 TODO
+	\item Part 2
+	\begin{align*}
+		& \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{n} \\
+		&= \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{q+k-n} \\
+		&= \sum_{0 \le k \le l} \binom{l-k}{m} (-1)^{q+k-n}\binom{-n-1}{q+k-n} \\
+		&= (-1)^{q-n} \sum_{0 \le k \le l} \binom{l-k}{m} \binom{-n-1}{q+k-n} (-1)^k \\
+		&= (-1)^{q-n} (-1)^{l+m} \binom{-n-1-m-1}{l-m-n-q} \\
+		&= (-1)^{q-n} (-1)^{l+m} (-1)^{l-m-n+q} \binom{l+q+1}{l-m-n+q} \\
+		&= (-1)^{2l + 2n + 2q} \binom{l+q+1}{l+q-n-m} \\
+		&= \binom{l+q+1}{n+m+1}
+	\end{align*}
 \end{itemize}
 
 \question{Problem 2} {5-43}
@@ -97,6 +118,22 @@
 \question{Problem 5} {Evaluate $$\frac{1}{N} \sum_{1 \le k \le N} \sum_{t} \frac{t \binom{N-k}{t} \binom{k-1}{t}}{\binom{N-1}{k-1}}$$}
 
 \part{Answer:}
+
+\begin{flalign*}
+\frac{1}{N} \sum_{1 \le k \le N} \sum_{t} \frac{t \binom{N-k}{t} \binom{k-1}{t}}{\binom{N-1}{k-1}} 
+	&= \frac{1}{N} \sum_{1 \le k \le N} \frac{1}{\binom{N-1}{k-1}} \sum_{t} t \binom{N-k}{t} \binom{k-1}{t} \\
+	&= \frac{1}{N} \sum_{1 \le k \le N} \frac{1}{\binom{N-1}{k-1}} \sum_{t} \binom{N-k}{t} \binom{k-2}{t-1} (k-1) 
+		&& \because \binom{r}{k} = \frac{r}{k} \binom{r-1}{k-1} \\
+	&= \frac{1}{N} \sum_{1 \le k \le N} \frac{1}{\binom{N-1}{k-1}} (k-1) \binom{N-2}{N-k-1}
+		&& \because \text{(5.23)} \\
+	&= \frac{1}{N} \sum_{1 \le k \le N} \frac{1}{\binom{N-1}{k-1}} (k-1) \binom{N-2}{k-1}
+		\\
+	&= \frac{1}{N} \sum_{1 \le k \le N} (k-1) \frac{N-k}{N-1} \\
+	&= \frac{1}{N(N-1)} \sum_{1 \le k \le N} \left [ N(k-1) + (k-k^2) \right ] \\
+	&= \frac{1}{N(N-1)} \left [ N \frac{N(N-1)}{2} + \frac{N(N+1)}{2} - \frac{N(N+1)(2N+1)}{6} \right ] \\
+	&= \frac{N}{2} + \frac{N+1}{2(N-1)} - \frac{(N+1)(2N+1)}{2(N-1)} 
+		= \frac{N}{2} - \frac{N(N+1)}{N-1}\\
+\end{flalign*}
 
 \question{Problem 6} {
 }
