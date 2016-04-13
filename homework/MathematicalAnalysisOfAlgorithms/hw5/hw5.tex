@@ -79,9 +79,9 @@
 \part{Answer:}
 
 \begin{itemize}
-	\item Part 1
+	\item Part 1: 推導式 5.25，
 	\begin{align*}
-		& \sum_{k \le l} \binom{l-k}{m} \binom{s}{k-n} (-1)^k \\
+		& \sum_{k \le l} \binom{l-k}{m} \binom{s}{k-n} (-1)^k 	&& \text{必須滿足} m \ge 0 \text{，否則 } \binom{l-k}{m} = 0 \\
 		& = \sum_{k \le l} \binom{l-k}{l-k-m} \binom{s}{k-n} (-1)^k
 		&& \because \binom{l-k}{m} = \binom{l-k}{l-k-m} \\
 		& = \sum_{k \le l} (-1)^{l-k-m} \binom{-m-1}{l-k-m} \binom{s}{k-m} (-1)^k
@@ -90,28 +90,64 @@
 		&& \because \text{(5.22), } \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n} \\
 		& = (-1)^{l-m} \binom{s-m-1}{l-m+n}
 	\end{align*}
-	\item Part 2
+	得證式 5.25。範圍僅 $m \ge 0$ 是必要的。若 $n \ge 0$，則 $k$ 代入時只有非負情況有值 (因 $\binom{s}{k-n}$)，此時又因 $m \ge 0$，和 $\binom{l-k}{m}$ 非零，則 $l \ge 0$，最後得到 $l, m, n \ge 0$。
+	\item Part 2: 推導式 5.26
 	\begin{align*}
 		& \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{n} \\
-		&= \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{q+k-n} \\
-		&= \sum_{0 \le k \le l} \binom{l-k}{m} (-1)^{q+k-n}\binom{-n-1}{q+k-n} \\
+		&= \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{q+k-n} && \text{對稱性質} \\
+		&= \sum_{0 \le k \le l} \binom{l-k}{m} (-1)^{q+k-n}\binom{-n-1}{q+k-n} && \text{利用 upper negation}\\
 		&= (-1)^{q-n} \sum_{0 \le k \le l} \binom{l-k}{m} \binom{-n-1}{q+k-n} (-1)^k \\
-		&= (-1)^{q-n} (-1)^{l+m} \binom{-n-1-m-1}{l-m-n-q} \\
+		&= (-1)^{q-n} (-1)^{l+m} \binom{-n-1-m-1}{l-m-n-q} 
+			&& \text{代}\; 5.25 \;
+				(l,m,n,s) \leftarrow (l, m, n-q, -n-1)\\
 		&= (-1)^{q-n} (-1)^{l+m} (-1)^{l-m-n+q} \binom{l+q+1}{l-m-n+q} \\
 		&= (-1)^{2l + 2n + 2q} \binom{l+q+1}{l+q-n-m} \\
 		&= \binom{l+q+1}{n+m+1}
 	\end{align*}
+	得證式 5.26。代入式 5.25 推導時，必須滿足 $n-q \ge 0$ 和 $l, m \ge 0$，在 5.26 定義的範圍 $l, m \ge 0$ 及 $n \ge q \ge 0$ 滿足推導所需。
 \end{itemize}
 
 \question{Problem 2} {5-43}
 
 \part{Answer:}
 
-\question{Problem 3} {5-58}
+\question{Problem 3} {5-58 If $m$ and $n$ are integers with $0 \le m \le n$, let
+	$$T_{m,n} = \sum_{0 \le k < n} \binom{k}{m} \frac{1}{n-k}$$
+	Find a relation between $T_{m,n}$ and $T_{m-1,n-1}$, then solve your recurrence
+	by applying a summation factor.
+}
 
 \part{Answer:}
 
-\question{Problem 4} {5-24}
+\begin{flalign*}
+T_{m,n} &= \sum_{0 \le k < n} \binom{k}{m} \frac{1}{n-k} \\
+	&= \sum_{1 \le k < n} \frac{k}{m} \binom{k-1}{m-1} \frac{1}{n-k} && \text{let } m > 0, \; \binom{k}{m} = \frac{k}{m} \binom{k-1}{m-1}\\
+	&= \sum_{1 \le k < n} \frac{(k-n)+n}{m} \binom{k-1}{m-1} \frac{1}{n-k} && \text{嘗試消除 }\; n-k\\
+	&= \sum_{1 \le k < n} \frac{k-n}{m} \binom{k-1}{m-1} \frac{1}{n-k} + \sum_{1 \le k < n} \frac{n}{m} \binom{k-1}{m-1} \frac{1}{n-k} \\
+	&= - \frac{1}{m} \sum_{1 \le k < n} \binom{k-1}{m-1} +
+		\sum_{0 \le k < n-1} \frac{n}{m} \binom{k}{m-1} \frac{1}{n-k-1} && \text{代入} \; \sum_{0 \le k \le n} \binom{k}{m} = \binom{n+1}{m+1}, \; \text{修正下標} \\
+	&= - \frac{1}{m} \binom{n-1}{m} + \frac{n}{m} T_{m-1, n-1}
+\end{flalign*}
+
+\begin{itemize}
+	\item 
+		得到 $T_{m,n} = \frac{n}{m} T_{m-1,n-1} - \frac{1}{m} \binom{n-1}{m}$
+	\item
+		Summation factor ($0 \le m \le n$)
+	$$s_n = \frac{a_{n-1} a_{n-2} \cdots a_1}{b_n b_{n-1} \cdots b_2} = \frac{1}{\frac{n}{m} \frac{n-1}{m-1} \cdots} =\binom{n}{m}^{-1}$$
+	\item
+		改寫原式
+		$$\frac{T_{m,n}}{\binom{n}{m}} = \frac{T_{m-1,n-1}}{\binom{n-1}{m-1}} + \frac{1}{n} - \frac{1}{m}$$
+	\item 
+		展開遞迴式得到
+		\begin{align*}
+			\frac{T_{m,n}}{\binom{n}{m}} &= T_{0,n-m} + H_n - H_m - H_{n-m}	\\
+			&= H_{n-m} + H_n - H_m - H_{n-m} \\
+		\Rightarrow T_{m,n} &= \binom{n}{m} (H_n - H_m)
+		\end{align*}
+\end{itemize}
+
+\question{Problem 4} {5-24 Find $\sum_k \binom{n}{m+k} \binom{m+k}{2k} 4^k$ by using hypergeometric series.}
 
 \part{Answer:}
 
@@ -130,14 +166,70 @@
 		\\
 	&= \frac{1}{N} \sum_{1 \le k \le N} (k-1) \frac{N-k}{N-1} \\
 	&= \frac{1}{N(N-1)} \sum_{1 \le k \le N} \left [ N(k-1) + (k-k^2) \right ] \\
-	&= \frac{1}{N(N-1)} \left [ N \frac{N(N-1)}{2} + \frac{N(N+1)}{2} - \frac{N(N+1)(2N+1)}{6} \right ] \\
 	&= \frac{N}{2} + \frac{N+1}{2(N-1)} - \frac{(N+1)(2N+1)}{2(N-1)} 
 		= \frac{N}{2} - \frac{N(N+1)}{N-1}\\
 \end{flalign*}
 
-\question{Problem 6} {
+\question{Problem 6} {Let $S(n)$ be the worst-case number of comparisons needed by \textbf{Merge Sort} to sort $n$ numbers. The algorithm of the program shows that 
+	\begin{align*}
+		S(n) &= S(\lfloor n/2 \rfloor) + S(\lceil n/2 \rceil) + n-1, \; n > 1; \\
+		S(1) &= 0
+	\end{align*}
+	Solve the recurrence for the general case, for $n = 1, \;2, \;3, \cdots$
 }
 
 \part{Answer:}
+
+\begin{enumerate}
+	\item 對於每一個序列元素在每一層貢獻比較次數 1，之後再扣掉總共展開幾次 $S(n)$，如此一來就可以算出 $S(n)$ 累加的 $n-1$ 次的花費。
+	\item Merge Sort 總共有 $\lceil \lg N \rceil$ 層，然而並不是每一個序列元素都經過 $\lceil \lg N \rceil$ 層，無關緊要地假想排列一個元素時，依舊多展開一層，直到 $\lceil \lg N \rceil$ 層。這次估算至少需要 $N \lceil \lg N \rceil$ 比較次數。
+	\item 由於每一次遞迴，恰有一個元素不用比較，統計呼叫函數的次數，在 $\lceil \lg N \rceil$ 層中，總共呼叫 $2^{\lceil \lg N \rceil} - 1$ 次。在扣掉的同時，順便單一元素衍伸出來的那一層比較次數扣掉，故不影響原本的答案。
+	\item 得到 $S(n) = N \lceil \lg N \rceil - 2^{\lceil \lg N \rceil} + 1$。接著用數學歸納法，證明推測的公式是正確的。
+\end{enumerate}
+
+\begin{itemize}
+	\item 當 $n = 1$ 時，$S(1) = 0 = 1 \times 0 - 2^0 +1 = 0$ 成立。
+	\item 當 $n = 2$ 時，$S(2) = S(1) + S(1) + 1 = 2 \times 1 - 2^1 +1 = 1$ 成立。
+	\item 假設 $k \le n-1$ 時皆成立，則 $S(n)$ 分成幾種情況考慮
+		\begin{itemize}
+			\item 若 $N$ 是偶數，則 
+				\begin{align*}
+			S(N) &= 2S(N/2) + n-1 \\
+			&= 2 \frac{N}{2} \left \lceil \lg \frac{N}{2} \right \rceil - 2^{\left \lceil \lg \frac{N}{2} \right \rceil + 1} + 2 + N - 1 \\
+			&= N (\left \lceil \lg \frac{N}{2} + 1 \right \rceil) - 2^{\left \lceil \lg \frac{N}{2} \right \rceil + 1} + 1 \\
+			&= N \left \lceil \lg N \right \rceil - 2^{\left \lceil \lg N \right \rceil} + 1
+				&& \text{成立}
+				\end{align*}
+			\item 若 $N$ 是奇數且滿足 
+				$\left \lceil \lg \frac{N-1}{2} \right \rceil = \left \lceil \lg \frac{N+1}{2} \right \rceil$，則 
+				\begin{align*}
+			S(N) &= \frac{N-1}{2} \left \lceil \lg \frac{N-1}{2} \right \rceil - 2^{\left \lceil \lg \frac{N-1}{2} \right \rceil} + 1 +
+			\frac{N+1}{2} \left \lceil \lg \frac{N+1}{2} \right \rceil - 2^{\left \lceil \lg \frac{N+1}{2} \right \rceil} + 1 + N-1 \\
+				&= N \left \lceil \lg \frac{N-1}{2} \right \rceil - 2^{\left \lceil \lg \frac{N+1}{2} \right \rceil + 1} + N+1 \\
+				&= N \left \lceil \lg \frac{N+1}{2} + 1\right \rceil - 2^{\left \lceil \lg \frac{N+1}{2} + 1\right \rceil} + 1 \\
+				&= N \left \lceil \lg (N+1) \right \rceil - 2^{\left \lceil \lg (N+1) \right \rceil} + 1 \\
+				&= N \left \lceil \lg N \right \rceil - 2^{\left \lceil \lg N \right \rceil} + 1
+				\end{align*}
+			\item 若 $N$ 是奇數且滿足 
+				$\left \lceil \lg \frac{N-1}{2} \right \rceil \neq \left \lceil \lg \frac{N+1}{2} \right \rceil$，則只有一種可能 $\left \lceil \lg \frac{N-1}{2} \right \rceil +1 = \left \lceil \lg \frac{N+1}{2} \right \rceil$，求解交集得到 $N=2^{m+1}+1, \; m \ge 0$。
+				\begin{itemize}
+					\item
+				令 $N = 2^{m+1}+1, \; \lceil \lg N \rceil = m+2$
+					\item 
+					\begin{align*}
+						S(N) &= \frac{N-1}{2} m - 2^m + 1 + \frac{N+1}{2} (m+1) - 2^{m+1} + 1 + N - 1 \\
+							&= Nm + \frac{N+1}{2} - 3 \times 2^m + N + 1 \\
+							&= Nm + \frac{N+1}{2} - 2^{m+1} - 2^m + N +1 \\
+							&= Nm + \frac{2^{m+1}+2}{2} - 2^{m+1} - 2^m + N + 1 \\
+							&= Nm + 1 - 2^{m+1} + N + 1 \\
+							&= Nm + 3 \\
+							&= N(m+2) - 2N + 3 \\
+							&= N \left \lceil \lg N \right \rceil - (2^{m+2} + 2) + 3 \\
+							&= N \left \lceil \lg N \right \rceil - 2^{\left \lceil \lg N \right \rceil} + 1
+					\end{align*}
+				\end{itemize}
+			\item 由數學歸納法得證。
+		\end{itemize}
+\end{itemize}
 
 \end{document}
