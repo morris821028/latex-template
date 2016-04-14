@@ -62,19 +62,24 @@
 % but replacing "The First Problem" with a short phrase will help you remember
 % which problem this is when you read over your homeworks to study.
 
-
-\question{Problem 1} {5-14 Prove identity (5.25) by negating the upper index in
-	Vandermonde's convolution (5.22). Then show that another negation yields (5.26).
-}
+\part{應用的課本公式列表}
 
 \begin{flalign*}
+& \binom{r}{m} \binom{m}{k} = \binom{r}{k} \binom{r-k}{m-k}
+	&& \text{, integers } m, k && \text{(5.21)} \\
 & \sum_k \binom{r}{m+k} \binom{s}{n-k} = \binom{r+s}{m+n}	
 		&& \text{, integers } m, n && \text{(5.22)} \\
 & \sum_{k \le l} \binom{l-k}{m} \binom{s}{k-n} (-1)^k = (-1)^{l+m} \binom{s-m-1}{l-m-n}
 		&& \text{, integers } l, m, n \ge 0 && \text{(5.25)} \\
 & \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{n} = \binom{l+q+1}{m+n+1}
-		&& \text{, integers } l, m > 0 \text{, integers } n \ge q \ge 0 && \text{(5.26)}
+		&& \text{, integers } l, m > 0 \text{, integers } n \ge q \ge 0 && \text{(5.26)} \\
+& \sum_k \binom{m-r+s}{k} \binom{n+r-s}{n-k} \binom{r+k}{m+n} = \binom{r}{m} \binom{s}{n}
+		&& \text{, integers } m, n && \text{(5.28)} 
 \end{flalign*}
+
+\question{Problem 1} {5-14 Prove identity (5.25) by negating the upper index in
+	Vandermonde's convolution (5.22). Then show that another negation yields (5.26).
+}
 
 \part{Answer:}
 
@@ -107,9 +112,29 @@
 	得證式 5.26。代入式 5.25 推導時，必須滿足 $n-q \ge 0$ 和 $l, m \ge 0$，在 5.26 定義的範圍 $l, m \ge 0$ 及 $n \ge q \ge 0$ 滿足推導所需。
 \end{itemize}
 
-\question{Problem 2} {5-43}
+\question{Problem 2} {5-43 Prove the triple-binomial identity (5.28). Hint: First replace $\binom{r+k}{m+n}$ by $\sum_j \binom{r}{m+n-j} \binom{k}{j}$ }
 
 \part{Answer:}
+
+\begin{align*}
+& \sum_k \binom{m-r+s}{k} \binom{n+r-s}{n-k} \binom{r+k}{m+n} \\
+&= \sum_k \binom{m-r+s}{k} \binom{n+r-s}{n-k} \left ( \sum_j \binom{r}{m+n-j} \binom{k}{j} \right ) 
+	&& \text{5.22 替換}  \\
+&= \sum_k \binom{n+r-s}{n-k} \left ( \sum_j \binom{r}{m+n-j} \binom{m-r+s}{k} \binom{k}{j} \right ) 
+	&& \text{5.21 移除}\; k \\
+&= \sum_k \binom{n+r-s}{n-k} \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \binom{m-r+s-j}{k-j} 
+	&& \text{重新排列} \\
+&= \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \sum_k \binom{n+r-s}{n-k} \binom{m-r+s-j}{k-j} \\
+&= \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \sum_k \binom{m-r+s-j}{-j+k} \binom{n+r-s}{n-k} 
+	&& \text{5.22 替換}\\
+&= \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \binom{n+m-j}{n-j} \\
+&= \sum_j \binom{n-r+s}{j} \binom{r}{m+n-j} \binom{m+n-j}{m} 
+	&& \text{對稱性質, 5.21 提出常數項} \\
+&= \sum_j \binom{n-r+s}{j} \binom{r}{m} \binom{r-m}{n-j} \\
+&= \binom{r}{m} \sum_j \binom{n-r+s}{j} \binom{r-m}{n-j} \\
+&= \binom{r}{m} \binom{s}{n} 
+	&& \text{得證}
+\end{align*}
 
 \question{Problem 3} {5-58 If $m$ and $n$ are integers with $0 \le m \le n$, let
 	$$T_{m,n} = \sum_{0 \le k < n} \binom{k}{m} \frac{1}{n-k}$$
@@ -150,6 +175,31 @@ T_{m,n} &= \sum_{0 \le k < n} \binom{k}{m} \frac{1}{n-k} \\
 \question{Problem 4} {5-24 Find $\sum_k \binom{n}{m+k} \binom{m+k}{2k} 4^k$ by using hypergeometric series.}
 
 \part{Answer:}
+
+\begin{itemize}
+	\item 當 $k = 0$ 時，$t_0 = \binom{n}{m} \binom{m}{0} 4^0 = \binom{n}{m}$。
+	\item 求 $\frac{t_{k+1}}{t_k} = ?$，
+	$$\frac{t_{k+1}}{t_k} = \frac{\binom{n}{m+k+1}\binom{m+k+1}{2k+2} 4^{k+1}}{\binom{n}{m+k}\binom{m+k}{2k} 4^k} = \frac{(n-m-k)(m-k)}{(2k+2)(2k+1)} \times 4 = \frac{(k-m)(k-n+m)}{(k+\frac{1}{2})(k+1)}$$
+	\item 
+		\begin{align*}
+		\binom{n}{m} F \left (\left.\begin{matrix}
+m-n, -m & \\ 
+ 1/2 & 
+\end{matrix}\right|1 \right) &= \binom{n}{m} \frac{(1/2-m+n)^{\overline{m}}}{(1/2)^{\overline{m}}} 
+			&& \because \text{5.93,} \; F \left (\left.\begin{matrix}
+a, -n & \\ 
+ c & 
+\end{matrix}\right|1 \right) = \frac{(c-a)^{\overline{n}}}{c^{\overline{n}}}\\
+			&= \binom{n}{m} \frac{(n-\frac{1}{2})!}{(m-\frac{1}{2})!(n-m-\frac{1}{2})!} \\
+			&= \binom{n}{m} \frac{(n-\frac{1}{2})!m!}{(m-\frac{1}{2})!(n-m-\frac{1}{2})!m!} \\
+			&= \binom{n}{m} \binom{n-\frac{1}{2}}{m} \frac{m!}{(m-\frac{1}{2})!} \\
+			&= \binom{2n}{2m} \binom{2m}{m} \frac{1}{2^{2m}} \frac{m!}{(m-\frac{1}{2})!} 
+				&& \because \text{5.25,} \; \binom{r}{k} \binom{r-1/2}{k} = \binom{2r}{2k} \binom{2k}{k}/2^{2k} \\
+			&= \binom{2n}{2m} \frac{(2m)!}{m!m!} \frac{m!}{2^{2m} (m-\frac{1}{2})!} 
+				&& \because (2m)! = 2^{2m} m! (m-1/2)!\\
+			&= \binom{2n}{2m}
+		\end{align*}
+\end{itemize}
 
 \question{Problem 5} {Evaluate $$\frac{1}{N} \sum_{1 \le k \le N} \sum_{t} \frac{t \binom{N-k}{t} \binom{k-1}{t}}{\binom{N-1}{k-1}}$$}
 
