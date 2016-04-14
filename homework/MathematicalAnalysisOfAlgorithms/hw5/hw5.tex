@@ -74,7 +74,9 @@
 & \sum_{0 \le k \le l} \binom{l-k}{m} \binom{q+k}{n} = \binom{l+q+1}{m+n+1}
 		&& \text{, integers } l, m > 0 \text{, integers } n \ge q \ge 0 && \text{(5.26)} \\
 & \sum_k \binom{m-r+s}{k} \binom{n+r-s}{n-k} \binom{r+k}{m+n} = \binom{r}{m} \binom{s}{n}
-		&& \text{, integers } m, n && \text{(5.28)} 
+		&& \text{, integers } m, n && \text{(5.28)} \\
+& \binom{r}{k} \binom{r-1/2}{k} = \binom{2r}{2k} \binom{2k}{k} \bigg/2^{2k} 
+		&& \text{, integers} k && \text{(5.35)}
 \end{flalign*}
 
 \question{Problem 1} {5-14 Prove identity (5.25) by negating the upper index in
@@ -194,11 +196,16 @@ a, -n & \\
 			&= \binom{n}{m} \frac{(n-\frac{1}{2})!m!}{(m-\frac{1}{2})!(n-m-\frac{1}{2})!m!} \\
 			&= \binom{n}{m} \binom{n-\frac{1}{2}}{m} \frac{m!}{(m-\frac{1}{2})!} \\
 			&= \binom{2n}{2m} \binom{2m}{m} \frac{1}{2^{2m}} \frac{m!}{(m-\frac{1}{2})!} 
-				&& \because \text{5.25,} \; \binom{r}{k} \binom{r-1/2}{k} = \binom{2r}{2k} \binom{2k}{k}/2^{2k} \\
+				&& \because \text{5.35}  \\
 			&= \binom{2n}{2m} \frac{(2m)!}{m!m!} \frac{m!}{2^{2m} (m-\frac{1}{2})!} 
 				&& \because (2m)! = 2^{2m} m! (m-1/2)!\\
 			&= \binom{2n}{2m}
 		\end{align*}
+	\item
+		得 $\sum_k \binom{n}{m+k} \binom{m+k}{2k} 4^k = \binom{n}{m} F \left (\left.\begin{matrix}
+m-n, -m & \\ 
+ 1/2 & 
+\end{matrix}\right|1 \right) = \binom{2n}{2m}$
 \end{itemize}
 
 \question{Problem 5} {Evaluate $$\frac{1}{N} \sum_{1 \le k \le N} \sum_{t} \frac{t \binom{N-k}{t} \binom{k-1}{t}}{\binom{N-1}{k-1}}$$}
