@@ -130,10 +130,10 @@
 &= \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \sum_k \binom{m-r+s-j}{-j+k} \binom{n+r-s}{n-k} 
 	&& \text{5.22 替換}\\
 &= \sum_j \binom{r}{m+n-j} \binom{m-r+s}{j} \binom{n+m-j}{n-j} \\
-&= \sum_j \binom{n-r+s}{j} \binom{r}{m+n-j} \binom{m+n-j}{m} 
+&= \sum_j \binom{m-r+s}{j} \binom{r}{m+n-j} \binom{m+n-j}{m} 
 	&& \text{對稱性質, 5.21 提出常數項} \\
-&= \sum_j \binom{n-r+s}{j} \binom{r}{m} \binom{r-m}{n-j} \\
-&= \binom{r}{m} \sum_j \binom{n-r+s}{j} \binom{r-m}{n-j} \\
+&= \sum_j \binom{m-r+s}{j} \binom{r}{m} \binom{r-m}{n-j} \\
+&= \binom{r}{m} \sum_j \binom{m-r+s}{j} \binom{r-m}{n-j} \\
 &= \binom{r}{m} \binom{s}{n} 
 	&& \text{得證}
 \end{align*}
