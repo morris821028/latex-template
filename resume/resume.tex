@@ -1,0 +1,144 @@
+\documentclass[a4paper,10pt]{article}
+
+%A Few Useful Packages
+\usepackage{marvosym}
+%\usepackage{fontspec} 					%for loading fonts
+\usepackage{xunicode,xltxtra,url,parskip} 	%other packages for formatting
+\RequirePackage{color,graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[big]{layaureo} 				%better formatting of the A4 page
+% an alternative to Layaureo can be ** \usepackage{fullpage} **
+\usepackage{supertabular} 				%for Grades
+\usepackage{titlesec}					%custom \section
+
+%Setup hyperref package, and colours for links
+\usepackage{hyperref}
+\definecolor{linkcolour}{rgb}{0,0.2,0.6}
+\hypersetup{colorlinks,breaklinks,urlcolor=linkcolour, linkcolor=linkcolour}
+
+%FONTS
+\usepackage{fontspec}   %加這個就可以設定字體
+\usepackage{xeCJK}       %讓中英文字體分開設置
+\setCJKmainfont{STHeiti} % chinese type
+
+%\defaultfontfeatures{Mapping=tex-text}
+%\setmainfont[SmallCapsFont = Fontin SmallCaps]{Fontin}
+%%% modified for Karol Kozioł for ShareLaTeX use
+%\setmainfont[
+%SmallCapsFont = Fontin-SmallCaps.otf,
+%BoldFont = Fontin-Bold.otf,
+%ItalicFont = Fontin-Italic.otf
+%]
+%{Fontin.otf}
+%%%
+
+%CV Sections inspired by: 
+%http://stefano.italians.nl/archives/26
+\titleformat{\section}{\Large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{3pt}{3pt}
+%Tweak a bit the top margin
+%\addtolength{\voffset}{-1.3cm}
+
+%Italian hyphenation for the word: ''corporations''
+\hyphenation{im-pre-se}
+
+%-------------WATERMARK TEST [**not part of a CV**]---------------
+\usepackage[absolute]{textpos}
+
+\setlength{\TPHorizModule}{30mm}
+\setlength{\TPVertModule}{\TPHorizModule}
+\textblockorigin{2mm}{0.65\paperheight}
+\setlength{\parindent}{0pt}
+
+%--------------------BEGIN DOCUMENT----------------------
+\begin{document}
+
+%WATERMARK TEST [**not part of a CV**]---------------
+%\font\wm=''Baskerville:color=787878'' at 8pt
+%\font\wmweb=''Baskerville:color=FF1493'' at 8pt
+%{\wm 
+%	\begin{textblock}{1}(0,0)
+%		\rotatebox{-90}{\parbox{500mm}{
+%			Typeset by Alessandro Plasmati with \XeTeX\  \today\ for 
+%			{\wmweb \href{http://www.aleplasmati.comuv.com}{aleplasmati.comuv.com}}
+%		}
+%	}
+%	\end{textblock}
+%}
+
+\pagestyle{empty} % non-numbered pages
+
+\font\fb=''[cmr10]'' %for use with \LaTeX command
+
+%--------------------TITLE-------------
+\par{\centering
+		{\Huge 楊翔雲 \textsc{Shiang-Yun Yang}
+	}\bigskip\par}
+
+%--------------------SECTIONS-----------------------------------
+%Section: Personal Data
+\section{個人資料}
+
+\begin{tabular}{rl}
+    \textsc{行動電話} & 0921 953021\\
+    \textsc{電子郵件} & \href{mailto:morris821028@gmail.com}{morris821028@gmail.com} \\
+    \textsc{Github}  & \url{https://github.com/morris821028}
+\end{tabular}
+
+%Section: Work Experience at the top
+\section{工作經驗}
+\begin{tabular}{r|p{11cm}}
+ \emph{現在} & 無業 \\\textsc{2015/07}& \emph{}\\&\footnotesize{一片空白}\\\multicolumn{2}{c}{} \\
+ 
+\end{tabular}
+
+%Section: Education
+\section{學習經歷}
+\begin{tabular}{rl}	
+	2015/07 & 國立台灣大學資訊工程學研究所 \\
+		& 平行及分散式實驗室，指導教授劉邦鋒 \\
+	2012-2015 & 國立中央大學資訊工程學系 \\
+	2011-2012 & 國立中興大學資訊科學與工程學系 \\
+\end{tabular}
+
+%Section: Education
+\section{競賽經歷}
+\begin{tabular}{rl}	
+	\textsc{The 2011 ACM-ICPC Asia Hsinchu Regional Contest} & Fourteen Place \\
+	\textsc{The 2012 ACM-ICPC Asia Hsinchu Regional Contest} & Honorable Mention \\
+	2012 中區大專院校程式設計競賽 & 佳作 \\
+	2013 中區大專院校程式設計競賽 & 第一名 \\
+	2014 中區大專院校程式設計競賽 & 第二名 \\
+	2013 靜宜大學全國程式設計競賽 & 特優 \\
+	2011 年 ITSA 線上程式設計大賽 & 績優團隊 4 次 \\
+	2012 年 ITSA 線上程式設計大賽 & 績優團隊 2 次 \\
+	2012/02 PTC 國際大專院校程式設計競賽  & 排名第二名 \\
+	100 年度全國大專電腦軟體設計競賽 & 甲組 佳作 \\
+	101 年度全國大專電腦軟體設計競賽 & 甲組 第二名 \\
+	101 年度 03/08 全國大專 ITSA 盃程式設計桂冠挑戰賽 & 菁英組第二名 \\
+	101 年度 06/25 全國大專 ITSA 盃程式設計桂冠挑戰賽 & 挑戰組第三名 \\
+	大學程式能力檢定 (2011 年 03 月 27 日) & A+(解題數 7 題) \\
+	高中生程式解題系統 ZeroJudge 	& 解題總計 1200+ 題 \\
+	\textsc{UVa} Online Judge 	& 解題總計 3100+ 題
+\end{tabular}
+
+%Section: Languages
+\section{語言能力}
+\begin{tabular}{rl}
+	\textsc{中文} & 母語 \\
+	\textsc{英文} & 不行 \\
+\end{tabular}
+
+%Section: Computer Skills
+\section{專長技巧}
+\begin{tabular}{rl}
+	基礎能力: & \textsc{C/C++}\\
+\end{tabular}
+
+%Section: Interests and Activities 
+\section{興趣嗜好}
+線上解題、優化算法
+
+\newpage
+
+\end{document}
