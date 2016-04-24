@@ -1,0 +1,242 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{6}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Problem 1} {6-12 Prove that Stirling numbers have an inversion law
+	analogous to (5.48):
+	\begin{align*}
+		g(n) = \sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} f(k)
+		\Leftrightarrow 
+		f(n) = \sum_{k} \begin{bmatrix} n \\ k \end{bmatrix} (-1)^{k} g(k)
+	\end{align*}
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 證明 ($\Rightarrow$)，如果 $g(n) = \sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} f(k)$，則
+		\begin{align*}
+			\sum_{k} \begin{bmatrix} n \\ k \end{bmatrix} (-1)^{k} g(k) 
+				&=	\sum_{k} \begin{bmatrix} n \\ k \end{bmatrix} 
+					\sum_j \begin{Bmatrix} k \\ j \end{Bmatrix}(-1)^j f(j)\\
+				&=	\sum_{j} f(j) \sum_{k} \begin{bmatrix} n \\ k \end{bmatrix}
+					\begin{Bmatrix} k \\ j \end{Bmatrix} (-1)^{k+j} 
+						&& \text{重新排列}\\
+				&=	\sum_{j} f(j) \sum_{k} \begin{bmatrix} n \\ k \end{bmatrix}
+					\begin{Bmatrix} k \\ j \end{Bmatrix} (-1)^{j-k} 
+						&& \because \text{(6.31)} 
+						\sum_{k} \begin{bmatrix} n \\ k \end{bmatrix}
+						\begin{Bmatrix} k \\ m \end{Bmatrix} (-1)^{n-k} = [m = n] \\
+				&= \sum_{j} f(j) [n = j]\\
+				&= f(n)
+		\end{align*}
+	\item 同理 ($\Leftarrow$)，如果 $f(n) = \sum_{k} \begin{bmatrix} n \\ k \end{bmatrix} (-1)^{k} g(k)$，則
+		\begin{align*}
+			\sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} f(k)
+				&=	\sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} 
+					\sum_{j} \begin{bmatrix} k \\ j \end{bmatrix} (-1)^{j} g(j) \\
+				&=	\sum_{j} g(j) \sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k}
+					\begin{bmatrix} k \\ j \end{bmatrix} (-1)^{j-k} \\
+				&= \sum_{j} g(j) [n = j] \\
+				&= g(n)
+		\end{align*}
+\end{itemize}
+
+\newpage
+
+\question{Problem 2} {6-20 Find a closed form for $\sum_{k=1}^{n} H_k^{(2)}$
+}
+
+\part{Answer:}
+
+\begin{align*}
+\sum_{k=1}^{n} H_n^{(2)} 
+	&= \sum_{1 \le k \le n} \sum_{1 \le j \le k} \frac{1}{j^2} \\
+	&= \sum_{1 \le j \le k \le n} \frac{1}{j^2} \\
+	&= \sum_{1 \le j \le n} \frac{1}{j^2} (n - j + 1) 
+		&& \text{每一項} \frac{1}{j^2} \text{ 出現} n - j + 1 \text{ 次} \\
+	&= \sum_{1 \le j \le n} \frac{n+1}{j^2} - \sum_{1 \le j \le n} \frac{1}{j} \\
+	&= (n+1) H_n^{(2)} - H_n
+\end{align*}
+
+得 $\sum_{k=1}^{n} H_n^{(2)} = (n+1) H_n^{(2)} - H_n$。
+
+\question{Problem 3} {6-39 Express $\sum_{k=1}^{n} H_k^2$ in terms of $n$ and $H_n$.
+}
+
+\part{Answer:}
+
+\begin{align*}
+\sum_{k=1}^{n} H_k^2 
+	&= \sum_{1 \le k \le n} \sum_{1 \le j \le k} H_k \times \frac{1}{j} \\
+	&= \sum_{1 \le j \le k \le n} \frac{1}{j} H_k \\
+	&= \sum_{1 \le j \le n} \frac{1}{j} \sum_{j \le k \le n} H_k \\
+	&= \sum_{1 \le j \le n} \frac{1}{j} \left ( (n+1) H_{n+1} - (n+1)
+			- j H_j + j\right ) \\
+	&= \left ( (n+1) H_{n+1} - (n+1) \right ) \sum_{1 \le j \le n} \frac{1}{j}
+			- \sum_{1 \le j \le n} (H_j - 1) \\
+	&= \left ( (n+1) H_{n+1} - (n+1) \right ) H_n
+			- \left ( (n+1) H_{n+1} - (n+1) \right ) + n \\
+	&= (n+1) H_{n+1} H_n - (n+1) H_n - (n+1) H_{n+1} + 2n - 1 \\
+	&= ((n+1) H_{n} + 1) H_n - (n+1) H_n - ((n+1) H_{n} + 1) + 2n - 1 \\
+	&= (n+1) H_{n}^2 - (2n+1) H_n + 2n
+\end{align*}
+
+得 $\sum_{k=1}^{n} H_k^2 = (n+1) H_{n}^2 - (2n+1) H_n + 2n$。
+
+\newpage
+
+\question{Problem 4} {5-49 Use the hypergeometric method to evaluate
+	$$\sum_k (-1)^k \binom{x}{k} \binom{x+n-k}{n-k} \frac{y}{y+n-k}$$
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 代入 $k = 0$，得 $t_0 = \binom{x+n}{n} \frac{y}{y+n}$。
+	\item 
+		\begin{align*}
+			\frac{t_{k+1}}{t_k} 
+				&= \frac{(-1)^{k+1} \binom{x}{k+1} \binom{x+n-k-1}{n-k-1} \frac{y}{y+n-k-1}}{(-1)^{k} \binom{x}{k} \binom{x+n-k}{n-k} \frac{y}{y+n-k}} \\
+				&= -1 \times \frac{\frac{x!}{(k+1)!(x-k-1)!}\frac{(x+n-k-1)!}{x!(n-k-1)!}\frac{1}{y+n-k-1}}{\frac{x!}{(k)!(x-k)!}\frac{(x+n-k)!}{x!(n-k)!}\frac{1}{y+n-k}} \\
+				&= -1 \frac{(x-k)(n-k)(y+n-k)}{(k+1)(x+n-k)(y+n-k-1)} \\
+				&= \frac{(k-x)(k-n)(k-(y+n))}{(k+1)(k-(x+n))(k-(y+n-1))} \\
+		\end{align*}
+	\item 
+		\begin{align*}
+			\text{原式}
+				&= \binom{x+n}{n} \frac{y}{y+n} 
+					F \left (\left.\begin{matrix} -x, -n, -y-n & \\  -x-n, -y-n+1 & 
+								\end{matrix}\right|1 \right ) 
+					&& \text{(5.97)} (a, b, -n, c)=(-x,-y-n, -n, -x-n)\\
+				&= \binom{x+n}{n} \frac{y}{y+n} 
+					\frac{(-x-n+x)^{\overline{n}} (-x-n+y+n)^{\overline{n}}}
+					{(-x-n)^{\overline{n}} (-x-n+x+y+n)^{\overline{n}}} \\
+				&= \binom{x+n}{n} \frac{y}{y+n}
+						\frac{(-n)^{\overline{n}} (y-x)^{\overline{n}}}
+						{(-x-n)^{\overline{n}} y^{\overline{n}}} \\
+				&= \frac{(x+n)^{\underline{n}}}{n^{\underline{n}}} \frac{y}{y+n}
+						\frac{(-1)^n n^{\underline{n}}}{(-1)^n (x+n)^{\underline{n}}}
+						\frac{(y-x)^{\overline{n}}}{y^{\overline{n}}} \\
+				&= \frac{y}{y+n} \frac{(y-x)^{\overline{n}}}{y^{\overline{n}}} \\
+				&= \frac{(y-x)^{\overline{n}}}{(y+1)^{\overline{n}}}
+		\end{align*}
+\end{itemize}
+
+\newpage 
+
+\question{Problem 5} {This problem analyzes a hashing method called \textbf{uniform hashing}.
+	\begin{align*}
+		p_{nk} &= Pr\{Y_n = k\} \\
+		p_{nk} &= Pr\{\text{slots } h_1(y), \cdots, h_{k-1}(y) \text{are occupied and slot } h_k(y) \text{ is not occupied} \}\\
+		p_{nk} &= \frac{n^{\underline{k-1}}}{m^{\underline{k}}} (m-n)
+	\end{align*}
+	\begin{description}
+		\item[a.] For $n < m$, compute $$E(Y_n) = \sum_{1 \le k \le n+1} k p_{nk}$$
+		\item[b.] Compute $E(X_n)$ using part (a), $$E(X_n) = \frac{1}{n} \sum_{1 \le k \le n} E(Y_{k-1})$$
+	\end{description}
+}
+
+\begin{description}
+	\item[a.] $\sum_{1 \le k \le n+1} k p_{nk} = \sum_{1 \le k \le n+1} k\frac{n^{\underline{k-1}}}{m^{\underline{k}}} (m-n) = (m-n) \sum_{1 \le k \le n+1} k\frac{n^{\underline{k-1}}}{m^{\underline{k}}}$，單獨計算 $\sum_{1 \le k \le n+1} k\frac{n^{\underline{k-1}}}{m^{\underline{k}}}$。
+		\begin{itemize}
+			\item 使用超幾何函數找解，將 $\sum_{1 \le k \le n+1} k\frac{n^{\underline{k-1}}}{m^{\underline{k}}}$ 相當於 $\sum_{k \ge 0} (k+1)\frac{n^{\underline{k}}}{m^{\underline{k+1}}}$
+			\item 當 $k = 0$ 代入，得到 $t_0 = \frac{1}{m}$。
+			\item 求 $\frac{t_{k+1}}{t_k}$
+				\begin{align*}
+					\frac{t_{k+1}}{t_k} &=
+						\frac{(k+2) \frac{n^{\underline{k+1}}}{m^{\underline{k+2}}}}{(k+1) \frac{n^{\underline{k}}}{m^{\underline{k+1}}}} \\
+							&= \frac{(k+2)(n-k)}{(k+1)(m-k-1)} \\
+							&= \frac{(k+2)(k-n)}{(k-m+1)(k+1)}
+				\end{align*}
+			\item 得超幾何表示 
+				\begin{align*}
+					\sum_{k \ge 0} (k+1)\frac{n^{\underline{k}}}{m^{\underline{k+1}}} 
+						&= \frac{1}{m} F \left (\left.\begin{matrix} 2, -n & \\  -m+1 & 
+								\end{matrix}\right|1 \right ) 
+								&& \text{代入式 (5.93) 化簡}\\
+						&= \frac{1}{m} \frac{(-m-1)^{\overline{n}}}{(-m+1)^{\overline{n}}} \\
+						&= \frac{1}{m} \frac{(-m-1)(-m)}{(-m-1+n)(-m+n)} \\
+						&= \frac{m+1}{(m-n+1)(m-n)}
+				\end{align*}
+		\end{itemize}
+		
+		最後將其代回原式
+		\begin{align*}
+			E(Y_n) &= \sum_{1 \le k \le n+1} k p_{nk} \\
+					&= (m-n) \sum_{1 \le k \le n+1} k\frac{n^{\underline{k-1}}}{m^{\underline{k}}} \\
+					&= (m-n) \frac{m+1}{(m-n+1)(m-n)} \\
+					&= (m+1)/(m-n+1)
+		\end{align*}
+	\item[b.] 代入 part a 的解。
+		\begin{align*}
+			E(X_n) &= \frac{1}{n} \sum_{1 \le k \le n} E(Y_{k-1}) \\
+				&= \frac{1}{n} \sum_{1 \le k \le n} \frac{m+1}{m-(k-1)+1} \\
+				&= \frac{m+1}{n} \sum_{1 \le k \le n} \frac{1}{m-k+2} \\
+				&= \frac{m+1}{n} (H_{m+1} - H_{m-n+1})
+		\end{align*}
+		
+		得 $E(X_n) = \frac{m+1}{n} (H_{m+1} - H_{m-n+1})$。
+\end{description}
+
+\end{document}
