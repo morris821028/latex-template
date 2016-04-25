@@ -84,7 +84,7 @@
 						&& \text{重新排列}\\
 				&=	\sum_{j} f(j) \sum_{k} \begin{bmatrix} n \\ k \end{bmatrix}
 					\begin{Bmatrix} k \\ j \end{Bmatrix} (-1)^{j-k} 
-						&& \because \text{(6.31)} 
+						&& \because \text{(6.31),} 
 						\sum_{k} \begin{bmatrix} n \\ k \end{bmatrix}
 						\begin{Bmatrix} k \\ m \end{Bmatrix} (-1)^{n-k} = [m = n] \\
 				&= \sum_{j} f(j) [n = j]\\
@@ -95,8 +95,9 @@
 			\sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} f(k)
 				&=	\sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k} 
 					\sum_{j} \begin{bmatrix} k \\ j \end{bmatrix} (-1)^{j} g(j) \\
-				&=	\sum_{j} g(j) \sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} (-1)^{k}
-					\begin{bmatrix} k \\ j \end{bmatrix} (-1)^{j-k} \\
+				&=	\sum_{j} g(j) \sum_{k} \begin{Bmatrix} n \\ k \end{Bmatrix} 
+					\begin{bmatrix} k \\ j \end{bmatrix} (-1)^{j-k} 
+					&& \because \text{(6.31)} \\
 				&= \sum_{j} g(j) [n = j] \\
 				&= g(n)
 		\end{align*}
@@ -168,7 +169,15 @@
 				&= \binom{x+n}{n} \frac{y}{y+n} 
 					F \left (\left.\begin{matrix} -x, -n, -y-n & \\  -x-n, -y-n+1 & 
 								\end{matrix}\right|1 \right ) 
-					&& \text{(5.97)} (a, b, -n, c)=(-x,-y-n, -n, -x-n)\\
+					&& \text{(5.97)}
+						\begin{pmatrix}
+							a, & b \\
+							-n, & c 
+						\end{pmatrix}\leftarrow
+						\begin{pmatrix}
+							-x, & -y-n \\
+							-n, & -x-n
+						\end{pmatrix} \\
 				&= \binom{x+n}{n} \frac{y}{y+n} 
 					\frac{(-x-n+x)^{\overline{n}} (-x-n+y+n)^{\overline{n}}}
 					{(-x-n)^{\overline{n}} (-x-n+x+y+n)^{\overline{n}}} \\
