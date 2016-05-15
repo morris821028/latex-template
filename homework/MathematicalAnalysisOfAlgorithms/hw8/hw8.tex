@@ -210,6 +210,8 @@
 			\end{align*}
 \end{description}
 
+\newpage
+
 \question{Problem 5}{8-29 Alice, Bill, and Computer flip a fair coin until one of the respective
 	patterns $A = \texttt{HHTH}$, $B = \texttt{HTHH}$, or $C = \texttt{THHH}$ appears for
 	the first time. (If only two of these patterns were involved, we know from (8.82) that
@@ -217,5 +219,77 @@
 	probably beat $A$; but all three patterns are simultaneously in the game.) 
 	What are each player's chances of winning.
 }
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 假設 $N$ 為非任何一個玩家的所有情況。$S_A, \; S_B, \; S_C$ 分別為 Alice, Bill 以及 Computer 
+		滿足的所有情況。
+		\begin{align*}
+			& 1 + N (\texttt{H}+\texttt{T}) = N + S_A + S_B + S_C \\
+			& N (\texttt{HHTH}) = S_A + S_A (\texttt{HTH}) 
+									+ S_B (\texttt{HTH} + \texttt{TH})
+									+ S_C(\texttt{HTH} + \texttt{TH}) \\
+			& N (\texttt{HTHH}) = S_B + S_B (\texttt{THH}) 
+									+ S_A (\texttt{THH} + \texttt{H})
+									+ S_C(\texttt{THH}) \\
+			& N (\texttt{THHH}) = S_C 
+									+ S_A (\texttt{HH})
+									+ S_B(\texttt{H}) 
+		\end{align*}
+		公平硬幣代入 $\texttt{H} = \texttt{T} = 1/2$
+		\begin{align*}
+			& S_A + S_B + S_C = 1 \\
+			& N / 16 = 18 / 16 \; S_A + 6 / 16 \; S_B + 6 / 16 \; S_C \\
+			& N / 16 = 10 / 16 \; S_A + 18 / 16 \; S_B + 2 / 16 \; S_C \\
+			& N / 16 = 4 / 16 \; S_A + 8 / 16 \; S_B + 16 / 16 \; S_C
+		\end{align*}
+	\item
+		聯立方程式求解得到獲勝機率分別為 $S_A = \frac{16}{52}$, $S_B = \frac{17}{52}$, $S_B = \frac{19}{52}$。
+\end{itemize}
+
+\newpage
+
+\question{Problem 6}{Let $h$ and $k$ be two relatively prime integers greater than 1.
+	(That is, the greatest common divisor of $h$ and $k$ is 1.) We define $N(h, k)$ to be
+	the number of positive integers that \textbf{cannot} be expressed in the form 
+	$ih + jk$, for nonnegative integers $i$ and $j$.
+	\begin{align*}
+		N(h, k) = \begin{vmatrix}
+			\{n = 1, 2, 3, \cdots | n \neq ih + jk \text{, for all } i, j = 0, 1, 2, \cdots \}
+		\end{vmatrix}
+	\end{align*}
+	Express $N(h, k)$ in closed form as a function of $h$ and $k$.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 當 $n < hk$ 時，$0 \le i \le k, \; 0 \le j \le h$，
+		只會至多有一組 $(i,j)$ 的合法解湊出，否則矛盾。
+		從 generating function 的定義著手，得到 
+		\begin{align*}
+			N(h, k) = hk - [z^{hk}]\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)
+		\end{align*}
+		若著手分析 $\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)$ 的 $z^{hk}$ 項係數，其分母的最小公倍式為 $1-z^{hk}$，其式改寫
+		\begin{align*}
+			\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)
+				&= \frac{A(z)}{(1 - z^{hk})^3} 
+		\end{align*}
+		由於 $1/(1 - z^{hk})^3 = \sum_{j \ge 0} \binom{j+2}{2} z^{hkj}$，找 $z^{hk}$ 的係數，
+		代入 $j = 0$ 找 $A(z)$ 的係數
+		\begin{align*}
+			A(z) &= (1 + z + \cdots + z^{hk-1})
+					(1 + z^h + \cdots + z^{hk - h}) 
+					(1 + z^k + \cdots + z^{hk - k})
+		\end{align*}
+		展開 $A(z)$ 得到 $z^{hk}$ 係數為 $(hk + h + k - 1)/2$。最後推得
+		\begin{align*}
+			N(h, k) &= hk - \left( (h+1)(k+1)/2 - 1 \right) \\
+				&= hk - \frac{hk + h + k - 1}{2} \\
+				&= \frac{hk - h - k - 1}{2} = (h-1)(k-1)/2
+		\end{align*}
+	\item 得 $N(h, k) = (h-1)(k-1)/2$
+\end{itemize}
 
 \end{document}
