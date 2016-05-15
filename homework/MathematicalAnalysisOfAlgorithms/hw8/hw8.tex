@@ -182,5 +182,40 @@
 	\end{description}
 }
 
+\part{Answer:}
+
+\begin{description}
+	\item[a] 求玩家 J 移除個數期望值與變異數
+		\begin{itemize}
+			\item
+			每一個骰子視為獨立事件，假設骰子在 J 手上移除的機率為 $p$，在 K 手上移除的機率為 $q = 1-p$，
+			則滿足在這一輪移除的機率 
+			$\frac{1}{6}$ 再加上經過 K 手上，並到下一輪回到 J 手上消失的機率 $p$，解
+			$p = \frac{1}{6} + \left( \frac{2}{6}\right)^2 p$ 得到 $p = \frac{6}{11}$。
+			\item 
+			相當於擲一枚硬幣正面機率為 $p$，正面次數的機率生成函數 $H(z) = q + pz$，
+			期望值 $\text{E}(X)=p$，標準差 $\text{Var}(X) = pq$。有 $2n+1$ 個獨立骰子，故得到玩家 J
+			移除格個數的
+				\begin{align*}
+					\text{Mean}(H) &= (2n+1)\frac{6}{11} \\
+					\text{Var}(H)&= (2n+1)\frac{6}{11}\frac{5}{11} = (2n+1)\frac{30}{121}
+				\end{align*}
+		\end{itemize}
+	\item[b] 當 $n = 2$ 時，總共有 5 枚硬幣，玩家 J 至少獲得 3 枚以上硬幣，獲勝的機率為 
+			\begin{align*}
+				\binom{5}{3} p^3 q^2 + \binom{5}{4} p^4 q + \binom{5}{5} p^5 
+					&= \frac{10 \times 6^3 \times 5^2 + 5 \times 6^4 \times 5^1 + 
+						\times 6^5}{11^5} \\
+					&= \frac{94176}{161051} \approx 0.585
+			\end{align*}
+\end{description}
+
+\question{Problem 5}{8-29 Alice, Bill, and Computer flip a fair coin until one of the respective
+	patterns $A = \texttt{HHTH}$, $B = \texttt{HTHH}$, or $C = \texttt{THHH}$ appears for
+	the first time. (If only two of these patterns were involved, we know from (8.82) that
+	$A$ would probably beat $B$, that $B$ would probably beat $C$, and that $C$ would
+	probably beat $A$; but all three patterns are simultaneously in the game.) 
+	What are each player's chances of winning.
+}
 
 \end{document}
