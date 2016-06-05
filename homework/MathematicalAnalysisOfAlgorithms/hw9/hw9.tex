@@ -271,4 +271,82 @@
 				+ O(n^{-2}) \right) && \blacksquare
 \end{align*}
 
+\question{Problem 5} {9-34 Determinate values $A$ through $F$ such that $(1+1/n)^{n H_n}$ 
+	is
+	\begin{align*}
+		An + B(\ln n)^2 + C \ln n + D + \dfrac{E(\ln n)^2}{n} + \dfrac{F \ln n}{n} + O(n^{-1})
+	\end{align*}
+}
+
+\part{Answer:}
+
+\question{Problem 6} {Let $Y_n$ be the random variable describing the number of the probes
+	for unsuccessful search on a binary search tree that contains $n$ keys.
+	The generating function for $Y_n$ is defined by
+	\begin{align*}
+		G_{n}(Z) = \sum_{k} p_{n,k} \; z^k
+	\end{align*}
+	where $p_{n,k} = \text{Pr}(Y_n = k)$, the probability that $k$ probes are needed to 
+	do an unsuccessful search in an $n$-key tree. ...
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[(a)] $n$ 個鍵值需要走 $k$ 次走訪的機率 $p_{n,k}$，可以遞迴到 $n-1$ 個鍵值。
+		\begin{itemize}
+			\item 考慮通過上一次插入的節點，
+				相當於在 $n-1$ 個鍵值時，這時候插入第 $n$ 個鍵值 $x_n$，
+				若詢問 $y$ 最後落在第 $n$ 個鍵值的節點左右兩側 (最插入一定在葉節點)，
+				意即 $x_n = y - \frac{1}{2}$ 或 $x_n = y + \frac{1}{2}$，那麼可以得到 
+				\begin{align*}
+					Y_n(s) = Y_{n-1}(s') + 1.
+				\end{align*}
+				勢必要多經過一個節點，所以嘗試個數多一。
+			\item 考慮不通過上一次插入的節點，相當於在 $n-1$ 個鍵值時，這時候插入第 $n$ 個鍵值 $x_n$，
+				若詢問 $y$ 最後落在第 $n$ 個鍵值的節點左右兩側 (最插入一定在葉節點)，
+				意即 $x_n \neq y - \frac{1}{2}$ 以及 $x_n \neq y + \frac{1}{2}$，那麼可以得到 
+				\begin{align*}
+					Y_n(s) = Y_{n-1}(s').
+				\end{align*}
+				不經過這個點，那麼嘗試個數不變。
+		\end{itemize}
+		利用上述討論的兩種特性，歸納出
+		\begin{align*}
+			p_{n,k} &= \text{Pr}(Y_{n-1} = k-1 \text{ and } (x_n = y - \dfrac{1}{2} \text{ or } x_n = y + \dfrac{1}{2}) \\
+					& + \text{Pr}(Y_{n-1} = k \text{ and } x_n \text{ is one of the other } n-1 \text{ values}) 
+		\end{align*}
+	\item[(b)] 從 (a) 得到 $G_n(z) = G_{n-1} (2 z + (n-1)) / (n+1)$
+		\begin{align*}
+			E(Y_n) &= {G}'_n(1) \\
+			G(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2
+		\end{align*}
+		已知 $E(Y_1) = 1, \; \text{Var}(Y_1) = 0$
+		\begin{align*}
+			{G}'_n(z) &= {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \\
+			{G}''_n(z) &= \left[ {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \right]' \\
+				&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
+				& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+		\end{align*}
+		先解期望值，根據遞迴展開
+		\begin{align*}
+			{G}'_n(1) &= {G}'_{n-1}(1) + \frac{2}{n+1} \\
+			\Rightarrow
+				E(Y_n) &= E(Y_{n-1}) + \frac{2}{n+1} = 2 H_{n+1} - 2 && \blacksquare
+		\end{align*}
+		帶入二次微分結果，解出變異數
+		\begin{align*}
+			\text{Var}(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2 \\
+			&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
+			& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+			& \qquad + \left( {G}'_{n-1}(1) + \frac{2}{n+1} \right)\\
+			& \qquad - \left( {G}'_{n-1}(1) + \frac{4}{n+1} {G}'_{n-1}(1) + \left(\frac{2}{n+1}\right)^2 \right) \\
+			&= {G}''_{n-1}(1) + {G}'_{n-1}(1) - {G}'_{n-1}(1)^2 + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
+			&= \text{Var}(Y_{n-1}) + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
+			\Rightarrow
+				\text{Var}(Y_n) &= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 && \blacksquare
+		\end{align*}
+	\item[(c)] 未解
+\end{description}
+
 \end{document}
