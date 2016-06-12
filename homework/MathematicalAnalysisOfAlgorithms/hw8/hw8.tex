@@ -1,0 +1,295 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt,fleqn]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+\usepackage{epsdice}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{8}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Problem 1} {We roll a pair of dice $n$ times, and compute the sum of all $2n$ 
+	faces which come up. Suppose each roll of each dice in independent of the other rolls.
+	\begin{description}
+		\item[(a)] What is the expected value of sum ?
+		\item[(b)] What is the variance ?
+		\item[(c)] How many rolls are sufficient to ensure, with probability 99\%, that
+			the sum is greater than 100 ?
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[(a)] 
+		投擲 $n$ 次期望值為 $2n \text{E}(X) = 2n \times (1 + 2 + 3 + 4 + 5 + 6)/6 = 7n$。
+	\item[(b)] 
+		投擲 $n$ 次變異數為 $2n \text{Var}(X) = 2n \times \frac{35}{12} = \frac{35}{6}n$
+	\item[(c)]
+		根據 Chebyshev's inequality $$\text{Pr}(|X - \mu| \ge c \sigma) \le 1 / c^2$$
+		代入 $c = 10$ 時，99 \% 的機率都落在 $[\mu - 10 \sigma, \mu + 10 \sigma]$ 中。\\
+		故投擲 $n$ 次雙枚骰子，總和 99 \% 的機率介於 $[7n - 10 \sqrt{\frac{35}{6}n}, 7n + 10 \sqrt{\frac{35}{6}n}]$。約略估算解
+		\begin{align*}
+			7n - 10 \sqrt{\frac{35}{6} n} \ge 100 \\
+		\end{align*}
+		得到 $n \ge 35$。至少投擲 35 枚能確定 99\% 的機率總和大於 100。
+\end{description}
+
+\question{Problem 2}{8-8 Let $A$ and $B$ be events such that $A \cup B = \Omega$. 
+	Prove that
+	\begin{align*}
+		\text{Pr}(w \in A \cap B) = \text{Pr}(w \in A) \text{Pr}(w \in B) -
+			\text{Pr}(w \notin A)\text{Pr}(w \notin B)
+	\end{align*}
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 由於 $A \cup B = \Omega$，得 $\text{Pr}(w \in A \cup B) = 1$
+	\item 根據 $A + B - A \cap B = A \cup B$ 推論
+		\begin{align*}
+		& \text{Pr}(w \in A) + \text{Pr}(w \in B) - \text{Pr}(w \in A \cap B) 
+			= \text{Pr}(w \in A \cup B) = 1 \\
+		& \Rightarrow (1 - \text{Pr}(w \notin A)) + (1 - \text{Pr}(w \notin B)) 
+			- \text{Pr}(w \in A \cap B) = 1 \\
+		& \Rightarrow \text{Pr}(w \in A \cap B) + \text{Pr}(w \notin A) 
+			+ \text{Pr}(w \notin B) = 1
+		\end{align*}
+		得到 $\text{Pr}(w \in A \cap B) + \text{Pr}(w \notin A) + \text{Pr}(w \notin B) = 1$。
+	\item 從左式開始推導
+		\begin{align*}
+		&\text{Pr}(w \in A) \text{Pr}(w \in B) -
+			\text{Pr}(w \notin A)\text{Pr}(w \notin B) \\
+		&= \left( 1 - \text{Pr}(w \notin A)\right)\left( 1 - \text{Pr}(w \notin A)\right) \\
+		&= 1 - \text{Pr}(w \notin A) - \text{Pr}(w \notin B) 
+			&& \text{代入第二點推導的結果} \\
+		&= \text{Pr}(w \in A \cap B)
+		\end{align*}
+		得證。
+\end{itemize}
+
+\question{Problem 3}{8-15 If $F(z)$ and $G(z)$ are probability generating functions, 
+	we can define another pgf $H(z)$ by "composition":
+	$$H(z) = F(G(z))$$
+	Express $\text{Mean}(H)$ and $\text{Var}(H)$ in terms of $\text{Mean}(F)$, $\text{Var}(F)$, 
+	$\text{Mean}(G)$, and $\text{Var}(G)$. (Equation (8.93) is a special case.)
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 針對 $H(z) = F(G(z))$ 得到一次微分和二次微分結果
+		\begin{align*}
+			\left\{\begin{matrix}
+			{H}'(z) &=& {F}'(G(z)) {G}'(z) \\
+			{H}''(z) &=& {F}''(G(z)){G}'(z){G}'(z)+ {F}'(G(z)) {G}''(z)
+			\end{matrix}\right.
+		\end{align*}
+		代入 $\text{Mean}(H)$ 和 $\text{Var}(H)$ 的定義
+		\begin{align*}
+			\text{Mean}(H) 
+				&= {H}'(1) \\
+				&= {F}'(G(1)) {G}'(1) && \because G(1) = 1\\
+				&= {F}'(1) {G}'(1) \\
+				&= \text{Mean}(F) \text{Mean}(G)
+		\end{align*}
+		\begin{align*}
+			\text{Var}(H)
+				&= {H}''(1) + {H}'(1) - {H}'(1)^2 \\
+				&= {F}''(1) {G}'(1)^2 + {F}'(1){G}''(1) + 
+					{F}'(1){G}'(1) - {F}'(1)^2 {G}'(1)^2 \\
+				&= \left( \text{Var}(F) - \text{Mean}(F) + \text{Mean}(F)^2 \right)
+					\left( \text{Mean}(G)^2 \right) \\
+				&	\begin{aligned}
+					& \qquad + \left( \text{Mean}(F) \right)
+					\left( \text{Var}(G) - \text{Mean}(G) + \text{Mean}(G)^2 \right)
+					+ \text{Mean}(F)\text{Mean}(G) \\
+					& \qquad - \text{Mean}(F)^2 \text{Mean}(G)^2 \\
+					\end{aligned} \\
+				&= \text{Var}(F) \text{Mean}(G)^2 + \text{Mean}(F) \text{Var}(G)
+		\end{align*}
+	\item 答案為
+		\begin{align*}
+		\text{Mean}(H) &= \text{Mean}(F) \text{Mean}(G) \\
+		\text{Var}(H)&= \text{Var}(F) \text{Mean}(G)^2 + \text{Mean}(F) \text{Var}(G)
+		\end{align*}
+\end{itemize}
+
+\question{Problem 4}{8-24 Player J rolls $2n+1$ fair dice and removes those that come up 
+	\epsdice[white]{6}. Player K then call a number between 1 and 6, rolls the remaining dice,
+	and util no dice remain. This process is repeated until no dice remain. The player who
+	has removed the most total dice ($n+1$ or more) is the winner.
+	\begin{description}
+		\item[a] What are the mean and variance of the total number of dice that J removes ?
+			\textit{Hint}: The dice are independent.
+		\item[b] What's the probability that J wins, when $n = 2$ ?
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a] 求玩家 J 移除個數期望值與變異數
+		\begin{itemize}
+			\item
+			每一個骰子視為獨立事件，假設骰子在 J 手上移除的機率為 $p$，在 K 手上移除的機率為 $q = 1-p$，
+			則滿足在這一輪移除的機率 
+			$\frac{1}{6}$ 再加上經過 K 手上，並到下一輪回到 J 手上消失的機率 $p$，解
+			$p = \frac{1}{6} + \left( \frac{2}{6}\right)^2 p$ 得到 $p = \frac{6}{11}$。
+			\item 
+			相當於擲一枚硬幣正面機率為 $p$，正面次數的機率生成函數 $H(z) = q + pz$，
+			期望值 $\text{E}(X)=p$，標準差 $\text{Var}(X) = pq$。有 $2n+1$ 個獨立骰子，故得到玩家 J
+			移除格個數的
+				\begin{align*}
+					\text{Mean}(H) &= (2n+1)\frac{6}{11} \\
+					\text{Var}(H)&= (2n+1)\frac{6}{11}\frac{5}{11} = (2n+1)\frac{30}{121}
+				\end{align*}
+		\end{itemize}
+	\item[b] 當 $n = 2$ 時，總共有 5 枚硬幣，玩家 J 至少獲得 3 枚以上硬幣，獲勝的機率為 
+			\begin{align*}
+				\binom{5}{3} p^3 q^2 + \binom{5}{4} p^4 q + \binom{5}{5} p^5 
+					&= \frac{10 \times 6^3 \times 5^2 + 5 \times 6^4 \times 5^1 + 
+						\times 6^5}{11^5} \\
+					&= \frac{94176}{161051} \approx 0.585
+			\end{align*}
+\end{description}
+
+\newpage
+
+\question{Problem 5}{8-29 Alice, Bill, and Computer flip a fair coin until one of the respective
+	patterns $A = \texttt{HHTH}$, $B = \texttt{HTHH}$, or $C = \texttt{THHH}$ appears for
+	the first time. (If only two of these patterns were involved, we know from (8.82) that
+	$A$ would probably beat $B$, that $B$ would probably beat $C$, and that $C$ would
+	probably beat $A$; but all three patterns are simultaneously in the game.) 
+	What are each player's chances of winning.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 假設 $N$ 為非任何一個玩家的所有情況。$S_A, \; S_B, \; S_C$ 分別為 Alice, Bill 以及 Computer 
+		滿足的所有情況。
+		\begin{align*}
+			& 1 + N (\texttt{H}+\texttt{T}) = N + S_A + S_B + S_C \\
+			& N (\texttt{HHTH}) = S_A + S_A (\texttt{HTH}) 
+									+ S_B (\texttt{HTH} + \texttt{TH})
+									+ S_C(\texttt{HTH} + \texttt{TH}) \\
+			& N (\texttt{HTHH}) = S_B + S_B (\texttt{THH}) 
+									+ S_A (\texttt{THH} + \texttt{H})
+									+ S_C(\texttt{THH}) \\
+			& N (\texttt{THHH}) = S_C 
+									+ S_A (\texttt{HH})
+									+ S_B(\texttt{H}) 
+		\end{align*}
+		公平硬幣代入 $\texttt{H} = \texttt{T} = 1/2$
+		\begin{align*}
+			& S_A + S_B + S_C = 1 \\
+			& N / 16 = 18 / 16 \; S_A + 6 / 16 \; S_B + 6 / 16 \; S_C \\
+			& N / 16 = 10 / 16 \; S_A + 18 / 16 \; S_B + 2 / 16 \; S_C \\
+			& N / 16 = 4 / 16 \; S_A + 8 / 16 \; S_B + 16 / 16 \; S_C
+		\end{align*}
+	\item
+		聯立方程式求解得到獲勝機率分別為 $S_A = \frac{16}{52}$, $S_B = \frac{17}{52}$, $S_B = \frac{19}{52}$。
+\end{itemize}
+
+\newpage
+
+\question{Problem 6}{Let $h$ and $k$ be two relatively prime integers greater than 1.
+	(That is, the greatest common divisor of $h$ and $k$ is 1.) We define $N(h, k)$ to be
+	the number of positive integers that \textbf{cannot} be expressed in the form 
+	$ih + jk$, for nonnegative integers $i$ and $j$.
+	\begin{align*}
+		N(h, k) = \begin{vmatrix}
+			\{n = 1, 2, 3, \cdots | n \neq ih + jk \text{, for all } i, j = 0, 1, 2, \cdots \}
+		\end{vmatrix}
+	\end{align*}
+	Express $N(h, k)$ in closed form as a function of $h$ and $k$.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 當 $n < hk$ 時，$0 \le i \le k, \; 0 \le j \le h$，
+		只會至多有一組 $(i,j)$ 的合法解湊出，否則矛盾。
+		從 generating function 的定義著手，得到 
+		\begin{align*}
+			N(h, k) = hk - [z^{hk}]\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)
+		\end{align*}
+		若著手分析 $\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)$ 的 $z^{hk}$ 項係數，其分母的最小公倍式為 $1-z^{hk}$，其式改寫
+		\begin{align*}
+			\left(\frac{1}{1-z^h}\times\frac{1}{1-z^k}\times\frac{1}{1-z}\right)
+				&= \frac{A(z)}{(1 - z^{hk})^3} 
+		\end{align*}
+		由於 $1/(1 - z^{hk})^3 = \sum_{j \ge 0} \binom{j+2}{2} z^{hkj}$，找 $z^{hk}$ 的係數，
+		代入 $j = 0$ 找 $A(z)$ 的係數
+		\begin{align*}
+			A(z) &= (1 + z + \cdots + z^{hk-1})
+					(1 + z^h + \cdots + z^{hk - h}) 
+					(1 + z^k + \cdots + z^{hk - k})
+		\end{align*}
+		展開 $A(z)$ 得到 $z^{hk}$ 係數為 $(hk + h + k - 1)/2$。最後推得
+		\begin{align*}
+			N(h, k) &= hk - \left( (h+1)(k+1)/2 - 1 \right) \\
+				&= hk - \frac{hk + h + k - 1}{2} \\
+				&= \frac{hk - h - k - 1}{2} = (h-1)(k-1)/2
+		\end{align*}
+	\item 得 $N(h, k) = (h-1)(k-1)/2$
+\end{itemize}
+
+\end{document}

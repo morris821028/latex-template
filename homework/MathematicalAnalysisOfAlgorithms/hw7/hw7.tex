@@ -1,0 +1,468 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt,fleqn]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{7}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Problem 1} {7-11 This problem, whose three parts are independent, 
+	gives practice in the manipulation of generating functions. We assume that 
+	$A(z) = \sum_n a_n z^n$, $B(z) = \sum_n b_n z^n$, $C(z) = \sum_n c_n z^n$, 
+	and that the coefficients are zero for negative $n$.
+	\begin{description}
+		\item[a] If $C_n = \sum_{j+2k \le n} a_j b_k$, express $C$ in 
+				terms of $A$ and $B$.
+		\item[b] If $n b_n = \sum_{k=0}^{n} 2^k a_k / (n-k)!$, express 
+				$A$ in terms of $B$.
+		\item[c] If $r$ is a real number and if 
+				$a_n = \sum_{k=0}^{n} \binom{r+k}{k} b_{n-k}$, express $A$
+				in terms of $B$; then use your formula to find coefficients
+				$f_k(r)$ such that $b_n = \sum_{k=0}^{n} f_k(r) a_{n-k}$.
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a]
+		目標 $C_n = \sum_{j+2k \le n} a_j b_k$
+		\begin{itemize}
+			\item $B(z^2) = \sum_n b_n z^{2n}$
+			\item $A(z) B(z^2) = \sum_{j,k} (a_j b_k) z^{j+2k}$
+			\item $A(z) B(z^2) / (1-z) = \sum_n (\sum_{j+2k \le n} a_j b_k) z^n$
+			\item 得 $C(z) = A(z) B(z^2) / (1-z)$
+		\end{itemize}
+	\item[b]
+		目標 $n b_n = \sum_{k=0}^{n} 2^k a_k / (n-k)!$
+		\begin{itemize}
+			\item 從左式推導，得 $\sum_n n b_n z^n = z B'(z)$
+			\item 從右式推導
+				\begin{align*}
+					A(2z) &= \sum_n 2^n a_n z^n && \text{湊出 } 2^n\\
+					A(2z) e^z &= \sum_n 2^n a_n z^n \sum_n \frac{1}{n!} z^n && \text{利用卷積湊出 } 1/(n-k)!\\
+					A(2z) e^z &= \sum_n (\sum_{k=0}^n 2^k a_k /(n-k)!) z^n
+				\end{align*}
+			\item 得 $z B'(z) = A(2z) e^x$
+		\end{itemize}
+	\item[c]
+		當 $a_n = \sum_{k=0}^{n} \binom{r+k}{k} b_{n-k}$ 時
+		\begin{itemize}
+			\item 左式 $\sum_n a_n z^n = A(z)$
+			\item 右式 
+				\begin{align*}
+					\sum_n ( \sum_{k=0}^{n} \binom{r+k}{k} b_{n-k}) z^n \\
+						= \frac{1}{(1-z)^{r+1}} B(z) && \text{Table 335, }
+							\sum_{n \ge 0} \binom{c+n-1}{n} z^n =
+							\frac{1}{(1-z)^c}
+				\end{align*}
+			\item 得 $A(z) = B(z) \frac{1}{(1-z)^{r+1}}$
+		\end{itemize}
+		反求 $b_n = \sum_{k=0}^{n} f_k(r) a_{n-k}$ 的係數 $f_k(r)$
+		\begin{itemize}
+			\item $B(z) = A(z) (1-z)^{r+1}$
+			\item 根據 Table 335 $\sum_{n \ge 0} \binom{c}{n} z^n = (1+z)^c$，$f_k(r)$ 代入 $c \leftarrow r+1, \; z \leftarrow -z$，得 $f_k(r) = \binom{r+1}{k} (-1)^k$。
+		\end{itemize}
+\end{description}
+
+\question{Problem 2} {7-14 Solve the recurrence
+	\begin{align*}
+	\begin{matrix}
+	g_0 = 0 & \\ 
+	g_1 = 1 & \\
+ 	g_n = -2n g_{n-1} + \sum_{k} \binom{n}{k} g_k g_{n-k} & \text{for } n > 1
+	\end{matrix}
+	\end{align*}
+	by using an exponential generating function.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item $g_n = -2n g_{n-1} + \sum_{k} \binom{n}{k} g_k g_{n-k} + \delta_{n=1}$
+	\item 使用 exponential generating function
+		\begin{align*}
+			\widehat{G}(z) 
+				&= \sum_{n \ge 0} g_n \frac{z^n}{n!} \\
+				&= \sum_{n \ge 0} \left [ -2n g_{n-1} + \sum_{k} \binom{n}{k} g_k g_{n-k} + \delta_{n=1} \right ] \frac{z^n}{n!} \\
+				&= \sum_{n \ge 0} -2n g_{n-1} \frac{z^n}{n!} + \sum_{n \ge 0} \sum_{k} \left ( \binom{n}{k} g_k g_{n-k} \right ) + z \\
+				&= \sum_{n \ge 0} -2 g_{n-1} \frac{z^n}{(n-1)!} + \sum_{n \ge 0} \sum_{k} \left ( \binom{n}{k} g_k g_{n-k} \right ) + z\\
+				&= -2 z \widehat{G}(z) + \widehat{G}(z)^2 + z &&
+					\begin{aligned}
+						&\because\text{(7.75), }\\ 
+						&\widehat{G}(z)^2 = \sum_n \sum_k \binom{n}{k} g_k g_{n-k} z^n
+					\end{aligned}
+		\end{align*}
+	\item 解一元二次次方程式，$\widehat{G}(0)= g_0 = 0$，故正不合。
+		\begin{align*}
+			\widehat{G}(z) = \frac{1+2z-\sqrt{1+4z^2}}{2}
+		\end{align*}
+	\item 解一般項 
+		\begin{align*}
+			\widehat{G}(z) &= \frac{1}{2} + z - \frac{1}{2}(1+4z^2)^{1/2} \\
+			& \Rightarrow [z^{2n}] \widehat{G}(z) = z^{2n} \frac{g_{2n}}{(2n)!} = - \frac{1}{2} \binom{1/2}{n} 4^n z^{2n} 
+				&& \text{Table 335,} \sum_{n \ge 0} \binom{c}{n} z^n = (1+z)^c\\
+		\end{align*}
+		化簡 $- \frac{1}{2} \binom{1/2}{n} 4^n$
+		\begin{align*}
+			- \frac{1}{2} \binom{1/2}{n} 4^n
+				&= - \frac{1}{2} \frac{\frac{1}{2}\frac{-1}{2}\cdots\frac{-2n+1}{2}}{n!} 2^{2n} \\
+				&= - \frac{\frac{-1}{2}\cdots\frac{-2n+1}{2}}{n!} 2^{2n} \\
+				&= (-1)^n \frac{(1 \cdot 3 \cdot 5 \cdots 2n-1) 2^n (1 \cdot 2 \cdot 3 \cdots n-1)}{n!(n-1)!} \\
+				&= \frac{1}{n} \binom{2n-2}{n-1} (-1)^n
+		\end{align*}
+		代回
+		\begin{align*}
+			z^{2n} \frac{g_{2n}}{(2n)!} = \frac{1}{n} \binom{2n-2}{n-1} (-1)^n z^{2n} \\
+			\Rightarrow g_{2n} = \frac{1}{n} \binom{2n-2}{n-1} (-1)^n (2n)!
+		\end{align*}
+	\item 得一般項
+		\begin{align*}
+			\left\{\begin{matrix}
+				g_1 =& 1 \\
+				g_{2n} =& \frac{1}{n} \binom{2n-2}{n-1} (-1)^n (2n)! & \text{for } n > 0 \\
+				g_{2n+1} =& 0 & \text{for } n > 0
+			\end{matrix}\right.
+		\end{align*}
+\end{itemize}
+
+\question{Problem 3} {7-15 The \textit{Bell number} $\omega_n$ is the number of ways to
+	partition $n$ things into subsets. For example, $\omega_3=5$ because we can partition 
+	$\left\{1, 2, 3\right\}$ in the following ways:
+	\begin{align*}
+	\left\{1, 2, 3\right\}; \left\{1, 2\right\}\cup \left\{3\right\};
+	\left\{1, 3\right\}\cup \left\{2\right\};\left\{1\right\}\cup \left\{2,3\right\};
+	\left\{1\right\}\cup \left\{2\right\}\cup \left\{3\right\};
+	\end{align*}
+	\begin{description}
+		\item[a]
+	Prove that $\omega_{n+1} = \sum_k \binom{n}{k} \omega_{n-k}$, and use this recurrence
+	to find a closed form for the exponential generating function 
+	$\widehat{P}(z) = \sum_n \omega_n z^n / n!$.
+		\item[b]
+			Re-evalute $\widehat{P}(z)$ by summing Equation (7,49) on $m$ to see
+			if you can get the same result as part(a).
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a] 證明
+		\begin{itemize}
+			\item 將第 $n+1$ 個物品與其他 $k$ 個物品放在新的集合，則有 $\binom{n}{k}$ 種，
+				剩餘物品的分法有 $\omega_{n-k}$ 種，因此 $\omega_{n+1} = \sum_k \binom{n}{k} \omega_{n-k}$。
+			\item 給定 $\omega_{n+1} = \sum_k \binom{n}{k} \omega_{n-k}$ 和
+					$\widehat{P}(z) = \sum_n \omega_n z^n / n!$
+			\item $\widehat{P}(z) = \sum_n \sum_k \binom{n-1}{k} \omega_{n-1-k} z^n / n!$ 
+				不好下手，為了使用 (7.75) 的特性，先對 $\widehat{P}(z)$ 微分。
+			\item 湊出 7.75 的性質
+				\begin{align*}
+					\widehat{P}'(z) 
+					&= \sum_n \omega_{n} z^{n-1}/(n-1)! \\
+					&= \sum_n \sum_k \binom{n-1}{k} \omega_{n-1-k} z^{n-1}/(n-1)! \\
+					&= \sum_n \sum_k \binom{n}{k} \omega_{n-k} \frac{1}{n!} z^{n} 
+						&& \because \text{(7.75)} \\
+					&= e^z \widehat{P}(z)
+				\end{align*}
+			\item
+				微分求得 $\widehat{P}'(z) = e^z \widehat{P}(z)$，解一階線性微分方程 $y' = e^x y$。
+				\begin{align*}
+					& \frac{y'(x)}{y(x)} = e^x \\
+					& \Rightarrow \int \frac{d y(x) / dx}{y(x)} dx = \int e^x dx \\
+					& \Rightarrow \int \frac{d y(x)}{y(x)} = e^x + c \\
+					& \Rightarrow \ln y = e^x + c\\
+					& \Rightarrow y = e^{e^x + c}
+				\end{align*}
+				得到 $\widehat{P}(z) = e^{e^z+c}$，由於 $\widehat{P}(0)=\omega_0=1$，故 $c=-1$。
+			\item 最後，$\widehat{P}(z) = e^{e^z-1}$。
+		\end{itemize}
+	\item[b]
+		\begin{itemize}
+			\item $n$ 個物品分在 $m$ 個非空集合的方法數為 $\begin{Bmatrix}n\\m\end{Bmatrix}$，
+				故 $\omega_n = \sum_m \begin{Bmatrix}n\\m\end{Bmatrix}$。
+			\item 根據 $\omega_n = \sum_m \begin{Bmatrix}n\\m\end{Bmatrix}$
+				\begin{align*}
+					\widehat{P}(z) &= \sum_{n \ge 0} \sum_m \begin{Bmatrix}n\\m\end{Bmatrix}
+						z^n / n! \\
+					&= \sum_m \sum_{n \ge 0} \begin{Bmatrix}n\\m\end{Bmatrix} z^n / n! \\
+					&= \sum_m (e^z-1)^m / m! 
+						&& \text{套用 (7.49) 的解}\\
+					&= e^{e^z-1}
+						&& \text{套用 } e^x = \sum_n x^n / n!
+				\end{align*}
+			\item 得到與 part a 相同的答案。
+		\end{itemize}
+\end{description}
+
+\newpage
+
+\question{Problem 4} {7-16 Two sequences $\left \langle a_n \right \rangle$ and 
+	$\left \langle  b_n \right \rangle$ are related by the convolution formula
+	\begin{align*}
+		b_n = \sum_{k_1 + 2k_2 + \cdots + n k_n = n} \binom{a_1+k_1-1}{k_1}
+				\binom{a_2+k_2-1}{k_2} \cdots \binom{a_n+k_n-1}{k_n};
+	\end{align*}
+	also $a_0 = 0$ and $b_0 = 1$. Prove that the corresponding generating functions
+	satisfy $\ln B(z) = A(z) + \frac{1}{2} A(z^2) + \frac{1}{3} A(z^3) + \cdots$.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 根據 Table 332 得到 $\frac{1}{(1-z)^c} = \sum_{n \ge 0} \binom{c+n-1}{n} z^n$。
+		從題目中看出 $b_n$ 是數個 $c = a_n$ 的卷積，最後得到 
+		\begin{align*}
+			B(z) = \frac{1}{(1-z)^{a_1}}\frac{1}{(1-z^2)^{a_2}}\frac{1}{(1-z^3)^{a_3}}
+				\cdots
+		\end{align*}
+	\item 兩邊同取對數
+		\begin{flalign*}
+			\ln B(z) 
+				&= \ln \frac{1}{(1-z)^{a_1}}\frac{1}{(1-z^2)^{a_2}}\frac{1}{(1-z^3)^{a_3}}
+				\cdots \\
+				&= \ln \frac{1}{(1-z)^{a_1}} + \ln \frac{1}{(1-z^2)^{a_2}} 
+					+ \ln \frac{1}{(1-z^3)^{a_3}} + \cdots \\
+				&= a_1 \ln \frac{1}{(1-z)} + a_2 \ln \frac{1}{(1-z^2)}
+					+ a_3 \ln \frac{1}{(1-z^3)} + \cdots \\
+				&= a_1 \sum_{n \ge 1} \frac{1}{n} z^n + 
+					a_2 \sum_{n \ge 1} \frac{1}{n} z^{2n} +
+					a_3 \sum_{n \ge 1} \frac{1}{n} z^{3n} + \cdots
+					&& \text{Table 332, } \ln\frac{1}{1-z} = \sum_{n \ge 1} \frac{1}{n} z^n\\
+				&= \begin{aligned}
+					z \left(a_1\right) + z^2 \left(\frac{1}{2} a_1 + a_2\right) + 
+					z^3 \left(\frac{1}{3} a_1 + a_3\right) + \\
+					z^4 \left(\frac{1}{4} a_1 + \frac{1}{2} a_2 + a_4 \right) 
+						+ z^5 \left(a_5\right) + \cdots
+					\end{aligned}
+					\\
+				&= (a_1 z + a_2 z^2 + \cdots) + \frac{1}{2}(a_1 z^2 + a_2 z^4 + \cdots) + \cdots \\
+				&= A(z) + \frac{1}{2} A(z^2) + \frac{1}{3} A(z^3) + \cdots
+		\end{flalign*}
+	\item 得證 $\ln B(z) = A(z) + \frac{1}{2} A(z^2) + \frac{1}{3} A(z^3) + \cdots$
+\end{itemize}
+
+\newpage
+
+\question{Problem 5} {7-26 The second-order Fibonacci numbers 
+	$\left \langle \mathfrak{F}_n \right \rangle$ are defined by the recurrence
+	\begin{flalign*}
+		& \mathfrak{F}_0 = 0; \\
+		& \mathfrak{F}_1 = 1; \\
+		& \mathfrak{F}_n = \mathfrak{F}_{n-1}+\mathfrak{F}_{n-2}+F_n \text{, for } n > 1
+	\end{flalign*}
+	Express $\mathfrak{F}_n$  in terms of the usual Fibonacci numbers $F_n$ and $F_{n+1}$.
+}
+
+\part{Answer:}
+
+\begin{itemize}
+	\item 令 $\mathfrak{F}(z) = \sum_n \mathfrak{F}_n z^n$
+		\begin{align*}
+		\mathfrak{F}(z) &= \sum_n \mathfrak{F}_n z^n \\
+			&= \sum_n (\mathfrak{F}_{n-1}+\mathfrak{F}_{n-2}+F_n) z^n \\
+			&= z \mathfrak{F}(z) + z^2 \mathfrak{F}(z) + F(z)
+		\end{align*}
+		求解 $\mathfrak{F}(z)$
+		\begin{align*}
+		&(1 - z - z^2) \mathfrak{F}(z) = F(z) \\
+		&\Rightarrow \mathfrak{F}(z) = \frac{F(z)}{1 - z - z^2} \\
+		&\Rightarrow \mathfrak{F}(z) = \frac{z}{(1 - z - z^2)^2} 
+			&& \because F(z) = \frac{z}{1-z-z^2}
+		\end{align*}
+	\item 利用推導費波納契數時的假設 
+		\begin{align*}
+			F(z)=\frac{z}{1-z-z^2} = \frac{1}{\sqrt{5}} \left(\frac{1}{1- \alpha z} - \frac{1}{1- \beta z}\right) && \left\{\begin{matrix}\alpha = \frac{1+\sqrt{5}}{2}\\ \beta = \frac{1-\sqrt{5}}{2}\end{matrix}\right.
+		\end{align*}
+		得 $\mathfrak{F}(z)$ 的表示方法
+		\begin{align*}
+			\mathfrak{F}(z) &= \frac{1}{\sqrt{5}} \left(\frac{1}{1- \alpha z} - \frac{1}{1- \beta z}\right) \left[ \frac{1}{1-z-z^2} \right] \\
+				&= \frac{1}{\sqrt{5}} \left(\frac{1}{1- \alpha z} + \frac{-1}{1- \beta z}\right) 
+					\left( \frac{\frac{5+\sqrt{5}}{10}}{1-\alpha z} + 
+						\frac{\frac{5-\sqrt{5}}{10}}{1-\beta z} \right) \\
+				&= \frac{1}{(1-\alpha z)^2} \frac{5 + \sqrt{5}}{10\sqrt{5}} 
+					- \frac{1}{(1-\beta z)^2} \frac{5 - \sqrt{5}}{10\sqrt{5}} 
+					+ \frac{1}{(1-\alpha z)(1-\beta z)} \frac{1}{\sqrt{5}} \frac{-2\sqrt{5}}{10}
+					\\
+				&= \begin{aligned}
+					\frac{1}{10} \left( \frac{1}{(1-\alpha z)^2} + \frac{1}{(1-\beta z)^2}\right)
+					+ \frac{\sqrt{5}}{10} \left( \frac{1}{(1-\alpha z)^2} - \frac{1}{(1-\beta z)^2}\right)
+					\\ + \frac{1}{(1-\alpha z)(1-\beta z)} \frac{-2}{10} 
+					\end{aligned}
+		\end{align*}
+		先解決後半部 $\frac{1}{(1-\alpha z)(1-\beta z)} \frac{-2}{10}$ 表示成 $\left\langle F_n \right\rangle$
+		\begin{align*}
+			F(z) = \sum_n F_{n} z^n = \frac{z}{(1-\alpha z)(1-\beta z)} \\
+			\Rightarrow \sum_n F_{n} z^{n-1} = \frac{1}{(1-\alpha z)(1-\beta z)} \\
+			\Rightarrow \sum_n F_{n+1} z^{n} = \frac{1}{(1-\alpha z)(1-\beta z)}
+		\end{align*}
+		接下來解出前半部
+		\begin{align*}
+			\frac{1}{10} \left( \frac{1}{(1-\alpha z)^2} + \frac{1}{(1-\beta z)^2}\right)
+				&= \frac{1}{10} \left( \sum_{n \ge 0} (n+1) (\alpha^n+\beta^n) z^n\right) 
+				&& \because \sum_{n \ge 0}(n+1)z^n = \frac{1}{(1-z)^2}\\
+			\frac{\sqrt{5}}{10} \left( \frac{1}{(1-\alpha z)^2} - \frac{1}{(1-\beta z)^2}\right)
+				&= \frac{\sqrt{5}}{10} \left( \sum_{n \ge 0} (\alpha^n-\beta^n) z^n\right)
+		\end{align*}
+		根據 $\alpha+\beta=1$ 以及 $\alpha-\beta=\sqrt{5}$
+		\begin{align*}
+			\alpha^n + \beta^n &= [z^n] \left( \frac{1}{1-\alpha z} + \frac{1}{1-\beta z}\right) \\
+				&= [z^n] \frac{2-(\alpha+\beta)z}{(1-\alpha z)(1-\beta z)} \\
+				&= [z^n] \frac{2-z}{(1-\alpha z)(1-\beta z)} = 2F_{n+1} - F_n \\
+			\\
+			\alpha^n - \beta^n &= [z^n] \left( \frac{1}{1-\alpha z} - \frac{1}{1-\beta z}\right) \\
+				&= [z^n] \frac{(\alpha-\beta)z}{(1-\alpha z)(1-\beta z)} \\
+				&= [z^n] \frac{\sqrt{5}z}{(1-\alpha z)(1-\beta z)} = \sqrt{5} F_n
+		\end{align*}
+		最後整理成
+		\begin{align*}
+			\mathfrak{F}(z) &= \frac{1}{10} \sum_{n \ge 0} (n+1)(2 F_{n+1} - F_n) z^n 
+				+ \frac{\sqrt{5}}{10} \sum_{n \ge 0} (n+1) \sqrt{5} F_n z^n
+				- \frac{2}{10} \sum_{n \ge 0} F_{n+1} z^n \\
+			\Rightarrow \mathfrak{F}_n &= [z^n] \mathfrak{F}(z) \\
+				&= \frac{1}{10} \left( 2(n+1) F_{n+1} - (n+1) F_n + 5(n+1) F_n - 2 F_{n+1} \right)\\
+				&= \frac{1}{10} \left( 2n F_{n+1} + 4(n+1) F_{n}\right) = \frac{2(n+1) F_{n} + n F_{n+1}}{5}
+		\end{align*}
+	\item 得 $\mathfrak{F}(z) = \frac{2(n+1) F_{n} + n F_{n+1}}{5}$
+\end{itemize}
+
+\newpage
+
+\question{Problem 6} {
+	\begin{description}
+		\item[a.] 7-34 Find a closed form for the generating function 
+			$\sum_{n \ge 0} G_n(z)w^n$, if
+			\begin{align*}
+				G_n(z) = \sum_{k \le n / m} \binom{n-mk}{k} z^{mk}
+			\end{align*}
+			(Here $m$ is a fixed positive integer.)
+		\item[b.] Find the closed form of $G_n(z)$ for $m=1$.\\
+			Note that this technique is called super generating function. 
+			Sometimes it is easier to find the closed form of $G_n(z)$ (which in turn
+			is a generating function of some terms with index $k$) by finding the
+			closed form of its generating function.
+	\end{description}
+}
+
+\begin{description}
+	\item[a.] 求解 $T_m(w) = \sum_{n \ge 0} G_n(z)w^n$
+		\begin{itemize}
+			\item 改寫 $G_n(z) = \sum_{k \le n/m} \binom{n-mk}{k} z^{mk}$，令 $B=k$, $A+B = n-mk$，原式改寫成
+				\begin{align*}
+					G_n(z) = \sum_{A+(m+1)B=n} \binom{A+B}{B} z^{n-A-B}
+				\end{align*}
+			\item 根據上述，得到遞迴 
+				$$G_n(z) = \frac{G_{n-1}(z)}{z} + \frac{G_{n-m-1}(z)}{z} + \delta_{n=0}$$
+			\item 改寫 $T_m(w)$
+				\begin{align*}
+					T_m(w) &= \sum_{n \ge 0} G_n(z) w^n \\
+						&= \sum_{n \ge 0} \left( \frac{G_{n-1}(z)}{z} + 
+							\frac{G_{n-m-1}(z)}{z} + \delta_{n=0} \right) w^n \\
+						&= \sum_{n \ge 0} G_{n-1}(z) w^n / z
+							+ \sum_{n \ge 0} G_{n-m-1}(z) w^n / z + 1 \\
+						&= \left(\frac{wz}{z}\right) T_m(z) + 
+							\left(\frac{w^{m+1} z^{m+1}}{z}\right) T_m(z) + 1 \\
+					\Rightarrow T_m(w) &= \frac{1}{1 - w - z^m w^{m+1}}
+				\end{align*}
+		\end{itemize}
+\newpage
+	\item[b.] 代入 $m=1$ 時，$G_n(z) = \sum_{k \le n} \binom{n-k}{k} z^{k}$。得
+			$G_n(z) = [w^n] T_1(w) = [w^n] \frac{1}{1-w-zw^2}$。
+		\begin{itemize}
+			\item
+		令 $A, B, \alpha, \beta$ 滿足，$\frac{1}{1-w-zw^2} = \left( \frac{A}{1-\alpha w} + \frac{B}{1-\beta w} \right)$，解聯立方程
+		\begin{align*}
+			\left\{\begin{matrix}
+\alpha + \beta = 1\\ 
+\alpha \beta = z 
+\end{matrix}\right. ,\;
+\left\{\begin{matrix}
+A+B = 1 \\
+\beta A + \alpha B = 0
+\end{matrix}\right. \Rightarrow
+\left\{\begin{matrix}
+\alpha = \frac{1+\sqrt{1+4z}}{2} \\ 
+\beta = \frac{1-\sqrt{1+4z}}{2}
+\end{matrix}\right. ,\;
+\left\{\begin{matrix}
+A = \frac{\sqrt{1+4z}+1}{2\sqrt{1+4z}} \\
+B = \frac{\sqrt{1+4z}-1}{2\sqrt{1+4z}} \\
+\end{matrix}\right.
+		\end{align*}
+			\item 代回原式
+		\begin{align*}
+			G_n(z) &= [w^n] \frac{1}{1-w-zw^2} \\
+				&= [w^n] \left( \frac{A}{1-\alpha w} + \frac{B}{1-\beta w} \right) \\
+				&= [w^n] A \sum_{n} \alpha^n w^n + B \sum_{n} \beta^n w^n \\
+				&= \frac{\sqrt{1+4z}+1}{2\sqrt{1+4z}}\left(\frac{1+\sqrt{1+4z}}{2}\right)^n +
+					\frac{\sqrt{1+4z}-1}{2\sqrt{1+4z}}\left(\frac{1-\sqrt{1+4z}}{2}\right)^n \\
+				&= \frac{1}{\sqrt{1+4z}}\left(\frac{1+\sqrt{1+4z}}{2}\right)^{n+1} +
+					\frac{-1}{\sqrt{1+4z}}\left(\frac{1-\sqrt{1+4z}}{2}\right)^{n+1}
+		\end{align*}
+			\item 得到與 (5.74) 一樣的結果
+		\begin{align*}
+			\sum_{k \le n} \binom{n-k}{k} z^k = 
+				\frac{1}{\sqrt{1+4z}}\left(\left(\frac{1+\sqrt{1+4z}}{2}\right)^{n+1}
+					- \left(\frac{1-\sqrt{1+4z}}{2}\right)^{n+1} \right) \\
+					\text{, integer } n > 0 && \text{(5.75)}
+		\end{align*}
+	\end{itemize}
+\end{description}
+
+\end{document}

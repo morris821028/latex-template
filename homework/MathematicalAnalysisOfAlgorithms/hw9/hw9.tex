@@ -1,0 +1,352 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt,fleqn]{article}
+
+\usepackage[UTF8, heading = false, scheme = plain]{ctex} % chinese !!!!
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{CJK}
+\usepackage{manfnt}
+\usepackage{listings}
+\usepackage{epsdice}
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithm
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+
+
+\setCJKmainfont{STHeiti} % chinese type
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+
+% define
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{#1}}
+\newcommand\correctness{\vspace{.10in}\textbf{Correctness: }}
+\newcommand\runtime{\vspace{.10in}\textbf{Running time: }}
+\pagestyle{fancyplain}
+
+% header
+\lhead{\textbf{\NAME\ (\ANDREWID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{演算法數學分析, \today}
+
+
+% start content
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Shiang-Yun Yang 楊翔雲}  % your name
+\newcommand\ANDREWID{R04922067}     % your andrew id
+\newcommand\HWNUM{9}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+% no need to restate the problem --- the graders know which problem is which,
+% but replacing "The First Problem" with a short phrase will help you remember
+% which problem this is when you read over your homeworks to study.
+
+\question{Problem 1} {8-31 An apple is located at vertex $A$ of pentagon $ABCDE$, and
+	a worm is located tow vertices away, at $C$. Every day the worm crawls with equals
+	probability to one of the two adjacent vertices. Thus after one day the worm is 
+	at vertex $B$ or vertex $D$, each with probability $\frac{1}{2}$. After two
+	days, the worm might be back at $C$ again, because it has no memory of
+	previous positions. When it reaches vertex $A$, it stops to dine.
+	\begin{description}
+		\item[a] What are the mean and variance of then number of days until dinner?
+		\item[b] Let $p$ be the probability that the number of days is 100 or more.
+			What does Chebyshev's inequality say about $p$?
+		\item[c] What do the tail inequalities (exercise 12) tell us about $p$?
+			\begin{align*}
+				\text{Pr}(X \ge r) \le x^{-r} P(x) \qquad \text{for } x \ge 1
+			\end{align*}
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a] 假設走到每一個點的生成函數分別為 $A$, $B$, $C$, $D$, $E$，則可列出下式
+		\begin{align*}
+			\begin{aligned}
+				A &= \frac{1}{2}z B + \frac{1}{2}z E\\
+				B &= \frac{1}{2}z C\\
+				C &= 1 + \frac{1}{2}z B + \frac{1}{2} z D\\
+				D &= \frac{1}{2}z C + \frac{1}{2} z E\\
+				E &= \frac{1}{2}z D 
+			\end{aligned} \qquad
+			\Rightarrow \qquad
+			\begin{aligned}
+				A &= \frac{1}{4}z^2 C + \frac{1}{4}z^2 D\\
+				C &= 1 + \frac{1}{4}z^2 C + \frac{1}{2} z D\\
+				D &= \frac{1}{2}z C + \frac{1}{4} z^2 D
+			\end{aligned} \\
+			\qquad
+			\Rightarrow \qquad
+			\begin{aligned}
+				A - \frac{1}{4}z^2 C - \frac{1}{4}z^2 D = 0 && \text{(1)}\\
+				\left(\frac{1}{4}z^2-1\right) C + \frac{1}{2} z D = -1 && \text{(2)}\\
+				\frac{1}{2}z C + \left(\frac{1}{4} z^2 - 1\right) D = 0 && \text{(3)}
+			\end{aligned}
+		\end{align*}
+		\begin{align*}
+			\hline
+			\text{(1)} + \text{(2)} + \text{(3)} 
+				& \Rightarrow 
+					A + \left(\frac{1}{2} z - 1\right) C +
+								\left(\frac{1}{2} z - 1\right) D = -1
+					&& \text{(4)} \\
+			\text{(2)} + \text{3}
+				& \Rightarrow 
+					\left(\frac{1}{4}z^2 + \frac{1}{2}z - 1\right) C +
+						\left(\frac{1}{4}z^2 + \frac{1}{2}z - 1\right) D = -1
+					&& \text{(5)} \\
+			\text{(5) 代入 (4)}
+				& \Rightarrow
+					A + \left(\frac{1}{2}-1\right) 
+						\frac{-1}{\frac{1}{4}z^2 + \frac{1}{2}z -1} = -1 \\
+				& \Rightarrow
+					A = \frac{z^2}{4 - 2z - z^2}
+		\end{align*}
+		\begin{align*}
+			\text{Mean(A)} &= {G}'(1) \\
+			\text{Var(A)} &= {G}''(1) + {G}'(1) - {G}'(1)^2 \\
+			\hline \\
+			{G}'(z) &= {\left(\frac{z^2}{4 - 2z - z^2}\right)}' 
+					= \frac{8z-2z^2}{(4-2z-z^2)^2} \\
+			{G}''(z) &= {\left(\frac{8z-2z^2}{(4-2z-z^2)^2}\right)}' 
+					= \frac{(8-4z)(4-2z-z^2)^2 - (8z-2z^2)(-4-4z)}{(4-2z-z^2)^4}
+		\end{align*}
+		\begin{align*}
+			\text{Mean(A)} &= {G}'(1) = 6 \\
+			\text{Var(A)} &= {G}''(1) + {G}'(1) - {G}'(1)^2 = 52 + 6 - 36 = 22
+		\end{align*}
+		
+	\item[b] $p$ 為大於等於 100 天才抵達 $A$ 的機率，根據 Chebyshev's inequality
+		\begin{align*}
+			\text{Pr}(|X - \mu| \ge c \sigma) \le 1 / c^2
+		\end{align*}
+		\begin{align*}
+			\text{Pr}(S \ge 100)
+				&= \text{Pr}(|X - 6| \ge 94)
+					&& c = 94 / \sqrt{22} \\
+				&\le 1 / c^2 = \frac{22}{94^2} \approx 0.0025
+		\end{align*}
+	\item[c] 代入 exercise 12 最後一條公式
+		\begin{align*}
+			\text{Pr}(S \ge 100) \le x^{-100} \; \frac{x^2}{4 - 2x - x^2}
+				&& \text{for } x \ge 1
+		\end{align*}
+		找右式的最大值，求一次微分等於零。
+		\begin{align*}
+			{\left[\frac{1}{x^{98} (4-2x-x^2)}\right]}'
+				&= -98 x^{-99} (4-2x-x^2)^{-1}
+					+ x^{-98}(-1)(4-2x-x^2)^{-2}(-2-2x) \\
+				&= (4-2x-x^2)^{-2} x^{-99} (-98(4-2x-x^2)-x(-2-2x)) \\
+				&= (4-2x-x^2)^{-2}(100 x^2 + 198 x - 392)
+		\end{align*}
+		當 $x = \frac{-99 + \sqrt{49001}}{100}$ 時有最大值，故 $\text{Pr}(S \ge 100) \le 0.00000005$。
+\end{description}
+
+\newpage
+
+\question{Problem 2} {9-2 Which function grows faster:
+	\begin{description}
+		\item[a] $n^{(\ln n)}$ or $(\ln n)^n$ ?
+		\item[b] $n^{\ln \ln \ln n}$ or $(\ln n)!$ ?
+		\item[c] $(n!)!$ or $((n-1)!)! (n-1)!^{n!}$ ?
+		\item[d] $F^2_{\lceil H_n \rceil}$ or $H_{F_n}$ ?
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[a] 同時取 $\log$，分別為 $(\ln n)^2$ 和 $n \ln \ln n$，根據羅畢達法則取極限 
+		($n \rightarrow \infty$) 得到 
+		$(\ln n)^2 \prec n \ln \ln n \Rightarrow n^{\ln n} \prec (\ln n)^n$。
+		故 $(\ln n)^n$ 成長得比較快。
+	\item[b] 根據 Stirling's approximation 已知 
+		$n! \sim \sqrt{2 \pi n} \left(\frac{n}{e}\right)^n$，
+		得到 $(\ln n)! \prec (\ln n)^{\ln n}$，對 $n^{\ln \ln \ln n}$、
+		$(\ln n)^{\ln n}$ 同取 $\log$，得 
+		\begin{align*}
+			\ln n \ln \ln \ln n \prec \ln n \ln \ln n
+				\quad &\Rightarrow \quad
+			n^{\ln \ln \ln n} \prec (\ln n)^{\ln n} \\
+			&\Rightarrow \quad
+			n^{\ln \ln \ln n} \prec (\ln n)!
+		\end{align*}
+		故 $(\ln n)!$ 成長得比較快。
+	\item[c] 同時取 $\log$，
+		\begin{align*}
+			\log ((n!)!) 
+				&= \sum\nolimits_{k=0}^{n!} \lg (k!) \\
+			\log ((n-1)!)! (n-1)!^{n!} 
+				&= \sum\nolimits_{k=0}^{(n-1)!} \lg (k!) + n! \cdot \lg ((n-1)!)
+		\end{align*}
+		把相同的部分扣除後，得
+		\begin{align*}
+			\sum\nolimits_{k=(n-1)!+1}^{n!} \lg (k!) \ge n! \cdot \lg ((n-1)!)
+		\end{align*}
+		所以 $(n!)!$ 成長比較快。
+	\item[d] 假設 $\phi = \frac{1 + \sqrt{5}}{2} \approx 1.618$，$F_n \sim \phi^n$ 
+		和 $H_n \sim \ln n$。
+		\begin{align*}
+			F^2_{\lceil H_n \rceil} &
+				\asymp \phi^{2 \ln n} = n^{\ln \phi} = n^{\ln \phi^2} \\
+			H_{F_n} &
+				\asymp n \ln \phi
+		\end{align*}
+		單看 $n$ 指數次方部分，得知 $\ln \phi^2 < 1$，故 $H_{F_n}$ 成長比較快。
+\end{description}
+
+\newpage
+
+\question{Problem 3} {9-13 Evaluate $(n + 2 + O(n^{-1}))^n$ with relative 
+	error $O(n^{-1})$
+}
+
+\part{Answer:}
+
+\begin{align*}
+	\left(n + 2 + O(n^{-1})\right)^n 
+		&= \left(n(1 + 2n^{-1} + O(n^{-2}))\right)^n \phantom{1\over1}\\
+		&= n^n \left(1 + 2n^{-1} + O(n^{-2})\right)^n 
+			&& e^x = \lim_{n \rightarrow \infty} \left(1 + \frac{x}{n}\right)^n 
+			\phantom{1\over1} \\
+		&= n^n \exp(n (2n^{-1} + O(n^{-2}))) \phantom{1\over1} \\
+		&= n^n e^{2 + O(n^{-1})} 
+			&& \because \text{(9.37)} \quad e^{O\left(f(n)\right)} = 1 + O\left(f(n)\right)
+			\phantom{1\over1} \\
+		&= n^n \left(e^2 (1 + O(n^{-1}))\right) \phantom{1\over1} \\
+		&= n^n e^2 + n^n O\left(n^{-1}\right) \phantom{1\over1} \\
+		&= n^n e^2 + O\left(n^{n-1}\right) \phantom{1\over1}
+			&& \blacksquare
+\end{align*}
+
+\question{Problem 4} {9-14 Prove that
+	\begin{align*}
+		(n+\alpha)^{n+\beta} 
+			= n^{n+\beta} e^{\alpha}\left(1 + \alpha(\beta-\frac{1}{2}\alpha)n^{-1} 
+				+ O(n^{-2}) \right).
+	\end{align*}
+}
+
+\part{Answer:}
+
+\begin{align*}
+	(n+\alpha)^{n+\beta} &= \left[n(1+\alpha n^{-1})\right]^{n+\beta} \\
+		&= n^{n+\beta} \exp((n+\beta) \ln(1+\frac{\beta}{n})) \\
+		&= n^{n+\beta} \exp((n+\beta) (\frac{\alpha}{n} 
+			- \frac{1}{2} \left(\frac{\alpha}{n}\right)^2 + O(n^{-3}))) 
+			&& \text{(9.33)}\\
+		&= n^{n+\beta} \exp(\alpha-\frac{1}{2}\alpha n^{-1} 
+			+ \alpha\beta n^{-1} + O(n^{-2})) \\
+		&= n^{n+\beta} \exp(\alpha) \cdot \exp(-\frac{1}{2}\alpha n^{-1}) 
+			\cdot \exp(\alpha\beta n^{-1}) \cdot \exp(O(n^{-2})) \\
+		&= n^{n+\beta} e^{\alpha} \cdot
+			\left(1 - \frac{1}{2}\alpha n^{-1} + O(n^{-2})\right) \cdot
+			\left(1 + \alpha\beta n^{-1} + O(n^{-2})\right) \cdot
+			\left(1 + O(n^{-2})\right) \\
+		&= n^{n+\beta} e^{\alpha} \left(1 + \alpha(\beta-\frac{1}{2}\alpha)n^{-1} 
+				+ O(n^{-2}) \right) && \blacksquare
+\end{align*}
+
+\question{Problem 5} {9-34 Determinate values $A$ through $F$ such that $(1+1/n)^{n H_n}$ 
+	is
+	\begin{align*}
+		An + B(\ln n)^2 + C \ln n + D + \dfrac{E(\ln n)^2}{n} + \dfrac{F \ln n}{n} + O(n^{-1})
+	\end{align*}
+}
+
+\part{Answer:}
+
+\question{Problem 6} {Let $Y_n$ be the random variable describing the number of the probes
+	for unsuccessful search on a binary search tree that contains $n$ keys.
+	The generating function for $Y_n$ is defined by
+	\begin{align*}
+		G_{n}(Z) = \sum_{k} p_{n,k} \; z^k
+	\end{align*}
+	where $p_{n,k} = \text{Pr}(Y_n = k)$, the probability that $k$ probes are needed to 
+	do an unsuccessful search in an $n$-key tree. ...
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[(a)] $n$ 個鍵值需要走 $k$ 次走訪的機率 $p_{n,k}$，可以遞迴到 $n-1$ 個鍵值。
+		\begin{itemize}
+			\item 考慮通過上一次插入的節點，
+				相當於在 $n-1$ 個鍵值時，這時候插入第 $n$ 個鍵值 $x_n$，
+				若詢問 $y$ 最後落在第 $n$ 個鍵值的節點左右兩側 (最插入一定在葉節點)，
+				意即 $x_n = y - \frac{1}{2}$ 或 $x_n = y + \frac{1}{2}$，那麼可以得到 
+				\begin{align*}
+					Y_n(s) = Y_{n-1}(s') + 1.
+				\end{align*}
+				勢必要多經過一個節點，所以嘗試個數多一。
+			\item 考慮不通過上一次插入的節點，相當於在 $n-1$ 個鍵值時，這時候插入第 $n$ 個鍵值 $x_n$，
+				若詢問 $y$ 最後落在第 $n$ 個鍵值的節點左右兩側 (最插入一定在葉節點)，
+				意即 $x_n \neq y - \frac{1}{2}$ 以及 $x_n \neq y + \frac{1}{2}$，那麼可以得到 
+				\begin{align*}
+					Y_n(s) = Y_{n-1}(s').
+				\end{align*}
+				不經過這個點，那麼嘗試個數不變。
+		\end{itemize}
+		利用上述討論的兩種特性，歸納出
+		\begin{align*}
+			p_{n,k} &= \text{Pr}(Y_{n-1} = k-1 \text{ and } (x_n = y - \dfrac{1}{2} \text{ or } x_n = y + \dfrac{1}{2}) \\
+					& + \text{Pr}(Y_{n-1} = k \text{ and } x_n \text{ is one of the other } n-1 \text{ values}) 
+		\end{align*}
+	\item[(b)] 從 (a) 得到 $G_n(z) = G_{n-1} (2 z + (n-1)) / (n+1)$
+		\begin{align*}
+			E(Y_n) &= {G}'_n(1) \\
+			G(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2
+		\end{align*}
+		已知 $E(Y_1) = 1, \; \text{Var}(Y_1) = 0$
+		\begin{align*}
+			{G}'_n(z) &= {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \\
+			{G}''_n(z) &= \left[ {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \right]' \\
+				&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
+				& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+		\end{align*}
+		先解期望值，根據遞迴展開
+		\begin{align*}
+			{G}'_n(1) &= {G}'_{n-1}(1) + \frac{2}{n+1} \\
+			\Rightarrow
+				E(Y_n) &= E(Y_{n-1}) + \frac{2}{n+1} = 2 H_{n+1} - 2 && \blacksquare
+		\end{align*}
+		帶入二次微分結果，解出變異數
+		\begin{align*}
+			\text{Var}(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2 \\
+			&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
+			& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+			& \qquad + \left( {G}'_{n-1}(1) + \frac{2}{n+1} \right)\\
+			& \qquad - \left( {G}'_{n-1}(1) + \frac{4}{n+1} {G}'_{n-1}(1) + \left(\frac{2}{n+1}\right)^2 \right) \\
+			&= {G}''_{n-1}(1) + {G}'_{n-1}(1) - {G}'_{n-1}(1)^2 + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
+			&= \text{Var}(Y_{n-1}) + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
+			\Rightarrow
+				\text{Var}(Y_n) &= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 && \blacksquare
+		\end{align*}
+	\item[(c)] 未解
+\end{description}
+
+\end{document}
