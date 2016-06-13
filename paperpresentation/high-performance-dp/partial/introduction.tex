@@ -18,9 +18,9 @@
 		\item Inflexible: The loops and the data in DP table cannot be suitably
 			reordered in oreder to optimize for better spatial locality,
 			parallelizations and/or vectorization.
-		\item Flexible: For example, $i-j-k$ ordering run in $\mathcal{O}(n^3)$.
+		\item Flexible: For example, $i$-$j$-$k$ ordering run in $\mathcal{O}(n^3)$.
 			The worst cases incurs $\Theta(n^3)$ cache misses in ideal cache model.
-			$i-k-j$ ordering will incur only $\mathcal{O}(n^3/B + n^2)$ cache misses,
+			$i$-$k$-$j$ ordering will incur only $\mathcal{O}(n^3/B + n^2)$ cache misses,
 			where $B$ is the cache line size.
 	\end{itemize}
 \end{frame}
