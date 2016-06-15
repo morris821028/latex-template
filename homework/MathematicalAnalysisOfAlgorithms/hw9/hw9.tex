@@ -233,6 +233,7 @@
 		&= n^n \left(1 + 2n^{-1} + O(n^{-2})\right)^n 
 			&& e^x = \lim_{n \rightarrow \infty} \left(1 + \frac{x}{n}\right)^n 
 			\phantom{1\over1} \\
+		&= n^n \exp(n \ln (1 + 2n^{-1} + O(n^{-2}))) \phantom{1\over1} \\
 		&= n^n \exp(n (2n^{-1} + O(n^{-2}))) \phantom{1\over1} \\
 		&= n^n e^{2 + O(n^{-1})} 
 			&& \because \text{(9.37)} \quad e^{O\left(f(n)\right)} = 1 + O\left(f(n)\right)
@@ -279,6 +280,40 @@
 }
 
 \part{Answer:}
+
+\begin{align*}
+	& \left(1 + \frac{1}{n} \right)^{n H_n} \\
+		&= \exp\left(n H_n \cdots \ln\left( 1 + \frac{1}{n} \right) \right) \\
+		&= \exp\left(n \cdot 
+			\left[ \ln n + \gamma + \frac{1}{2n} - \frac{1}{12n^2} + \frac{1}{120n^4} + O(\frac{1}{n^6}) \right] \cdot 
+			\left[ \frac{1}{n} - \frac{1}{2n^2} + \frac{1}{3n^2} - \frac{1}{4n^4} + O(\frac{1}{n^5}) \right]
+			\right) \\
+		&= \exp\left( \ln n + \gamma + \frac{1}{2n} - \frac{1}{12n^2} 
+				- \frac{\gamma}{2n} - \frac{\gamma}{3n^2} - \frac{1}{4n^2}
+				- \frac{\ln n}{2n} + \frac{\ln n}{3n^3} \right) \\
+		&= n e^r \left(1 - \frac{\ln n}{2n} + \frac{(\ln n)^2}{4n^2\cdot 2!}
+					+ \frac{(\ln n)^3}{8n^3\cdot 3!} + O(n^{-4}) \right)
+			\left(1 + \frac{\ln n}{3n^2} + \frac{(\ln n)^2}{9n^4\cdot 2!}
+					+ \frac{(\ln n)^3}{27n^6\cdot 3!} + O(n^{-6}) \right) \\
+		&	\qquad \qquad 
+			\left(1 - \frac{\gamma}{2n} + \frac{\gamma^2}{4n^2\cdot 2!} + O(n^{-3}) \right) 
+			\left(1 + \frac{\gamma}{3n} + \frac{\gamma^2}{9n^4\cdot 2!} + O(n^{-5}) \right) \\
+		&	\qquad \qquad \qquad 
+			\left(1 + \frac{1}{2n} + \frac{1}{4n^2 \cdot 2!} + \cdots \right)
+			\left(1 - \frac{1}{4n^2} + \frac{1}{16n^4 \cdot 2!} + \cdots \right) \\
+		&= ne^\gamma + \left(\ln n\right)^2 (0) + 
+			\left(\ln n\right) \left(-\frac{1}{2}e^\gamma\right) 
+			+ \frac{\left(\ln n\right)^2}{n} \left(\frac{1}{8} e^\gamma\right) \\
+		&	\qquad \qquad
+			+ \frac{\left(\ln n\right)}{n} 
+				\left(\frac{1}{4} e^\gamma \gamma + \frac{1}{3} e^\gamma 
+				- \frac{1}{4} e^\gamma\right)
+			+ \left(\frac{1}{2} e^\gamma - \gamma e^\gamma \right)
+\end{align*}
+
+得 $A = e^\gamma, \; B = 0, \; C = -\frac{1}{2} e^\gamma, \; D = \frac{1}{2} e^\gamma(1-\gamma), \; E = \frac{1}{8} e^\gamma, \; F = \frac{1}{12} e^\gamma (3 \gamma + 1)$。
+
+\newpage
 
 \question{Problem 6} {Let $Y_n$ be the random variable describing the number of the probes
 	for unsuccessful search on a binary search tree that contains $n$ keys.
@@ -346,7 +381,25 @@
 			\Rightarrow
 				\text{Var}(Y_n) &= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 && \blacksquare
 		\end{align*}
-	\item[(c)] 未解
+	\item[(c)] 
+		\begin{itemize}
+			\item 解 $E[Y_n] = f(n) + c + g(n) + O(1/n)$
+			\begin{align*}
+				E[Y_n] 
+				&= 2 H_{n+1} - 2 \\
+				&= 2 \ln (n+1) + 2 \gamma + O(1/n) - 2
+			\end{align*}
+			得 $f(n) = 2\ln (n+1), \; g(n) = 0, \; c = -2 + 2 \gamma$。
+			\item 解 $\text{Var}[Y_n] = f(n) + c + g(n) + O(1/n)$
+			\begin{align*}
+				\text{Var}[Y_n] 
+					&= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 \\
+					&= \left(4 \ln (n+1) + 4 \gamma + O(1/n)\right)
+						- 4 \left( \pi^2 / 6 - O(1/n)\right) - 1 \\
+					&= 4 \ln (n+1) + 4 \gamma - 2 \cdot \pi^2 / 3 - 1 + O(1/n)
+			\end{align*}
+			得 $f(n) = 4\ln (n+1), \; g(n) = 0, \; c = 4 \gamma - 2 \cdot \pi^2 / 3 - 1$。
+		\end{itemize}
 \end{description}
 
 \end{document}
