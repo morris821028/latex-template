@@ -212,7 +212,7 @@
 		和 $H_n \sim \ln n$。
 		\begin{align*}
 			F^2_{\lceil H_n \rceil} &
-				\asymp \phi^{2 \ln n} = n^{\ln \phi} = n^{\ln \phi^2} \\
+				\asymp \phi^{2 \ln n} = n^{2 \ln \phi} = n^{\ln \phi^2} \\
 			H_{F_n} &
 				\asymp n \ln \phi
 		\end{align*}
@@ -231,9 +231,10 @@
 	\left(n + 2 + O(n^{-1})\right)^n 
 		&= \left(n(1 + 2n^{-1} + O(n^{-2}))\right)^n \phantom{1\over1}\\
 		&= n^n \left(1 + 2n^{-1} + O(n^{-2})\right)^n 
-			&& e^x = \lim_{n \rightarrow \infty} \left(1 + \frac{x}{n}\right)^n 
+			&& \because e^x = \lim_{n \rightarrow \infty} \left(1 + \frac{x}{n}\right)^n 
 			\phantom{1\over1} \\
-		&= n^n \exp(n \ln (1 + 2n^{-1} + O(n^{-2}))) \phantom{1\over1} \\
+		&= n^n \exp(n \ln (1 + 2n^{-1} + O(n^{-2}))) \phantom{1\over1} 
+			&& \because \text{對 } \ln z \text{ 展開近似公式} \\
 		&= n^n \exp(n (2n^{-1} + O(n^{-2}))) \phantom{1\over1} \\
 		&= n^n e^{2 + O(n^{-1})} 
 			&& \because \text{(9.37)} \quad e^{O\left(f(n)\right)} = 1 + O\left(f(n)\right)
@@ -256,7 +257,7 @@
 
 \begin{align*}
 	(n+\alpha)^{n+\beta} &= \left[n(1+\alpha n^{-1})\right]^{n+\beta} \\
-		&= n^{n+\beta} \exp((n+\beta) \ln(1+\frac{\beta}{n})) \\
+		&= n^{n+\beta} \exp((n+\beta) \ln(1+\frac{\alpha}{n})) \\
 		&= n^{n+\beta} \exp((n+\beta) (\frac{\alpha}{n} 
 			- \frac{1}{2} \left(\frac{\alpha}{n}\right)^2 + O(n^{-3}))) 
 			&& \text{(9.33)}\\
@@ -283,14 +284,14 @@
 
 \begin{align*}
 	& \left(1 + \frac{1}{n} \right)^{n H_n} \\
-		&= \exp\left(n H_n \cdots \ln\left( 1 + \frac{1}{n} \right) \right) \\
+		&= \exp\left(n H_n \cdot \ln\left( 1 + \frac{1}{n} \right) \right) \\
 		&= \exp\left(n \cdot 
 			\left[ \ln n + \gamma + \frac{1}{2n} - \frac{1}{12n^2} + \frac{1}{120n^4} + O(\frac{1}{n^6}) \right] \cdot 
 			\left[ \frac{1}{n} - \frac{1}{2n^2} + \frac{1}{3n^2} - \frac{1}{4n^4} + O(\frac{1}{n^5}) \right]
 			\right) \\
 		&= \exp\left( \ln n + \gamma + \frac{1}{2n} - \frac{1}{12n^2} 
 				- \frac{\gamma}{2n} - \frac{\gamma}{3n^2} - \frac{1}{4n^2}
-				- \frac{\ln n}{2n} + \frac{\ln n}{3n^3} \right) \\
+				- \frac{\ln n}{2n} + \frac{\ln n}{3n^3} + O(n^{-4})\right) \\
 		&= n e^r \left(1 - \frac{\ln n}{2n} + \frac{(\ln n)^2}{4n^2\cdot 2!}
 					+ \frac{(\ln n)^3}{8n^3\cdot 3!} + O(n^{-4}) \right)
 			\left(1 + \frac{\ln n}{3n^2} + \frac{(\ln n)^2}{9n^4\cdot 2!}
@@ -300,7 +301,8 @@
 			\left(1 + \frac{\gamma}{3n} + \frac{\gamma^2}{9n^4\cdot 2!} + O(n^{-5}) \right) \\
 		&	\qquad \qquad \qquad 
 			\left(1 + \frac{1}{2n} + \frac{1}{4n^2 \cdot 2!} + \cdots \right)
-			\left(1 - \frac{1}{4n^2} + \frac{1}{16n^4 \cdot 2!} + \cdots \right) \\
+			\left(1 - \frac{1}{4n^2} + \frac{1}{16n^4 \cdot 2!} + \cdots \right) 
+			\left(1 + O(n^{-4})\right)\\
 		&= ne^\gamma + \left(\ln n\right)^2 (0) + 
 			\left(\ln n\right) \left(-\frac{1}{2}e^\gamma\right) 
 			+ \frac{\left(\ln n\right)^2}{n} \left(\frac{1}{8} e^\gamma\right) \\
@@ -308,7 +310,7 @@
 			+ \frac{\left(\ln n\right)}{n} 
 				\left(\frac{1}{4} e^\gamma \gamma + \frac{1}{3} e^\gamma 
 				- \frac{1}{4} e^\gamma\right)
-			+ \left(\frac{1}{2} e^\gamma - \gamma e^\gamma \right)
+			+ \left(\frac{1}{2} e^\gamma - \gamma e^\gamma \right) + O(n^{-1})
 \end{align*}
 
 得 $A = e^\gamma, \; B = 0, \; C = -\frac{1}{2} e^\gamma, \; D = \frac{1}{2} e^\gamma(1-\gamma), \; E = \frac{1}{8} e^\gamma, \; F = \frac{1}{12} e^\gamma (3 \gamma + 1)$。
@@ -351,16 +353,16 @@
 			p_{n,k} &= \text{Pr}(Y_{n-1} = k-1 \text{ and } (x_n = y - \dfrac{1}{2} \text{ or } x_n = y + \dfrac{1}{2}) \\
 					& + \text{Pr}(Y_{n-1} = k \text{ and } x_n \text{ is one of the other } n-1 \text{ values}) 
 		\end{align*}
-	\item[(b)] 從 (a) 得到 $G_n(z) = G_{n-1} (2 z + (n-1)) / (n+1)$
+	\item[(b)] 從 (a) 得到 $G_n(z) = G_{n-1}(z) (2 z + (n-1)) / (n+1)$
 		\begin{align*}
 			E(Y_n) &= {G}'_n(1) \\
-			G(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2
+			\text{Var}(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2
 		\end{align*}
 		已知 $E(Y_1) = 1, \; \text{Var}(Y_1) = 0$
 		\begin{align*}
-			{G}'_n(z) &= {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \\
-			{G}''_n(z) &= \left[ {G}'_{n-1} (2z + (n-1)) / (n+1) + G_{n-1}(z) \cdot \frac{2z}{n+1} \right]' \\
-				&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
+			{G}'_n(z) &= {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2z}{n+1} \\
+			{G}''_n(z) &= \left[ {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2z}{n+1} \right]' \\
+				&= {G}''_{n-1}(z)\frac{2z + (n-1)}{n+1} + {G}'_{n-1}(z) \frac{2}{n+1} \\
 				& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
 		\end{align*}
 		先解期望值，根據遞迴展開
@@ -372,8 +374,8 @@
 		帶入二次微分結果，解出變異數
 		\begin{align*}
 			\text{Var}(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2 \\
-			&= {G}''_{n-1}(z)(2z + (n-1)) / (n+1) + {G}'_{n-1}(z) \frac{2}{n+1} \\
-			& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+			&= {G}''_{n-1}(1) \frac{2 + (n-1)}{n+1} + {G}'_{n-1}(1) \frac{2}{n+1} \\
+			& \qquad + {G}'_{n-1}(1)\frac{2}{n+1} + G_{n-1}(1) \frac{2}{n+1} \\
 			& \qquad + \left( {G}'_{n-1}(1) + \frac{2}{n+1} \right)\\
 			& \qquad - \left( {G}'_{n-1}(1) + \frac{4}{n+1} {G}'_{n-1}(1) + \left(\frac{2}{n+1}\right)^2 \right) \\
 			&= {G}''_{n-1}(1) + {G}'_{n-1}(1) - {G}'_{n-1}(1)^2 + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
