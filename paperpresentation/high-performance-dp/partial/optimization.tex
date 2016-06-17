@@ -15,11 +15,12 @@
 \subsection{Optimizing Kernel Functions}
 \begin{frame}
     \frametitle{Optimizing Kernel Functions}
+	Inside flexible kernel, 
 	\begin{itemize}
-		\item Copy-optimization: copy the data into local $b \times b$ 
-			static arrays inside the kernel.
-		\item Loop Reordering: inside flexible kernels it is possible to change
-			the looping order without hampering the correctness of the algorithm.
+		\item Copy-optimization: Copy the data into local $b \times b$ 
+			static arrays.
+		\item Loop Reordering: It is possible to change
+			the looping order without hampering the correctness of the algorithms.
 	\end{itemize}
 \end{frame}
 
@@ -29,10 +30,10 @@
 	\begin{figure}
 		\includegraphics[scale=0.2]{figure/fig-z-morton.png}
 	\end{figure}
-	\begin{itemize}
-		\item \textit{Z-Morton Row-Major}(ZM\_RM) layout is beneficial because
-			it improves both temporal and spatial localities.
-	\end{itemize}
+	\begin{description}
+		\item[Z-Morton Row-Major] ZM\_RM layout improves both temporal and 
+			spatial localities.
+	\end{description}
 \end{frame}
 
 \subsection{Auto vs. Explicit Vectorization}

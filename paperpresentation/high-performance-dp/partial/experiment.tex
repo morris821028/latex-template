@@ -6,11 +6,11 @@
     \begin{itemize}
     	\item Four versions
 		    \begin{itemize}
-				\item \textit{LOOPDP}: optimized parallel looping code with padding
-					to mitigate set-associativity problem at powers of 2.
-				\item \textit{CO}: unoptimized parallel CORDAC.
-				\item \textit{CO\_Opt}: optimized CORDAC with copy-optimization.
-				\item \textit{COZ}: \textit{CO\_Opt} with \textit{ZM\_RM} 
+				\item \textit{LOOPDP}: optimized looping code with padding
+					to mitigate set-associativity problem.
+				\item \textit{CO}: unoptimized CORDAC.
+				\item \textit{CO\_Opt}: optimized CORDAC + copy-optimization.
+				\item \textit{COZ}: \textit{CO\_Opt} + \textit{ZM\_RM} 
 					layout for data storage.
 			\end{itemize}
 		\item Base-case size of $64 \times 64$ for parenthesis, gap and protein 
