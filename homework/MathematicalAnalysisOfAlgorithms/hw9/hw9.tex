@@ -360,10 +360,10 @@
 		\end{align*}
 		已知 $E(Y_1) = 1, \; \text{Var}(Y_1) = 0$
 		\begin{align*}
-			{G}'_n(z) &= {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2z}{n+1} \\
-			{G}''_n(z) &= \left[ {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2z}{n+1} \right]' \\
+			{G}'_n(z) &= {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2}{n+1} \\
+			{G}''_n(z) &= \left[ {G}'_{n-1}(z) \frac{2z + (n-1)}{n+1} + G_{n-1}(z) \cdot \frac{2}{n+1} \right]' \\
 				&= {G}''_{n-1}(z)\frac{2z + (n-1)}{n+1} + {G}'_{n-1}(z) \frac{2}{n+1} \\
-				& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1} + G_{n-1}(z) \frac{2}{n+1} \\
+				& \qquad + {G}'_{n-1}(z)\frac{2z}{n+1}\\
 		\end{align*}
 		先解期望值，根據遞迴展開
 		\begin{align*}
@@ -375,13 +375,13 @@
 		\begin{align*}
 			\text{Var}(Y_n) &= {G}''_n(1) + {G}'_n(1) - {G}'_n(1)^2 \\
 			&= {G}''_{n-1}(1) \frac{2 + (n-1)}{n+1} + {G}'_{n-1}(1) \frac{2}{n+1} \\
-			& \qquad + {G}'_{n-1}(1)\frac{2}{n+1} + G_{n-1}(1) \frac{2}{n+1} \\
+			& \qquad + {G}'_{n-1}(1)\frac{2}{n+1} \\
 			& \qquad + \left( {G}'_{n-1}(1) + \frac{2}{n+1} \right)\\
 			& \qquad - \left( {G}'_{n-1}(1) + \frac{4}{n+1} {G}'_{n-1}(1) + \left(\frac{2}{n+1}\right)^2 \right) \\
 			&= {G}''_{n-1}(1) + {G}'_{n-1}(1) - {G}'_{n-1}(1)^2 + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
-			&= \text{Var}(Y_{n-1}) + \frac{4}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
+			&= \text{Var}(Y_{n-1}) + \frac{2}{n+1} - \left(\frac{2}{n+1}\right)^2 \\
 			\Rightarrow
-				\text{Var}(Y_n) &= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 && \blacksquare
+				\text{Var}(Y_n) &= 2 H_{n+1} - 4 H^{(2)}_{n+1} + 2 && \blacksquare
 		\end{align*}
 	\item[(c)] 
 		\begin{itemize}
@@ -395,12 +395,12 @@
 			\item 解 $\text{Var}[Y_n] = f(n) + c + g(n) + O(1/n)$
 			\begin{align*}
 				\text{Var}[Y_n] 
-					&= 4 H_{n+1} - 4 H^{(2)}_{n+1} - 1 \\
-					&= \left(4 \ln (n+1) + 4 \gamma + O(1/n)\right)
-						- 4 \left( \pi^2 / 6 - O(1/n)\right) - 1 \\
-					&= 4 \ln (n+1) + 4 \gamma - 2 \cdot \pi^2 / 3 - 1 + O(1/n)
+					&= 2 H_{n+1} - 4 H^{(2)}_{n+1} + 2 \\
+					&= \left(2 \ln (n+1) + 2 \gamma + O(1/n)\right)
+						- 4 \left( \pi^2 / 6 - O(1/n)\right) + 2 \\
+					&= 2 \ln (n+1) + 2 \gamma - 2 \cdot \pi^2 / 3 + 2 + O(1/n)
 			\end{align*}
-			得 $f(n) = 4\ln (n+1), \; g(n) = 0, \; c = 4 \gamma - 2 \cdot \pi^2 / 3 - 1$。
+			得 $f(n) = 2\ln (n+1), \; g(n) = 0, \; c = 2 \gamma - 2 \cdot \pi^2 / 3 + 2$。
 		\end{itemize}
 \end{description}
 
