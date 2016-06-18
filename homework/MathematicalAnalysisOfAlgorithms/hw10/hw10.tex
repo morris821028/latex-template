@@ -171,4 +171,28 @@
 	&= \ln \ln n + O(1) \phantom{{0\over0}\over0} && \blacksquare
 \end{align*}
 
+\question{Problem 4} {9-36 Evaluate $S_n = \sum\limits_{k=1}^{n} 1 / (n^2 + k^2)$ with
+	absolute error $O(n^{-5})$.
+}
+
+\part{Answer:}
+
+\begin{align*}
+	S_n &= \sum\limits_{k=1}^{n} \frac{1}{n^2 + k^2} \\
+		&= \sum_{0 \le k < n} \left(\frac{1}{n^2 + k^2}\right) - \frac{1}{n^2} + \frac{1}{2n^2} \\
+		&= \int^{n}_{0} \frac{1}{n^2 + x^2} dx + 
+			\frac{B_1}{1!} \frac{1}{n^2+x^2} \left.\phantom{0\over0} \right|^{n}_{0} + 
+			\frac{B_2}{2!} \frac{-2x}{(n^2+x^2)^2} \left.\phantom{0\over0} \right|^{n}_{0}
+			+ O(n^{-5}) - \frac{1}{n^2} + \frac{1}{2n^2} \\
+		&= \frac{\tan^{-1}(n/x)}{n} \left.\phantom{0\over0} \right|^{n}_{0}
+			- \frac{1}{2} \frac{1}{n^2 + x^2} \left.\phantom{0\over0} \right|^{n}_{0} 
+			+ \frac{1}{2} \frac{1}{6} \frac{-2x}{(n^2+x^2)^2}
+				\left.\phantom{0\over0} \right|^{n}_{0} + O(n^{-5}) 
+				- \frac{1}{n^2} + \frac{1}{2n^2} \\
+		&= \frac{\pi}{4} n^{-1} + \frac{1}{4} n^{-2} - \frac{1}{24} n^{-3} + O(n^{-5}) 
+				- \frac{1}{n^2} + \frac{1}{2n^2}\\
+		&= \frac{\pi}{4} n^{-1} - \frac{1}{4} n^{-2} - \frac{1}{24} n^{-3} + O(n^{-5}) 
+			&& \blacksquare
+\end{align*}
+
 \end{document}
