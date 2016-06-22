@@ -195,4 +195,60 @@
 			&& \blacksquare
 \end{align*}
 
+\question{Problem 5} {Given a binomial queue of size $2^n-1$, we will find $m$,
+	the smallest key in the queue and $B_j$, the tree will containing $m$.
+	\begin{description}
+		\item[(a)] Find the asymptotic value of $E(C_n)$ that equals
+			$f(n) + \alpha + O(1/2^n)$.
+			\begin{align*}
+				E(C_n) = \sum_{1 \le k \le n-1} \frac{2^k}{2^{k+1}-1}
+			\end{align*}
+	\end{description}
+}
+
+\part{Answer:}
+
+\begin{description}
+	\item[(a)] $E(C_n) = \sum_{1 \le k \le n-1} \frac{2^k}{2^{k+1}-1}$
+		，令 $f(x) = 2^x / (2^{k+1}-1)$
+		\begin{align*}
+			\int f(x) dx &= \int \frac{2^x}{2^{x+1}-1} dx 
+					&& \text{令 } u = 2^{x+1}-1, \; du = \ln 2 \cdot 2^{x+1} dx \\
+				&= \int \frac{1}{u \cdot \ln 4} du = \frac{\ln (2^{x+1} - 1)}{\ln 4} \\
+			f^{(1)}(x) &= - \frac{\ln2 \cdot 2^x}{(2^{x+1} - 1)^2} \\
+			f^{(2)}(x) &= \frac{(\ln^2 2) \cdot 2^x \cdot (2^{x+1}+1)}{(2^{x+1}-1)^3}
+		\end{align*}
+		\begin{align*}
+			E(C_n) &= \sum_{1 \le k \le n-1} \frac{2^k}{2^{k+1}-1} \\
+				&= \int_{1}^{n} \frac{2^x}{2^{x+1}-1} dx + 
+					\sum_{k=1}^{m} \frac{B_k}{k!} f^{(k-1)}(x) 
+						\left.\phantom{0\over0} \right|^{n}_{1} + R_m \\
+				&=  \frac{\ln (2^{x+1} - 1)}{\ln 4} \left.\phantom{0\over0} \right|^{n}_{1}
+					+ O(2^{-n}) \phantom{0\over0} \\
+				&=  \frac{\ln (2^{n+1}-1) - \ln (2^2 - 1)}{\ln 4} 
+					+ O(2^{-n}) \phantom{0\over0} \\
+				&=  \frac{\ln (2^{n+1}-1)}{\ln 4} - \log_2 9 
+					+ O(2^{-n}) \phantom{0\over0} && \blacksquare \\
+		\end{align*}
+		得 $f(n) = \frac{\ln (2^{n+1}-1)}{\ln 4}$, $\alpha = - \log_2 9$。
+	\item[(b)] $E(D_n) = \sum_{0 \le k \le n-2} \frac{2^k}{(2^n-1)-(2^{k}-1)}$
+		，令 $f(x) = \frac{2^k}{(2^n-1)-(2^{k}-1)}$
+		\begin{align*}
+			\int f(x) dx &= \int \frac{2^k}{(2^n-1)-(2^{k}-1)} dx
+				= \frac{- \ln (2^n - 2^x)}{\ln 2} \\
+			f^{(1)}(x) &= \frac{2^n \cdot 2^x \ln 2}{(2^x - c)^2}
+		\end{align*}
+		\begin{align*}
+			E(D_n) &= \sum_{0 \le k \le n-2} \frac{2^k}{(2^n-1)-(2^{k}-1)} \\
+				&= \int_{0}^{n-1} \frac{- \ln (2^n - 2^x)}{\ln 2} dx + 
+					\sum_{k=1}^{m} \frac{B_k}{k!} f^{(k-1)}(x) 
+						\left.\phantom{0\over0} \right|^{n-1}_{0} + R_m \\
+				&= \frac{- \ln (2^n - 2^x)}{\ln 2} \left.\phantom{0\over0} \right|^{n-1}_{0}
+					+ O(2^{-n}) \phantom{0\over0} \\
+				&= \frac{\ln (2^n - 1)}{\ln 2} - n + 1 + O(2^{-n})
+		\end{align*}
+		得 $\beta \approx 1$。
+		程式 $M'$ 和 $M$ 漸進比 $E(D_n):E(C_n) = 3:4$，因此採用 (b) 的寫法最為妥當。
+\end{description}
+
 \end{document}
