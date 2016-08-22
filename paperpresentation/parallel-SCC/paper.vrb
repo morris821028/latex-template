@@ -1,0 +1,12 @@
+\frametitle{Serial Implementation Example}
+	\begin{itemize}
+		\item $A_{n,m} \times x_{m,1} = y_{n,1}$
+\begin{lstlisting}
+for (i = 0; i < n; ++i) {
+    double y0 = 0;
+    for (k = rowptr[i]; k < rowptr[i+1]; ++k)
+        y0 += val[k] * x[column_index[k]];
+    y[i] = y0;
+}
+\end{lstlisting}
+	\end{itemize}

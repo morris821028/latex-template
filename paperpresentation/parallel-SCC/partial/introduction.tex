@@ -1,0 +1,75 @@
+\section{Introduction}
+
+\subsection{Strongly Connected Component}
+\begin{frame}
+    \frametitle{Strongly Connected Component}
+	\begin{itemize}
+		\item In the mathematical theory of directed graphs, a graph 
+			is said to be strongly connected if every vertex is 
+			\textbf{reachable} from every other vertex.
+			\footnote{From Wikipedia, Strongly connected component}
+	\end{itemize}
+\end{frame}
+
+\subsection{Algorithm}
+\begin{frame}
+	\frametitle{Serial Algorithms}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Tarjan's algorithm and Kosaraju's algorithm rely on 
+			the hard-to-parallelize depth-first search (DFS). 
+		\item These serial algorithms perform linear $O(n + m)$
+			work in the random-access machine model of computation,
+			where $n$ is \#vertices and $m$ is \#edges.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Parallel Computing Strategy}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item SCC decomposition is a useful preprocessing and data 
+			reduction when analyzing large web graphs and networks
+			constructed from online social network data.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Parallel Algorithms}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Forward-Backward (FW-BW) Algorithm
+		\item Coloring Algorithm
+		\item Other Parallel SCC Approaches: There has been other 
+			recent work aimed at improving FW-BW and coloring.
+	\end{itemize}
+\end{frame}
+
+\subsection{Contributions}
+\begin{frame}
+	\frametitle{Multistep Method}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item It is designed for SCC detection in large real-world graphs.
+		\item For low-diameter networks, the single-threaded Multistep 
+			approach is faster than the serial Tarjan's algorithm.
+		\item Faster and exhibits better scaling than our
+			implementations of the FW-BW and coloring algorithms.
+		\item It is $8.9\times$ faster than the state-of-the-art Hong 
+			et al. method on ItWeb.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Modifed Multistep Method}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Multistep modified for CC is consistently faster than the
+			coloring-based algorithm implementation in Ligra.
+		\item Our novel BiCC algorithm demonstrates up to an $8\times$ 
+			parallel speedup over a serial DFS-based approach.
+		\item Our modified atomic-free and lock-free BFS averages a
+			traversal rate of $1.4$ GTEPS (Giga traversed edges per
+			second) over all tested networks.
+	\end{itemize}
+\end{frame}
