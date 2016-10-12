@@ -1,0 +1,26 @@
+\section{Implementation}
+
+\subsection{Cooperative RK}
+\begin{frame}
+	\frametitle{Cooperative RK}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Use the scan operation provided by the Thrust library.
+		\item All intermediate results are inthe form of arrays 2-by-2 
+		integer matrices: $\mathcal{L}$, $\mathcal{A}$, $\mathcal{S}$,
+		$\mathcal{T}$ each requires 16B per input character.
+	\end{itemize}
+\end{frame}
+
+\subsection{Divide-and-Conquer RK}
+\begin{frame}
+	\frametitle{Divide-and-Conquer RK}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item For binary patterns of size less than or equal 32 
+		characters, we can use 32-bit registers.
+		\item Using \texttt{SHIFT} and \texttt{AND} to replace module operators.
+		\item We read elements as \texttt{char4} vectors to better
+		exploit the available memory bandwidth.
+	\end{itemize}
+\end{frame}
