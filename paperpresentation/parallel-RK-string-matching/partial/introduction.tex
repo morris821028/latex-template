@@ -1,0 +1,50 @@
+\section{Introduction}
+
+\subsection{String Matching Algorithm}
+
+\begin{frame}
+	\frametitle{Some Algorithms}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Aho–Corasick string matching algorithm has asymptotic 
+		worst-time complexity $O(n+m)$ in space $O(m)$.
+		\item KMP algorithm,
+		\item Boyer-Moore algorithm,
+		\item Suffix tree,
+		\item ... offline/online
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Rabin-Karp Algorithm}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Use hashing to find any one of a set of pattern 
+			strings in a text.
+		\item For text of length $n$ and $p$ patterns of combined 
+		length $m$, its average and best case running time is $O(n+m)$
+		 in space $O(p)$, but its worst-case time is $O(nm)$.
+		\footnote{From Wikipedia, Rabin–Karp algorithm}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\lstinputlisting{code/rk.c}
+\end{frame}
+
+\subsection{Contributions}
+\begin{frame}
+	\frametitle{Contributions}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item We propose three major RK-based binary matching algorithms:
+			cooperative, divide-and-conquer, and a combination of 
+			both (hybrid).
+		\item We provide several optimizations: both in terms of the
+			general algorithm and computations, as well as some
+			hardware specific ones.
+		\item We extend our RK-based algorithms to support characters
+			from any general alphabets.
+	\end{itemize}
+\end{frame}

@@ -1,0 +1,80 @@
+\section{Preliminaries}
+
+\subsection{Basic Scenario}
+\begin{frame}
+	\frametitle{Basic Scenario}
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item Binary pattern of length $m$: 
+			$X = x_0 \; \cdots \; x_{m-1}$
+		\item Binary text of length $n$ ($n \ge m$): 
+			$Y = y_0 \; \cdots \; y_{n-1}$
+		\item Substring of $Y$: $Y[r] = y_r y_{r+1} \cdots y_{r+m-1}$
+		\item Our Objective is to find all indices $r$ such that 
+			$Y[r] = X$ for $0 \le r < n-m+1$.
+	\end{itemize}
+\end{frame}
+
+\subsection{Graphic Processing Units}
+\begin{frame}
+	\frametitle{Graphic Processing Units}
+	\begin{itemize}
+		\item Both a computational hierarchy and a memory hierarchy.
+		\item CUDA programming model
+	\end{itemize}
+\end{frame}
+
+\subsection{Serial Rabin-Karp}
+\begin{frame}
+	\frametitle{Definition}
+	For any $X \in \{0, 1\}^m$ :
+	\begin{itemize}
+		\setlength\itemsep{1em}
+		\item $F(X) = 2^{m-1} x_0 + \cdots + 2 x_{m-2} + x_{m-1}$
+		\item Pick a random prime number $p \in (1, mn^2)$
+				$$F_{p}(X) \overset{p}{\equiv} F(X)$$
+		\item Define two matrices,
+			\begin{align}
+				K(0) = \begin{bmatrix}
+					1 & 0 \\ 
+					1 & 1
+					\end{bmatrix}, \;
+				K(1) = \begin{bmatrix}
+				1 & 1 \\ 
+				0 & 1
+				\end{bmatrix}
+			\end{align}
+		\item The fingerprint of $X$ is 
+			$K(X) = K(x_0) \cdots K(x_{m-1})$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{The RK Algorithm}
+	\begin{description}
+		\setlength\itemsep{1em}
+		\item[(1)] Choose a random prime number $p \in (1, mn^2)$.
+		\item[(2)] Compute fingerprints $F_p(X)$ and $F_p(Y[r])$ for 
+			$r \in [0, n-m+1)$
+		\item[(3)] Compare: if $F_p(Y[r])$ and $F_p(X)$ are equal,
+			then $X$ and $Y[r]$ are equal with high probability, 
+			otherwise there is no match.
+	\end{description}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Compute Efficiently in Step 2}
+	\begin{itemize}
+		\item $F_p(Y[r+1])$ can be computed by using $F_p(Y[r])$:
+			\begin{align}
+			F_p(Y[r+1]) \overset{p}{\equiv} 2 (F_p(Y[r]) - 2^{m-1} y_r) + y_{r+m+1}
+			\end{align}
+		\item Compute $K_p(Y[r+1])$ based on $K_p(Y[r])$:
+			\begin{align}
+			K_p(Y[r+1]) \overset{p}{\equiv} A_p(y_r) K_p(Y[r]) K_p(y_{r+m+1})
+			\end{align},
+			where $A_p(x)$ is defined as the left inverse of $K_p(x)$ for any binary value $x \in \{0, 1\}$.
+	\end{itemize}
+\end{frame}
+
+
